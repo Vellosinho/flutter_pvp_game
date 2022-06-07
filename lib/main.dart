@@ -61,9 +61,8 @@ class MyHomePage extends StatelessWidget {
         characterSpeed: characterSpeed,
         hitboxSize: characterHitbox,
         hitboxPosition: hitboxPosition,
-      ),
+    ),);
       // showCollisionArea: true,
-    );
   }
 }
 
