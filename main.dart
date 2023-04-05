@@ -47,14 +47,14 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BonfireTiledWidget(
+    return BonfireWidget(
       cameraConfig: CameraConfig(smoothCameraEnabled: true, smoothCameraSpeed: 4),
       joystick: !isPhone 
           ? Joystick(keyboardConfig: KeyboardConfig(keyboardDirectionalType: KeyboardDirectionalType.arrows))
           : Joystick(
               directional: JoystickDirectional(color: Colors.white),
             ),
-      map: TiledWorldMap('map/map.json', forceTileSize: Size(tileSize, tileSize)),
+      map: WorldMapByTiled('map/map.json', forceTileSize: Vector2(tileSize, tileSize)),
       player: FighterPlayer(
         position: Vector2(tileSize * 7, tileSize * 8),
         size: characterSize,
