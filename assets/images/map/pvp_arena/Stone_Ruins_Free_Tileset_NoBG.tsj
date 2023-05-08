@@ -1,0 +1,14 @@
+{ "columns":16,
+ "image":"Stone_Ruins_Free_Tileset_NoBG.png",
+ "imageheight":640,
+ "imagewidth":256,
+ "margin":0,
+ "name":"Stone_Ruins_Free_Tileset_NoBG",
+ "spacing":0,
+ "tilecount":640,
+ "tiledversion":"1.10.1",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}

@@ -1,0 +1,64 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "ruinas_pvp.json",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "Todos os Ficheiros (*)",
+    "fileStates": {
+        "Stone_Ruins_Free_Tileset_NoBG.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "ruinas_pvp.json": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 125,
+                "y": 241
+            }
+        },
+        "ruinas_pvp.tmj": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 198,
+                "y": 230.66666666666663
+            }
+        },
+        "tilesetmapa.json": {
+            "scaleInDock": 3,
+            "scaleInEditor": 3
+        },
+        "tilesetmapa.tsj": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/user/projects/projeto_gbb_demo/assets/images/map/pvp_arena",
+    "last.imagePath": "C:/Users/user/projects/projeto_gbb_demo/assets/images/map/pvp_arena",
+    "map.height": 30,
+    "map.lastUsedExportFilter": "Ficheiros de mapa JSON (*.tmj *.json)",
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "ruinas_pvp.json",
+        "tilesetmapa.json"
+    ],
+    "project": "ruinas_pvp.tiled-project",
+    "recentFiles": [
+        "tilesetmapa.json",
+        "ruinas_pvp.json",
+        "ruinas_pvp.tmj",
+        "tilesetmapa.tsj",
+        "Stone_Ruins_Free_Tileset_NoBG.tsj"
+    ],
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
