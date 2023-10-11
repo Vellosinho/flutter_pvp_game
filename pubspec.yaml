@@ -14,7 +14,7 @@ dependencies:
   uuid: ^3.0.6
   provider: ^6.0.5
   bonfire: ^2.12.4
-  window_manager: ^0.2.7
+  window_manager: ^0.3.6
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +32,7 @@ flutter:
     # - assets/images/abilities/
 
     - assets/images/
+    - assets/images/objects/
     - assets/images/communist/
     - assets/images/capitalist/
     - assets/images/loyalist/

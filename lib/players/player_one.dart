@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bonfire/bonfire.dart';
@@ -44,89 +45,151 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
     super.receiveDamage(attacker, damage, identify);
   }
 
-  // @override
-  // void joystickAction(JoystickActionEvent event) {
-  //   if(hasGameRef && !gameRef.camera.isMoving) {
-  //     if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
-  //       simpleAttackMelee(
-  //         sizePush: 0.2,
-  //         damage: 10,
-  //         // size: size * 1.4,
-  //         size: size * 1.6,
-  //         animationRight: GameSpriteSheet.attackHorizontalRight,
-  //         direction: lastDirection,
-  //       );
-  //       // position.translate(diffBase.x, diffBase.y);
-  //       attackReady = false;
-  //       Future.delayed(const Duration(seconds: 1), () {
-  //         attackReady = true;
-  //       });
-  //     }
-  //   }
-  // }
-
-  // Archer Skillset
   @override
   void joystickAction(JoystickActionEvent event) {
-    double getDashAngle(String originalAngle) {
-      switch (originalAngle) {
-        case '3.141592653589793':
-          return 1.7453292519943295e-9;
-        case '1.7453292519943295e-9':
-          return 3.141592653589793;
-        case '-0.7853981633974483':
-          return 2.356194490192345;
-        case '2.356194490192345':
-          return -0.7853981633974483;
-        case '-2.356194490192345':
-          return 0.7853981633974483;
-        case '0.7853981633974483':
-          return -2.356194490192345;
-        case '-1.5707963267948966':
-          return 1.5707963267948966;
-        case '1.5707963267948966':
-          return -1.5707963267948966;
-        default:
-          return 0.0;
-      }
-    }
+    swordsmanHitSet(event);
+    
+  }
 
+
+  void swordsmanHitSet(JoystickActionEvent event) {
+    if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
+        swordsmanHit();
+      }
+      if(event.id == LogicalKeyboardKey.keyX.keyId && dashReady) {
+        swordsmanDash();
+      }
+  }
+
+  void swordsmanHit() {
+    if(hasGameRef && !gameRef.camera.isMoving) {
+        simpleAttackMelee(
+          sizePush: 0.2,
+          damage: 10,
+          // size: size * 1.4,
+          size: size * 1.6,
+          animationRight: GameSpriteSheet.attackHorizontalRight,
+          direction: lastDirection,
+        );
+        // position.translate(diffBase.x, diffBase.y);
+        attackReady = false;
+        Future.delayed(const Duration(seconds: 1), () {
+          attackReady = true;
+        });
+    }
+  }
+
+  void swordsmanDash() {
+    
     var initPosition = rectConsideringCollision;
 
     Vector2 startPosition =
         initPosition.center.toVector2() + Vector2.zero();
 
-    Vector2 diffBase = BonfireUtil.diffMovePointByAngle(
+     Vector2 diffBase = BonfireUtil.diffMovePointByAngle(
       startPosition,
-      350,
-      getDashAngle(lastDirection.toRadians().toString())
+      250,
+      lastDirection.toRadians(),
     );
 
-    startPosition.add(diffBase);
-    startPosition.add(Vector2(-size.x / 2, -size.y / 2));
 
-    if(hasGameRef && !gameRef.camera.isMoving) {
-
-      if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
-        simpleAttackRangeByDirection(animationRight: GameSpriteSheet.arrowHorizontalRight,
-          attackFrom: AttackFromEnum.PLAYER_OR_ALLY,
-          direction: lastDirection,
-          size: Vector2(155,95),
-          speed: 2000,
-          centerOffset: Vector2(0, -60)
-        );
-        attackReady = false;
-        Future.delayed(const Duration(seconds: 1), () {
-          attackReady = true;
-        });
-      }
-      if(event.id == LogicalKeyboardKey.keyX.keyId && dashReady) {
-        translate(diffBase.x, diffBase.y);
-        dashReady = false;
-        Future.delayed(const Duration(seconds: 2),() {
-          dashReady = true;
-        });
+    FutureOr<SpriteAnimation> getAnimation(String direction) {
+      switch (direction) {
+        case '3.141592653589793':
+          return GameSpriteSheet.communistArcherDashLeft;
+        case '1.7453292519943295e-9':
+          return GameSpriteSheet.communistArcherDashRight;
+        case '-0.7853981633974483':
+          return GameSpriteSheet.communistArcherDashBack;
+        case '2.356194490192345':
+          return GameSpriteSheet.communistArcherDashFront;
+        case '-2.356194490192345':
+          return GameSpriteSheet.communistArcherDashBack;
+        case '0.7853981633974483':
+          return GameSpriteSheet.communistArcherDashFront;
+        case '-1.5707963267948966':
+          return GameSpriteSheet.communistArcherDashBack;
+        case '1.5707963267948966':
+          return GameSpriteSheet.communistArcherDashFront;
+        default:
+          return GameSpriteSheet.dummyHit;
       }
     }
+
+    animation?.playOnce(
+      getAnimation(lastDirection.toRadians().toString())
+    );
+    
+    translate(diffBase.x, diffBase.y);
+      dashReady = false;
+      Future.delayed(const Duration(seconds: 2),() {
+        dashReady = true;
+    });
+
   }
+
+  // Archer Skillset
+  // @override
+  // void joystickAction(JoystickActionEvent event) {
+  //   double getDashAngle(String originalAngle) {
+  //     switch (originalAngle) {
+  //       case '3.141592653589793':
+  //         return 1.7453292519943295e-9;
+  //       case '1.7453292519943295e-9':
+  //         return 3.141592653589793;
+  //       case '-0.7853981633974483':
+  //         return 2.356194490192345;
+  //       case '2.356194490192345':
+  //         return -0.7853981633974483;
+  //       case '-2.356194490192345':
+  //         return 0.7853981633974483;
+  //       case '0.7853981633974483':
+  //         return -2.356194490192345;
+  //       case '-1.5707963267948966':
+  //         return 1.5707963267948966;
+  //       case '1.5707963267948966':
+  //         return -1.5707963267948966;
+  //       default:
+  //         return 0.0;
+  //     }
+  //   }
+
+  //   var initPosition = rectConsideringCollision;
+
+  //   Vector2 startPosition =
+  //       initPosition.center.toVector2() + Vector2.zero();
+
+  //   Vector2 diffBase = BonfireUtil.diffMovePointByAngle(
+  //     startPosition,
+  //     350,
+  //     getDashAngle(lastDirection.toRadians().toString())
+  //   );
+
+  //   startPosition.add(diffBase);
+  //   startPosition.add(Vector2(-size.x / 2, -size.y / 2));
+
+  //   if(hasGameRef && !gameRef.camera.isMoving) {
+
+  //     if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
+  //       simpleAttackRangeByDirection(animationRight: GameSpriteSheet.arrowHorizontalRight,
+  //         attackFrom: AttackFromEnum.PLAYER_OR_ALLY,
+  //         direction: lastDirection,
+  //         size: Vector2(155,95),
+  //         speed: 2000,
+  //         centerOffset: Vector2(0, -60)
+  //       );
+  //       attackReady = false;
+  //       Future.delayed(const Duration(seconds: 1), () {
+  //         attackReady = true;
+  //       });
+  //     }
+  //     if(event.id == LogicalKeyboardKey.keyX.keyId && dashReady) {
+  //       translate(diffBase.x, diffBase.y);
+  //       dashReady = false;
+  //       Future.delayed(const Duration(seconds: 2),() {
+  //         dashReady = true;
+  //       });
+  //     }
+  //   }
+  // }
 }

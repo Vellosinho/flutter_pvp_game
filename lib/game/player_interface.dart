@@ -7,10 +7,10 @@ import 'character_class.dart';
 
 class PlayerInterface extends StatefulWidget {
   final CharacterClass characterClass;
-  final CharacterFaction characterFaction;
+  CharacterFaction? characterFaction = CharacterFaction.Monarchist;
   static const overlayKey = 'playerInterface';
 
-  const PlayerInterface({required this.characterClass, required this.characterFaction, Key? key}) : super(key: key);
+  PlayerInterface({required this.characterClass, this.characterFaction, Key? key}) : super(key: key);
 
   @override
   State<PlayerInterface> createState() => _PlayerInterfaceState();
@@ -25,13 +25,13 @@ class _PlayerInterfaceState extends State<PlayerInterface> {
 
 class PlayerLife extends StatelessWidget {
   final CharacterClass characterClass;
-  final CharacterFaction characterFaction;
+  final CharacterFaction? characterFaction;
   
-  const PlayerLife({required this.characterClass, required this.characterFaction, Key? key}) : super(key: key);
+  const PlayerLife({required this.characterClass, this.characterFaction, Key? key}) : super(key: key);
 
   @override 
   Widget build(BuildContext context) {
-    List<Widget> token = getToken(characterClass, characterFaction);
+    List<Widget> token = getToken(characterClass, characterFaction!);
     return Scaffold(
       backgroundColor: Colors.red[900]!.withAlpha(0),
       body: SizedBox(

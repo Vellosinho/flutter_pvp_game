@@ -27,6 +27,10 @@ class GameSpriteSheet {
     'capitalist/capitalist_archer_walk_left.png',
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
   );
+  static Future<SpriteAnimation> get capitalistArcherDashLeft => SpriteAnimation.load(
+    'capitalist/capitalist_archer_dash_left.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
+  );
   static Future<SpriteAnimation> get capitalistArcherWalkRight => SpriteAnimation.load(
     'capitalist/capitalist_archer_walk_right.png',
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
@@ -59,17 +63,33 @@ class GameSpriteSheet {
     'communist/communist_archer_walk_left.png',
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
   );
+  static Future<SpriteAnimation> get communistArcherDashLeft => SpriteAnimation.load(
+    'communist/communist_archer_dash_left.png',
+    SpriteAnimationData.sequenced(amount:4, stepTime: 0.075, textureSize: Vector2(32,32))
+  );
   static Future<SpriteAnimation> get communistArcherWalkRight => SpriteAnimation.load(
     'communist/communist_archer_walk_right.png',
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
+  );
+  static Future<SpriteAnimation> get communistArcherDashRight => SpriteAnimation.load(
+    'communist/communist_archer_dash_right.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,32))
   );
   static Future<SpriteAnimation> get communistArcherWalkFront => SpriteAnimation.load(
     'communist/communist_archer_walk_front.png',
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
   );
+  static Future<SpriteAnimation> get communistArcherDashFront => SpriteAnimation.load(
+    'communist/communist_archer_dash_front.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,32))
+  );
   static Future<SpriteAnimation> get communistArcherWalkBack => SpriteAnimation.load(
     'communist/communist_archer_walk_back.png',
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
+  );
+  static Future<SpriteAnimation> get communistArcherDashBack => SpriteAnimation.load(
+    'communist/communist_archer_dash_back.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,32))
   );
   static Future<SpriteAnimation> get loyalistArcherIdleLeft => SpriteAnimation.load(
     'loyalist/loyalist_archer_idle_left.png',
@@ -154,6 +174,10 @@ class GameSpriteSheet {
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
   );
   
+}
+
+class GameObjectsSprites {
+  static Future<Sprite> anvil = Sprite.load('objects/anvil.png');
 }
 
   SimpleDirectionAnimation communistArcher = SimpleDirectionAnimation(
@@ -272,9 +296,23 @@ class InterfaceSpriteSheet {
   static Image get swordsmanToken => Image.asset('assets/images/interface/swordsman_token.png');
   static Image get knightToken => Image.asset('assets/images/interface/knight_token.png');
   //Vertentes Politicas
-  static Image get communistSymbol => Image.asset('assets/images/interface/communists.png');
+  static Image get communistSymbol => Image.asset('assets/images/interface/workers.png');
   static Image get monarchistSymbol => Image.asset('assets/images/interface/monarchists.png');
   static Image get capitalistSymbol => Image.asset('assets/images/interface/capitalists.png');
+  //Title Screen
+  static Image get titleScreen => Image.asset('assets/images/title.png');
+  static Image get menuScreen => Image.asset('assets/images/menu_Screen.png');
+  static Image get menuScreenNoLabels => Image.asset('assets/images/menu_Screen_NoLabels.png');
+  static Image get menuScreenDescription => Image.asset('assets/images/menu_Screen_description.png');
+  static Image get workersBanner => Image.asset('assets/images/WorkersBanner.png');
+  static Image get workersBannerSelected => Image.asset('assets/images/WorkersBannerSelected.png');
+  static Image get ownersBannerDisabled => Image.asset('assets/images/OwnersBannerDisabled.png');
+  static Image get ownersBanner => Image.asset('assets/images/OwnersBanner.png');
+  static Image get ownersBannerSelected => Image.asset('assets/images/OwnersBannerSelected.png');
+  static Image get loyalistsBannerDisabled => Image.asset('assets/images/LoyalistBannerDisabled.png');
+  static Image get loyalistsBanner => Image.asset('assets/images/LoyalistBanner.png');
+  static Image get loyalistsBannerSelected => Image.asset('assets/images/LoyalistBannerSelected.png');
+  static Image get lindEasterEgg => Image.asset('assets/images/LindEasterEgg.png');
   //Life bar
   static List<Image> lifebarList = [
     Image.asset('assets/images/interface/lifebar/life_bar_1.png', height: 144,),

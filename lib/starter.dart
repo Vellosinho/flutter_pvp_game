@@ -1,6 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'game/game_objects.dart';
 import 'game/game_sprite_sheet.dart';
 import 'game/player_interface.dart';
 import 'players/player_one.dart';
@@ -16,11 +17,9 @@ import 'players/player_consts.dart';
 import 'services/message_service.dart';
 
 double tileSize = 128;
-const CharacterFaction playerFaction = CharacterFaction.Monarchist;
-const CharacterClass playerOneClass = CharacterClass.Archer;
-const CharacterFaction playerTwoFaction = CharacterFaction.Capitalist;
-SimpleDirectionAnimation playerOneAnimations = getAnimations(playerOneClass, playerFaction);
-SimpleDirectionAnimation playerTwoAnimations = getArcherAnimations(playerTwoFaction);
+const CharacterClass playerOneClass = CharacterClass.SwordsMan;
+// const CharacterFaction playerTwoFaction = CharacterFaction.Capitalist;
+// SimpleDirectionAnimation playerTwoAnimations = getArcherAnimations(playerTwoFaction);
 
 class Starter extends StatefulWidget {
   const Starter({Key? key}) : super(key: key);
@@ -29,13 +28,17 @@ class Starter extends StatefulWidget {
   State<Starter> createState() => _StarterState();
 }
 
-class _StarterState extends State<Starter> {
+class _StarterState extends State<Starter> {  
   late final GameController gameController;
   late final MessageService messageService;
+  late final CharacterFaction playerFaction;
+  late final SimpleDirectionAnimation playerOneAnimations;
   late final String id;
 
   @override
   void initState() {
+    playerFaction = context.read<PlayerConsts>().faccao;
+    playerOneAnimations = getAnimations(playerOneClass, playerFaction);
     id = const Uuid().v1();
     gameController = GameController();
     messageService = BonfireInjector.instance.get();
@@ -69,7 +72,8 @@ class _StarterState extends State<Starter> {
               // context.read<LocalGameController>().hit(2);
               context.read<LocalGameController>().getMoney(7);
               onOtherPlayersHit;
-          })
+          }),
+          Anvil(Vector2(tileSize * 13.5, tileSize * 12.0),),
         ],  
         // interface: PlayerInterface(),
         cameraConfig: CameraConfig(smoothCameraEnabled: true, smoothCameraSpeed: 2, zoom: 0.8),
@@ -97,7 +101,7 @@ class _StarterState extends State<Starter> {
           animations: playerOneAnimations,
         ),
         overlayBuilderMap: {
-          PlayerInterface.overlayKey: (context,game) => const PlayerInterface(characterClass: playerOneClass, characterFaction: playerFaction),
+          PlayerInterface.overlayKey: (context,game) => PlayerInterface(characterClass: playerOneClass, characterFaction: playerFaction),
         },
         initialActiveOverlays: const [
           PlayerInterface.overlayKey,

@@ -12,12 +12,20 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "bigorna.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 8
+        },
+        "bigorna.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "ruinas_pvp.json": {
-            "scale": 1,
-            "selectedLayer": 1,
+            "scale": 2,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 125,
-                "y": 241
+                "x": 180,
+                "y": 269
             }
         },
         "ruinas_pvp.tmj": {
@@ -29,7 +37,7 @@
             }
         },
         "tilesetmapa.json": {
-            "scaleInDock": 3,
+            "scaleInDock": 1.5,
             "scaleInEditor": 3
         },
         "tilesetmapa.tsj": {
@@ -46,12 +54,15 @@
     "map.tileWidth": 16,
     "openFiles": [
         "ruinas_pvp.json",
-        "tilesetmapa.json"
+        "tilesetmapa.json",
+        "bigorna.json"
     ],
     "project": "ruinas_pvp.tiled-project",
     "recentFiles": [
+        "bigorna.json",
         "tilesetmapa.json",
         "ruinas_pvp.json",
+        "bigorna.tsj",
         "ruinas_pvp.tmj",
         "tilesetmapa.tsj",
         "Stone_Ruins_Free_Tileset_NoBG.tsj"
