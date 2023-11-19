@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:projeto_gbb_demo/game/character_faction.dart';
 
 class PlayerConsts extends ChangeNotifier {
-  static Vector2 characterSize = Vector2(192, 192);
+  static Vector2 characterSize = Vector2(192, 240);
+  static Vector2 npcSize = Vector2(192, 192);
   static Vector2 characterHitbox = Vector2(96, 40);
   static Vector2 hitboxPosition = Vector2(48,160);
   static double characterSpeed = 400;

@@ -57,8 +57,11 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
 
   void swordsmanHitSet(JoystickActionEvent event) {
     if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
-        // swordsmanHit();
-        animation?.playOnce(GameSpriteSheet.forgeSuccessful);
+        swordsmanHit();
+        if(localGameController.playAnimation) {
+          animation?.playOnce(GameSpriteSheet.forgeSuccessful);
+          localGameController.turnOffAnimation();
+        }
       }
     if(event.id == LogicalKeyboardKey.keyX.keyId && dashReady) {
       swordsmanDash();
@@ -83,7 +86,7 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
           sizePush: 0.2,
           damage: 10,
           // size: size * 1.4,
-          size: size * 1.6,
+          size: size * 1.4,
           animationRight: GameSpriteSheet.attackHorizontalRight,
           direction: lastDirection,
         );

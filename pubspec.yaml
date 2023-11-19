@@ -32,6 +32,7 @@ flutter:
     # - assets/images/abilities/
 
     - assets/images/
+    - assets/images/tutorialNPCs/
     - assets/images/objects/
     - assets/images/communist/
     - assets/images/capitalist/

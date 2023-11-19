@@ -68,7 +68,7 @@ class _StarterState extends State<Starter> {
         // lightingColorGame: Colors.indigo[900]!.withAlpha(128),
         lightingColorGame: Colors.orange[400]!.withAlpha(24),
         components: [
-          StaticDummy(hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, size: PlayerConsts.characterSize, position: Vector2(tileSize * 13.5, tileSize * 9.5,), 
+          StaticDummy(hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, size: PlayerConsts.npcSize, position: Vector2(tileSize * 13.5, tileSize * 9.5,), 
             minZoom: 0.8,
             controller: context.read<LocalGameController>(),
             onHit: () {
@@ -76,7 +76,7 @@ class _StarterState extends State<Starter> {
               context.read<LocalGameController>().getMoney(7);
               onOtherPlayersHit;
           }),
-          BlackSmithMaster(position: Vector2(tileSize * 16.5, tileSize * 8,), size: PlayerConsts.characterSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition),
+          BlackSmithMaster(position: Vector2(tileSize * 16.5, tileSize * 8,), size: PlayerConsts.npcSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition, controller: context.read<LocalGameController>()),
           Anvil(position: Vector2(tileSize * 21, tileSize * 17.0),localGameController: context.read<LocalGameController>()),
         ],  
         // interface: PlayerInterface(),
