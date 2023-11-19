@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../players/class_objects.dart/smith_sword.dart';
 import 'character_class.dart';
 import 'dart:math';
 
@@ -10,6 +11,7 @@ class LocalGameController with ChangeNotifier {
   int _playerWallet = 0;
   int _playerFollowers = 0;
   int _hitCount = 0;
+  List<ForgedSword> swords = [];
 
   int get playerLife => _playerLife;
   int get playerWallet => _playerWallet;
@@ -21,6 +23,8 @@ class LocalGameController with ChangeNotifier {
   int swordScore = 0;
   int minigameHitCount = 0;
   double timeCount = 0.0;
+  bool _playAnimation = false;
+  bool get playAnimation => _playAnimation;
 
 
   void heal(int value) {
@@ -82,13 +86,21 @@ class LocalGameController with ChangeNotifier {
     if (minigameHitCount < 4) {
       setSwordScore(sin(timeCount));
       minigameHitCount++;
-      print(swordScore);
     }
     else {
       setSwordScore(sin(timeCount));
-      print(swordScore);
+      if(swordScore >= 170) {
+        _playAnimation = true;
+        swords.add(ForgedSword(swordScore: swordScore, isLegendary: (swordScore == 250)));
+        print("added sword: score $swordScore");
+      }
       minigameIsActive = false;
     }
+    notifyListeners();
+  }
+
+  void turnOffAnimation() {
+    _playAnimation = false;
     notifyListeners();
   }
 
@@ -103,9 +115,11 @@ class LocalGameController with ChangeNotifier {
   }
 
   void setSwordScore(double value) {
-    (value < 0) ? (value * -1) : null;
+    if (value < 0) {
+      value = value * -1;
+    }
 
-    if(value > 0.4) {
+    if(value > 0.45) {
       swordScore += 10;
     } else if(value > 0.15) {
       swordScore += 25;

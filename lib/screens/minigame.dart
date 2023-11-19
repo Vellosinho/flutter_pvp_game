@@ -27,11 +27,13 @@ class MiniGame extends StatelessWidget {
               Stack(
                 children: [
                   Row(children: [
-                    Portion(boxColor: Colors.red),
-                    Portion(boxColor: Colors.red),
-                    Portion(boxColor: Colors.red),
-                    Portion(boxColor: Colors.red),
-                    Portion(boxColor: Colors.red),
+                    Portion(boxColor: Colors.red[800], boxWidth: 106,),
+                    Portion(boxColor: Colors.orange[800],boxWidth: 34),
+                    Portion(boxColor: Colors.yellow[800], boxWidth: 16),
+                    Portion(boxColor: Colors.green[400], boxWidth: 8),
+                    Portion(boxColor: Colors.yellow[800], boxWidth: 16),
+                    Portion(boxColor: Colors.orange[900], boxWidth: 34),
+                    Portion(boxColor: Colors.red[900], boxWidth: 106,),
                     ],),
                   Positioned(left: 158 - (158 * sin(localGameController.timeCount)),child: SizedBox(height: 64, width: 4, child: DecoratedBox(decoration: BoxDecoration(color: Colors.black),)))
                 ],
@@ -46,14 +48,15 @@ class MiniGame extends StatelessWidget {
 }
 
 class Portion extends StatelessWidget {
-  final Color boxColor;
-  const Portion({super.key, required this.boxColor});
+  final double boxWidth;
+  final Color? boxColor;
+  const Portion({super.key, required this.boxColor, required this.boxWidth});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 64,
-      width: 64,
+      width: boxWidth,
       child: DecoratedBox(decoration: BoxDecoration(color: boxColor)),
     );
   }
