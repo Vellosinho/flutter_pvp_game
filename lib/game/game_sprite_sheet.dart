@@ -46,7 +46,11 @@ class GameSpriteSheet {
   // Communist Sprites
   static Future<SpriteAnimation> get forgeSuccessful => SpriteAnimation.load(
     'communist/communist_archer_sword_complete.png',
-    SpriteAnimationData.sequenced(amount: 8, stepTime: 0.2, textureSize: Vector2(32, 40))
+    SpriteAnimationData.sequenced(amount: 8, stepTime: 0.10, textureSize: Vector2(32, 40))
+  );
+  static Future<SpriteAnimation> get forgeLegedarySuccessful => SpriteAnimation.load(
+    'communist/communist_archer_legendary_sword_complete.png',
+    SpriteAnimationData.sequenced(amount: 8, stepTime: 0.10, textureSize: Vector2(32, 40))
   );
   static Future<SpriteAnimation> get communistArcherIdleLeft => SpriteAnimation.load(
     'communist/communist_archer_idle_left.png',
@@ -96,6 +100,7 @@ class GameSpriteSheet {
     'communist/communist_archer_dash_back.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,40))
   );
+  //Loyalist sprites
   static Future<SpriteAnimation> get loyalistArcherIdleLeft => SpriteAnimation.load(
     'loyalist/loyalist_archer_idle_left.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
