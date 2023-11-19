@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/services.dart';
+import 'package:projeto_gbb_demo/game/game_controller.dart';
 
 import '../game/character_faction.dart';
 import '../game/game_sprite_sheet.dart';
@@ -18,6 +19,8 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
   double playerLife;
   bool attackReady = true;
   bool dashReady = true;
+  bool escPressed = false;
+  LocalGameController localGameController;
   final String id;
   PlayerOne({
     required Vector2 position,
@@ -25,6 +28,7 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
     required this.playerLife,
     required CharacterFaction faction,
     required SimpleDirectionAnimation animations,
+    required this.localGameController,
     required this.id,
   }) : super(
           position: position,
@@ -48,17 +52,29 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
   @override
   void joystickAction(JoystickActionEvent event) {
     swordsmanHitSet(event);
-    
   }
 
 
   void swordsmanHitSet(JoystickActionEvent event) {
     if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
-        swordsmanHit();
+        // swordsmanHit();
+        animation?.playOnce(GameSpriteSheet.forgeSuccessful);
       }
-      if(event.id == LogicalKeyboardKey.keyX.keyId && dashReady) {
-        swordsmanDash();
+    if(event.id == LogicalKeyboardKey.keyX.keyId && dashReady) {
+      swordsmanDash();
+    }
+    if(event.id == LogicalKeyboardKey.escape.keyId && !escPressed) {
+      localGameController.togglePaused();
+      escPressed = true;
+      if (localGameController.gameIsPaused) {
+        gameRef.pauseEngine();
+      } else {
+        gameRef.resumeEngine();
       }
+      Future.delayed(const Duration(milliseconds: 250), () {
+        escPressed = false;
+      });
+    }
   }
 
   void swordsmanHit() {
@@ -80,7 +96,6 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
   }
 
   void swordsmanDash() {
-    
     var initPosition = rectConsideringCollision;
 
     Vector2 startPosition =

@@ -14,7 +14,9 @@ import 'game/character_faction.dart';
 import 'game/game_controller.dart';
 import 'game/npc_definitions.dart';
 import 'players/player_consts.dart';
+import 'screens/pause_menu.dart';
 import 'services/message_service.dart';
+import 'package:projeto_gbb_demo/screens/minigame.dart';
 
 double tileSize = 128;
 const CharacterClass playerOneClass = CharacterClass.SwordsMan;
@@ -61,6 +63,7 @@ class _StarterState extends State<Starter> {
   void onOtherPlayersHit = playerOneClass == CharacterClass.Archer ? context.read<LocalGameController>().addArrowHitCount() : context.read<LocalGameController>().addHitCount();
 
   return BonfireWidget(
+    backgroundColor: Colors.blue,
     gameController: gameController,
         // lightingColorGame: Colors.indigo[900]!.withAlpha(128),
         lightingColorGame: Colors.orange[400]!.withAlpha(24),
@@ -73,7 +76,8 @@ class _StarterState extends State<Starter> {
               context.read<LocalGameController>().getMoney(7);
               onOtherPlayersHit;
           }),
-          Anvil(Vector2(tileSize * 13.5, tileSize * 12.0),),
+          BlackSmithMaster(position: Vector2(tileSize * 16.5, tileSize * 8,), size: PlayerConsts.characterSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition),
+          Anvil(position: Vector2(tileSize * 21, tileSize * 17.0),localGameController: context.read<LocalGameController>()),
         ],  
         // interface: PlayerInterface(),
         cameraConfig: CameraConfig(smoothCameraEnabled: true, smoothCameraSpeed: 2, zoom: 0.8),
@@ -85,12 +89,14 @@ class _StarterState extends State<Starter> {
                 LogicalKeyboardKey.arrowUp,
                 LogicalKeyboardKey.arrowRight,
                 LogicalKeyboardKey.keyZ,
-                LogicalKeyboardKey.keyX
+                LogicalKeyboardKey.keyX,
+                LogicalKeyboardKey.escape,
               ] 
             )
           ),
         map: WorldMapByTiled('map/pvp_arena/ruinas_pvp.json', forceTileSize: Vector2(tileSize, tileSize)),
         player: PlayerOne(
+          localGameController: context.read<LocalGameController>(),
           id: id,
           playerLife: context.watch<LocalGameController>().playerLife.toDouble(),
           onHit: () {
@@ -102,9 +108,14 @@ class _StarterState extends State<Starter> {
         ),
         overlayBuilderMap: {
           PlayerInterface.overlayKey: (context,game) => PlayerInterface(characterClass: playerOneClass, characterFaction: playerFaction),
+          // PauseMenu.overlayKey: (context,game) => context.read<LocalGameController>().gameIsPaused ? const PauseMenu() : const SizedBox(),
+          PauseMenu.overlayKey: (context, game) => PauseMenu(),
+          MiniGame.overlayKey: (context, game) => MiniGame(),
         },
         initialActiveOverlays: const [
           PlayerInterface.overlayKey,
+          PauseMenu.overlayKey,
+          MiniGame.overlayKey,
         ],
         onReady: (gameRef) {
           messageService.send(

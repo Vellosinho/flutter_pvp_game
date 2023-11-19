@@ -13,16 +13,16 @@ import 'starter.dart';
 const double tileSize = 32;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-  windowManager.waitUntilReadyToShow().then((_) async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await windowManager.ensureInitialized();
+  // windowManager.waitUntilReadyToShow().then((_) async {
 // Hide window title bar
-  await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
-  await windowManager.setFullScreen(true);
-  await windowManager.center();
-  await windowManager.show();
-  await windowManager.setSkipTaskbar(false);
-  });
+  // await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
+  // await windowManager.setFullScreen(true);
+  // await windowManager.center();
+  // await windowManager.show();
+  // await windowManager.setSkipTaskbar(false);
+  // });
   final websocket = WebsocketService();
   BonfireInjector.instance.put((i) => websocket);
   BonfireInjector.instance.put((i) => MessageService(websocket: i.get()));
@@ -41,7 +41,7 @@ void main() async {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: TitleScreen(),
+        home: Starter(),
       ),
     ),
   );

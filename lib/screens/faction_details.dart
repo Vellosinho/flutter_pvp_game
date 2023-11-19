@@ -52,7 +52,7 @@ class _FactionDetailsState extends State<FactionDetails> {
                       Text(descriptions[1], style: const TextStyle(fontFamily: "PressStart2P", fontSize: 28),),
                       const SizedBox(height: 16),
                       SizedBox(width: 480, child: Text(descriptions[2], style: const TextStyle(fontFamily: "PressStart2P", fontSize: 18), textAlign: TextAlign.justify,)),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 16), 
                       GestureDetector(
                         onTap: () {
                           (faccaoSelecionada == CharacterFaction.Monarchist) ?
