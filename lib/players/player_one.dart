@@ -59,7 +59,11 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
     if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
         swordsmanHit();
         if(localGameController.playAnimation) {
-          animation?.playOnce(GameSpriteSheet.forgeSuccessful);
+          if(localGameController.swordScore == 250) {
+            animation?.playOnce(GameSpriteSheet.forgeLegedarySuccessful);
+          } else {
+            animation?.playOnce(GameSpriteSheet.forgeSuccessful);
+          }
           localGameController.turnOffAnimation();
         }
       }
