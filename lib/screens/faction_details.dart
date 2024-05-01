@@ -1,13 +1,11 @@
-import 'package:bonfire/util/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:projeto_gbb_demo/game/character_faction.dart';
 import 'package:provider/provider.dart';
 
 import '../game/game_sprite_sheet.dart';
 import '../players/player_consts.dart';
-import '../starter.dart';
+import '../game.dart';
 
 class FactionDetails extends StatefulWidget {
   const FactionDetails({super.key});
@@ -57,7 +55,7 @@ class _FactionDetailsState extends State<FactionDetails> {
                         onTap: () {
                           (faccaoSelecionada == CharacterFaction.Monarchist) ?
                             Navigator.pop(context) :
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Starter()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Game()));
                         },
                         child: Text((faccaoSelecionada == CharacterFaction.Monarchist) ? "Back" : "Start", style: TextStyle(fontFamily: "PressStart2P", fontSize: 18))
                       )
@@ -90,7 +88,7 @@ class GameButton extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             onTap();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Starter()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Game()));
           },
           child: image,
         ),

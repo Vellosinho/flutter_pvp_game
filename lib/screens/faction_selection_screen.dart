@@ -1,13 +1,10 @@
-import 'package:bonfire/util/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:projeto_gbb_demo/game/character_faction.dart';
 import 'package:provider/provider.dart';
 
 import '../game/game_sprite_sheet.dart';
 import '../players/player_consts.dart';
-import '../starter.dart';
 import 'faction_details.dart';
 
 class FactionScreen extends StatelessWidget {
@@ -114,7 +111,7 @@ class _GameButtonState extends State<GameButton> {
           onTap: () {
             if (widget.enabled) {
               widget.onTap();
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => const Starter()));
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => const Game()));
               Navigator.push(context, MaterialPageRoute(builder: (context) => const FactionDetails()));
             } else {}
           },
