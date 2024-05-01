@@ -5,17 +5,14 @@ import 'game/game_objects.dart';
 import 'game/game_sprite_sheet.dart';
 import 'game/player_interface.dart';
 import 'players/player_one.dart';
-import 'players/player_two.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'entities/message.dart';
 import 'game/character_class.dart';
 import 'game/character_faction.dart';
 import 'game/game_controller.dart';
 import 'game/npc_definitions.dart';
 import 'players/player_consts.dart';
 import 'screens/pause_menu.dart';
-import 'services/message_service.dart';
 import 'package:projeto_gbb_demo/screens/minigame.dart';
 
 double tileSize = 128;
@@ -23,16 +20,15 @@ const CharacterClass playerOneClass = CharacterClass.SwordsMan;
 // const CharacterFaction playerTwoFaction = CharacterFaction.Capitalist;
 // SimpleDirectionAnimation playerTwoAnimations = getArcherAnimations(playerTwoFaction);
 
-class Starter extends StatefulWidget {
-  const Starter({Key? key}) : super(key: key);
+class Game extends StatefulWidget {
+  const Game({Key? key}) : super(key: key);
 
   @override
-  State<Starter> createState() => _StarterState();
+  State<Game> createState() => _GameState();
 }
 
-class _StarterState extends State<Starter> {  
+class _GameState extends State<Game> {  
   late final GameController gameController;
-  late final MessageService messageService;
   late final CharacterFaction playerFaction;
   late final SimpleDirectionAnimation playerOneAnimations;
   late final String id;
@@ -43,18 +39,12 @@ class _StarterState extends State<Starter> {
     playerOneAnimations = getAnimations(playerOneClass, playerFaction);
     id = const Uuid().v1();
     gameController = GameController();
-    messageService = BonfireInjector.instance.get();
-    messageService.init();
-    // messageService.onListen(ActionMessage.enemyInvocation, _addEnemy);
-    // messageService.onListen(
-    //     ActionMessage.previouslyEnemyConnected, _addEnemyBeforeYourLogin);
     super.initState();
     
   }
 
   @override
   void dispose() {
-    messageService.dispose();
     super.dispose();
   }
 
@@ -117,65 +107,7 @@ class _StarterState extends State<Starter> {
           PauseMenu.overlayKey,
           MiniGame.overlayKey,
         ],
-        onReady: (gameRef) {
-          messageService.send(
-            Message(
-              idPlayer: id,
-              action: ActionMessage.enemyInvocation,
-              direction: DirectionMessage.right,
-              position: Vector2(
-                gameRef.player!.position.x,
-                gameRef.player!.position.y,
-              ),
-            ),
-          );
-        },
     );
       // showCollisionArea: true,
   }
-  
-  // void _addEnemy(Message message) {
-  //   final enemy = PlayerTwo(
-  //     animations: playerTwoAnimations,
-  //     faction: playerTwoFaction,
-  //     playerLife: context.watch<LocalGameController>().playerLife.toDouble(),
-  //     onHit: () {
-  //       // context.read<LocalGameController>().hit(2);
-  //     },
-  //     id: message.idPlayer,
-  //     position: message.position!,
-  //     direction: message.direction.toDirection(),
-  //   );
-  //   gameController.addGameComponent(enemy);
-  //   messageService.send(
-  //     Message(
-  //       idPlayer: id,
-  //       action: ActionMessage.previouslyEnemyConnected,
-  //       direction: DirectionMessage.direction(
-  //         gameController.player!.lastDirection,
-  //       ),
-  //       position: gameController.player!.position,
-  //     ),
-  //   );
-  // }
-
-  // void _addEnemyBeforeYourLogin(Message message) {
-  //   final hasEnemy = gameController.gameRef
-  //       .componentsByType<PlayerTwo>()
-  //       .any((element) => element.id == message.idPlayer);
-  //   if (!hasEnemy) {
-  //     final enemy = PlayerTwo(
-  //       animations: playerTwoAnimations,
-  //       faction: playerTwoFaction,
-  //       playerLife: context.watch<LocalGameController>().playerLife.toDouble(),
-  //       onHit: () {
-  //         // context.read<LocalGameController>().hit(2);
-  //       },
-  //       id: message.idPlayer,
-  //       position: message.position!,
-  //       direction: message.direction.toDirection(),
-  //     );
-  //     gameController.addGameComponent(enemy);
-  //   }
-  // }
 }

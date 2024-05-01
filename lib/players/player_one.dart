@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/services.dart';
@@ -89,7 +88,6 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
         simpleAttackMelee(
           sizePush: 0.2,
           damage: 10,
-          // size: size * 1.4,
           size: size * 1.4,
           animationRight: GameSpriteSheet.attackHorizontalRight,
           direction: lastDirection,

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../game/game_sprite_sheet.dart';
-import '../starter.dart';
 import 'faction_selection_screen.dart';
 
 class TitleScreen extends StatefulWidget {
@@ -38,7 +36,7 @@ class _TitleScreenState extends State<TitleScreen> {
                 const Text("GBB - Title", style: TextStyle(fontFamily: "PressStart2P")),
                 SizedBox(height: 16),
                 GestureDetector(onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Starter()));
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Game()));
                   Navigator.push(context, MaterialPageRoute(builder: (context) => FactionScreen()));
                 },
                   child: const Text('Start', style: TextStyle(fontFamily: "PressStart2P", fontSize: 24),),),
