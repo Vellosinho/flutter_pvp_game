@@ -107,7 +107,7 @@ class _GameState extends State<Game> {
           PauseMenu.overlayKey,
           MiniGame.overlayKey,
         ],
-    );
       // showCollisionArea: true,
+    );
   }
 }

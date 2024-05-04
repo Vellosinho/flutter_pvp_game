@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire/decoration/decoration.dart';
+import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
 import 'package:projeto_gbb_demo/players/player_consts.dart';
 
@@ -28,6 +29,13 @@ class Anvil extends GameDecoration with ObjectCollision, Attackable {
     
     @override
     void receiveDamage(AttackFromEnum attacker, double damage, identify) {
-      localGameController.minigameIsActive ? localGameController.miniGameHit() : localGameController.startMinigame();
+      if (localGameController.minigameIsActive) {
+        localGameController.miniGameHit(gameRef);
+      } else {
+        Future.delayed(const Duration(milliseconds: 250), () {
+          gameRef.camera.animateZoom(zoom: 0.85, duration : const Duration(milliseconds: 250), curve: Curves.easeIn);
+        });
+        localGameController.startMinigame();
+      }
     }
 } 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/players/player_controller.dart';
 
 import '../game/character_faction.dart';
 import '../game/game_sprite_sheet.dart';
@@ -13,7 +14,7 @@ import 'player_consts.dart';
   static Vector2 characterHitbox = Vector2(96, 40);
 */
 
-class PlayerOne extends SimplePlayer with ObjectCollision {
+class PlayerOne extends SimplePlayer with ObjectCollision, UseStateController<PlayerController> {
   Function onHit;
   double playerLife;
   bool attackReady = true;
@@ -38,8 +39,16 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
           speed: PlayerConsts.characterSpeed,
         ) {
     setupCollision(CollisionConfig(collisions: [
-      CollisionArea.rectangle(size: PlayerConsts.characterHitbox, align: PlayerConsts.hitboxPosition)
+      CollisionArea.rectangle(size: PlayerConsts.characterHitbox, align: PlayerConsts.characterHitboxPosition)
     ]));
+  }
+
+  @override
+  void onMove(double speed, Direction direction, double angle) {
+    if(hasController) {
+      controller.onMove(speed, direction);
+    }
+    super.onMove(speed, direction, angle);
   }
 
   @override

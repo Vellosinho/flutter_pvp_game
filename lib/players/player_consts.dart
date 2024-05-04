@@ -7,6 +7,7 @@ class PlayerConsts extends ChangeNotifier {
   static Vector2 npcSize = Vector2(192, 192);
   static Vector2 characterHitbox = Vector2(96, 40);
   static Vector2 hitboxPosition = Vector2(48,160);
+  static Vector2 characterHitboxPosition = Vector2(48,200);
   static double characterSpeed = 400;
 
   late CharacterFaction faccao = CharacterFaction.Communist;

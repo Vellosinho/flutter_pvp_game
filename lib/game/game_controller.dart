@@ -1,4 +1,7 @@
+import 'package:bonfire/base/bonfire_game_interface.dart';
+import 'package:bonfire/bonfire.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import '../players/class_objects.dart/smith_sword.dart';
 import 'character_class.dart';
 import 'dart:math';
@@ -82,10 +85,13 @@ class LocalGameController with ChangeNotifier {
     notifyListeners();
   }
 
-  void miniGameHit() {
+  void miniGameHit(BonfireGameInterface gameRef) {
     if (minigameHitCount < 4) {
       setSwordScore(sin(timeCount));
       minigameHitCount++;
+      Future.delayed(const Duration(milliseconds: 250), () {
+        gameRef.camera.animateZoom(zoom: 0.85 + (minigameHitCount * 0.05), duration : const Duration(milliseconds: 250), curve: Curves.easeInSine);
+      });
     }
     else {
       setSwordScore(sin(timeCount));
@@ -94,6 +100,9 @@ class LocalGameController with ChangeNotifier {
         swords.add(ForgedSword(swordScore: swordScore, isLegendary: (swordScore == 250)));
         print("added sword: score $swordScore");
       }
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        gameRef.camera.animateZoom(zoom: 0.8, duration : const Duration(milliseconds: 250), curve: Curves.easeInSine);
+      });
       minigameIsActive = false;
     }
     notifyListeners();

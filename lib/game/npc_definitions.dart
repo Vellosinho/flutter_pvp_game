@@ -47,10 +47,10 @@ class StaticDummy extends SimpleEnemy with ObjectCollision {
     animation?.playOnce(
       GameSpriteSheet.dummyHit
     );
-    if(hitCount < 4) {
-      TalkDialog.show(context, dummyTutorial(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
-      hitCount++;
-    }
+    // if(hitCount < 4) {
+    //   TalkDialog.show(context, dummyTutorial(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
+    //   hitCount++;
+    // }
     super.receiveDamage(attacker, damage, identify);
   }
 
