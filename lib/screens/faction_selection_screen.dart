@@ -88,6 +88,7 @@ class FactionScreen extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class GameButton extends StatefulWidget {
   bool enabled;
   final Widget image;

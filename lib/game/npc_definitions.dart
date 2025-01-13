@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'game_controller.dart';
 import 'game_sprite_sheet.dart';
 
-class StaticDummy extends SimpleEnemy with ObjectCollision {
+class StaticDummy extends SimpleEnemy with BlockMovementCollision{
   Function onHit;
+  Vector2 hitboxSize;
+  Vector2 hitboxPosition;
   LocalGameController controller;
   double minZoom;
   int hitCount = 0;
@@ -13,8 +15,8 @@ class StaticDummy extends SimpleEnemy with ObjectCollision {
   StaticDummy({
     required Vector2 position,  
     required Vector2 size,
-    required Vector2 hitboxSize,
-    required Vector2 hitboxPosition,
+    required this.hitboxSize,
+    required this.hitboxPosition,
     required this.onHit,
     required this.controller,
     required this.minZoom,
@@ -28,19 +30,18 @@ class StaticDummy extends SimpleEnemy with ObjectCollision {
       runRight: GameSpriteSheet.dummyStand,
       
     ),
-    ) {
-      setupCollision(
-        CollisionConfig(collisions: [
-          CollisionArea.rectangle(
-            size: hitboxSize,
-            align: hitboxPosition,
-          )
-        ])
-      );
+    ) {}
+
+    @override
+    Future<void> onLoad() {
+      add(RectangleHitbox(
+        size: hitboxSize,
+        position: hitboxPosition,));
+      return super.onLoad();
     }
 
     @override
-    void receiveDamage(AttackFromEnum attacker, double damage, identify) { 
+    void onReceiveDamage(attacker, double damage, identify) { 
     onHit();
     gameRef.camera.shake(intensity: 6);
     handleZoom(minZoom);
@@ -51,15 +52,29 @@ class StaticDummy extends SimpleEnemy with ObjectCollision {
       TalkDialog.show(context, dummyTutorial(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
       hitCount++;
     }
-    super.receiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, 0.0, identify);
   }
 
   void handleZoom(double minZoom) {
     Future.delayed(const Duration(milliseconds: 250), () {
-      gameRef.camera.animateZoom(zoom: minZoom + (controller.hitcount * 0.05), duration : const Duration(milliseconds: 250), curve: Curves.easeInSine);
+      gameRef.camera.animateZoom(
+        zoom: Vector2(minZoom + (controller.hitcount * 0.075), minZoom + (controller.hitcount * 0.075)),
+        effectController: EffectController(
+          duration: 0.250,
+          curve: Curves.easeInSine,
+
+        ),
+      );
     });
     Future.delayed(const Duration(seconds: 4), () {
-      gameRef.camera.animateZoom(zoom: minZoom + (controller.hitcount * 0.05), duration: const Duration(milliseconds: 250));
+      gameRef.camera.animateZoom(
+        zoom: Vector2(minZoom + (controller.hitcount * 0.075), minZoom + (controller.hitcount * 0.075)),
+        effectController: EffectController(
+          duration: 0.250,
+          curve: Curves.easeInSine,
+
+        ),
+      );
     });
   }
 
@@ -95,15 +110,17 @@ class StaticDummy extends SimpleEnemy with ObjectCollision {
   }
 }
 
-class BlackSmithMaster extends SimpleAlly with ObjectCollision, Lighting {
+class BlackSmithMaster extends SimpleAlly with Lighting, BlockMovementCollision {
+  Vector2 hitboxSize;
+  Vector2 hitboxPosition;
   LocalGameController controller;
   bool willTalk = true;
   bool tutorialExplained = false;
   BlackSmithMaster({
     required Vector2 position,  
     required Vector2 size,
-    required Vector2 hitboxSize,
-    required Vector2 hitboxPosition,
+    required this.hitboxSize,
+    required this.hitboxPosition,
     required this.controller,
   }) : super(
     position: position,
@@ -114,16 +131,8 @@ class BlackSmithMaster extends SimpleAlly with ObjectCollision, Lighting {
       idleRight: GameSpriteSheet.smithMasterStand,
       runRight: GameSpriteSheet.smithMasterStand,
     ),
-    receivesAttackFrom: ReceivesAttackFromEnum.NONE
+    receivesAttackFrom: AcceptableAttackOriginEnum.ALL
     ) {
-      setupCollision(
-        CollisionConfig(collisions: [
-          CollisionArea.rectangle(
-            size: hitboxSize,
-            align: hitboxPosition,
-          )
-        ])
-      );
       // setupLighting(
       //   LightingConfig(
       //     radius: width * 1.25,
@@ -136,12 +145,18 @@ class BlackSmithMaster extends SimpleAlly with ObjectCollision, Lighting {
     }
 
     @override
-    void receiveDamage(AttackFromEnum attacker, double damage, identify) {
+    Future<void> onLoad() {
+      add(RectangleHitbox(size: hitboxSize, position: hitboxPosition));
+      return super.onLoad();
+    }
+
+    @override
+    void onReceiveDamage(attacker, double damage, identify) {
       if (willTalk) {
         TalkDialog.show(context, getCurrentLines(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
       }
       willTalk = !willTalk;
-      super.receiveDamage(attacker, 0, identify);
+      super.onReceiveDamage(attacker, 0, identify);
     }
     List<Say> masterForgeTutorial = [
       Say(text: [const TextSpan(text: 'I can see you’ve understood that dialogue ain`t getting you  nowhere, huh?')]),

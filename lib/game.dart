@@ -28,7 +28,7 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {  
-  late final GameController gameController;
+  // late final GameController gameController;
   late final CharacterFaction playerFaction;
   late final SimpleDirectionAnimation playerOneAnimations;
   late final String id;
@@ -38,7 +38,7 @@ class _GameState extends State<Game> {
     playerFaction = context.read<PlayerConsts>().faccao;
     playerOneAnimations = getAnimations(playerOneClass, playerFaction);
     id = const Uuid().v1();
-    gameController = GameController();
+    // gameController = GameController();
     super.initState();
     
   }
@@ -54,7 +54,20 @@ class _GameState extends State<Game> {
 
   return BonfireWidget(
     backgroundColor: Colors.blue,
-    gameController: gameController,
+    playerControllers: [
+      Keyboard(config: 
+        KeyboardConfig(acceptedKeys: [
+          LogicalKeyboardKey.arrowDown,
+          LogicalKeyboardKey.arrowLeft,
+          LogicalKeyboardKey.arrowUp,
+          LogicalKeyboardKey.arrowRight,
+          LogicalKeyboardKey.keyZ,
+          LogicalKeyboardKey.keyX,
+          LogicalKeyboardKey.escape,
+        ] 
+      ))
+    ],
+    // gameController: gameController,
         // lightingColorGame: Colors.indigo[900]!.withAlpha(128),
         lightingColorGame: Colors.orange[400]!.withAlpha(24),
         components: [
@@ -70,21 +83,9 @@ class _GameState extends State<Game> {
           Anvil(position: Vector2(tileSize * 21, tileSize * 17.0),localGameController: context.read<LocalGameController>()),
         ],  
         // interface: PlayerInterface(),
-        cameraConfig: CameraConfig(smoothCameraEnabled: true, smoothCameraSpeed: 2, zoom: 0.8),
-        joystick:
-            Joystick(keyboardConfig: 
-              KeyboardConfig(acceptedKeys: [
-                LogicalKeyboardKey.arrowDown,
-                LogicalKeyboardKey.arrowLeft,
-                LogicalKeyboardKey.arrowUp,
-                LogicalKeyboardKey.arrowRight,
-                LogicalKeyboardKey.keyZ,
-                LogicalKeyboardKey.keyX,
-                LogicalKeyboardKey.escape,
-              ] 
-            )
-          ),
-        map: WorldMapByTiled('map/pvp_arena/ruinas_pvp.json', forceTileSize: Vector2(tileSize, tileSize)),
+        // cameraConfig: CameraConfig(smoothCameraEnabled: true, smoothCameraSpeed: 2, zoom: 0.8),
+        cameraConfig: CameraConfig(zoom: 0.8),
+        map: WorldMapByTiled(WorldMapReader.fromAsset('map/pvp_arena/ruinas_pvp.json'), forceTileSize: Vector2(tileSize, tileSize)),
         player: PlayerOne(
           localGameController: context.read<LocalGameController>(),
           id: id,
@@ -107,7 +108,7 @@ class _GameState extends State<Game> {
           PauseMenu.overlayKey,
           MiniGame.overlayKey,
         ],
-    );
       // showCollisionArea: true,
+    );
   }
 }
