@@ -13,7 +13,7 @@ import 'player_consts.dart';
   static Vector2 characterHitbox = Vector2(96, 40);
 */
 
-class PlayerOne extends SimplePlayer with ObjectCollision {
+class PlayerOne extends SimplePlayer with BlockMovementCollision {
   Function onHit;
   double playerLife;
   bool attackReady = true;
@@ -36,27 +36,30 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
           size: PlayerConsts.characterSize,
           animation: animations,
           speed: PlayerConsts.characterSpeed,
-        ) {
-    setupCollision(CollisionConfig(collisions: [
-      CollisionArea.rectangle(size: PlayerConsts.characterHitbox, align: PlayerConsts.hitboxPosition)
-    ]));
+        ) {}
+  @override
+  Future<void> onLoad() {
+    add(RectangleHitbox(size: PlayerConsts.characterHitbox, position: PlayerConsts.characterHitboxPosition));
+    return super.onLoad();
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, identify) {
+  void onReceiveDamage(attacker, double damage, identify) {
     onHit();
-    super.receiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, damage, identify);
   }
 
   @override
-  void joystickAction(JoystickActionEvent event) {
+  void onJoystickAction(JoystickActionEvent event) {
     swordsmanHitSet(event);
+    return super.onJoystickAction(event);
   }
 
 
   void swordsmanHitSet(JoystickActionEvent event) {
-    if(event.id == LogicalKeyboardKey.keyZ.keyId && attackReady) {
+    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady) {
         swordsmanHit();
+        Future.delayed(Duration(milliseconds: 400), () { 
         if(localGameController.playAnimation) {
           if(localGameController.swordScore == 250) {
             animation?.playOnce(GameSpriteSheet.forgeLegedarySuccessful);
@@ -65,8 +68,9 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
           }
           localGameController.turnOffAnimation();
         }
+        });
       }
-    if(event.id == LogicalKeyboardKey.keyX.keyId && dashReady) {
+    if(event.id.keyId == LogicalKeyboardKey.keyX.keyId && dashReady) {
       swordsmanDash();
     }
     if(event.id == LogicalKeyboardKey.escape.keyId && !escPressed) {
@@ -84,7 +88,8 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
   }
 
   void swordsmanHit() {
-    if(hasGameRef && !gameRef.camera.isMoving) {
+    // if(hasGameRef && !gameRef.camera.) {
+    if(hasGameRef) {
         simpleAttackMelee(
           sizePush: 0.2,
           damage: 10,
@@ -101,10 +106,10 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
   }
 
   void swordsmanDash() {
-    var initPosition = rectConsideringCollision;
+    Vector2 initPosition = gameRef.player?.position.gg ?? Vector2(0,0);
 
     Vector2 startPosition =
-        initPosition.center.toVector2() + Vector2.zero();
+        initPosition + Vector2.zero();
 
      Vector2 diffBase = BonfireUtil.diffMovePointByAngle(
       startPosition,
@@ -140,7 +145,7 @@ class PlayerOne extends SimplePlayer with ObjectCollision {
       getAnimation(lastDirection.toRadians().toString())
     );
     
-    translate(diffBase.x, diffBase.y);
+    translate(diffBase);
       dashReady = false;
       Future.delayed(const Duration(seconds: 2),() {
         dashReady = true;
