@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
+import 'package:projeto_gbb_demo/game/items/base_item.dart';
 // import 'package:flutter/material.dart';
-import 'character_class.dart';
-import 'character_faction.dart';
+import 'enum/character_class.dart';
+import 'enum/character_faction.dart';
 
 
 class GameSpriteSheet {
@@ -51,6 +52,14 @@ class GameSpriteSheet {
   static Future<SpriteAnimation> get forgeLegedarySuccessful => SpriteAnimation.load(
     'communist/communist_archer_legendary_sword_complete.png',
     SpriteAnimationData.sequenced(amount: 8, stepTime: 0.15, textureSize: Vector2(32, 40))
+  );
+  static Future<SpriteAnimation> get acquiredIron => SpriteAnimation.load(
+    'communist/communist_archer_iron_acquired.png',
+    SpriteAnimationData.sequenced(amount: 8, stepTime: 0.15, textureSize: Vector2(32, 40))
+  );
+  static Future<SpriteAnimation> get communistBlacksmithShrug => SpriteAnimation.load(
+    'communist/communist_archer_shrug.png',
+    SpriteAnimationData.sequenced(amount: 8, stepTime: 0.2, textureSize: Vector2(32, 40))
   );
   static Future<SpriteAnimation> get communistArcherIdleLeft => SpriteAnimation.load(
     'communist/communist_archer_idle_left.png',
@@ -191,7 +200,27 @@ class GameSpriteSheet {
 }
 
 class GameObjectsSprites {
+  //anvil sprites:
   static Future<Sprite> anvil = Sprite.load('objects/anvil.png');
+  static Future<Sprite> anvilFirstHit = Sprite.load('objects/anvil_minigame/anvil_minigame_1.png');
+  static Future<Sprite> anvilSecondHit = Sprite.load('objects/anvil_minigame/anvil_minigame_2.png');
+  static Future<Sprite> anvilThirdHit = Sprite.load('objects/anvil_minigame/anvil_minigame_3.png');
+  static Future<Sprite> anvilFourthHit = Sprite.load('objects/anvil_minigame/anvil_minigame_4.png');
+  static Future<Sprite> anvilFifthHit = Sprite.load('objects/anvil_minigame/anvil_minigame_5.png');
+  
+  //sword shipping box sprites:
+  static Future<Sprite> swordShippingBoxEmpty = Sprite.load('objects/sword_box/sword_box_0.png');
+  static Future<Sprite> swordShippingBoxOne = Sprite.load('objects/sword_box/sword_box_1.png');
+  static Future<Sprite> swordShippingBoxTwo = Sprite.load('objects/sword_box/sword_box_2.png');
+  static Future<Sprite> swordShippingBoxThree = Sprite.load('objects/sword_box/sword_box_3.png');
+  static Future<Sprite> swordShippingBoxFour = Sprite.load('objects/sword_box/sword_box_4.png');
+
+  static Future<Sprite> anvilMinigame = Sprite.load('objects/anvil_minigame.png');
+  static Future<Sprite> furnace = Sprite.load('objects/furnace.png');
+  static Future<SpriteAnimation> get activeFurnace => SpriteAnimation.load(
+    'objects/active_furnace.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.2, textureSize: Vector2(64,192))
+  );
 }
 
   SimpleDirectionAnimation communistArcher = SimpleDirectionAnimation(
@@ -310,7 +339,7 @@ class InterfaceSpriteSheet {
   static Image get swordsmanToken => Image.asset('assets/images/interface/swordsman_token.png');
   static Image get knightToken => Image.asset('assets/images/interface/knight_token.png');
   //Vertentes Politicas
-  static Image get communistSymbol => Image.asset('assets/images/interface/workers.png');
+  static Image get communistSymbol => Image.asset('assets/images/interface/workers.png', height: 128, width: 128, fit: BoxFit.cover);
   static Image get monarchistSymbol => Image.asset('assets/images/interface/monarchists.png');
   static Image get capitalistSymbol => Image.asset('assets/images/interface/capitalists.png');
   //Title Screen
@@ -328,28 +357,31 @@ class InterfaceSpriteSheet {
   static Image get loyalistsBannerSelected => Image.asset('assets/images/LoyalistBannerSelected.png');
   static Image get lindEasterEgg => Image.asset('assets/images/LindEasterEgg.png');
   //Life bar
-  static List<Image> lifebarList = [
-    Image.asset('assets/images/interface/lifebar/life_bar_1.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_2.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_3.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_4.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_5.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_6.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_7.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_8.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_9.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_10.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_11.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_12.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_13.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_14.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_15.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_16.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_17.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_18.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_19.png', height: 144,),
-    Image.asset('assets/images/interface/lifebar/life_bar_20.png', height: 144,),
-  ];
+  // static List<Image> lifebarList = [
+  //   Image.asset('assets/images/interface/lifebar/life_bar_1.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_2.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_3.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_4.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_5.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_6.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_7.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_8.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_9.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_10.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_11.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_12.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_13.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_14.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_15.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_16.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_17.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_18.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_19.png', height: 144,),
+  //   Image.asset('assets/images/interface/lifebar/life_bar_20.png', height: 144,),
+  // ];
+  static Image get inventoryBar => Image.asset('assets/images/interface/inventoryBar/inventory_bar.png',height: 88, fit: BoxFit.cover,);
+  static Image get lifeBar => Image.asset('assets/images/interface/lifebar/lifebar.png',height: 152, fit: BoxFit.cover,);
+  static Image get miniMapDecoration => Image.asset('assets/images/interface/minimap/minimap.png',height: 320, fit: BoxFit.cover,);
   //Interface elements
   static Image get coin => Image.asset('assets/images/interface/coin.png');
   static Image get people => Image.asset('assets/images/interface/people.png');
@@ -362,13 +394,19 @@ List<Widget> getToken(CharacterClass characterClass, CharacterFaction faction) {
     sideToken.add(InterfaceSpriteSheet.archerToken);
   }
   if(characterClass == CharacterClass.SwordsMan) {
-    sideToken.add(InterfaceSpriteSheet.swordsmanToken);
+    sideToken.add(Padding(
+      padding: const EdgeInsets.all(4),
+      child: InterfaceSpriteSheet.swordsmanToken,
+    ));
   }
   if(characterClass == CharacterClass.Knight) {
     sideToken.add(InterfaceSpriteSheet.knightToken);
   }
   if(faction == CharacterFaction.Communist) {
-    sideToken.add(InterfaceSpriteSheet.communistSymbol);
+    sideToken.add(Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InterfaceSpriteSheet.communistSymbol,
+    ));
   }
   if(faction == CharacterFaction.Capitalist) {
     sideToken.add(InterfaceSpriteSheet.capitalistSymbol);
@@ -379,4 +417,14 @@ List<Widget> getToken(CharacterClass characterClass, CharacterFaction faction) {
   // sideToken.add(InterfaceSpriteSheet.interface);
   return sideToken;
 
+}
+
+class BackgroundImages {
+  static String get clouds => 'background/clouds_background.png';
+}
+
+class ItemSprites {
+  static Image get swordIcon => Image.asset('assets/images/items/forged_sword.png', height: 64, fit: BoxFit.cover);
+  static Image get legendarySwordIcon => Image.asset('assets/images/items/legendary_sword.png', height: 64, fit: BoxFit.cover);
+  static Image get ironBarIcon => Image.asset('assets/images/items/iron_bar.png', height: 64, fit: BoxFit.cover);
 }

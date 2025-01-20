@@ -48,17 +48,17 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
     animation?.playOnce(
       GameSpriteSheet.dummyHit
     );
-    if(hitCount < 4) {
-      TalkDialog.show(context, dummyTutorial(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
-      hitCount++;
-    }
+    // if(hitCount < 4) {
+    //   TalkDialog.show(context, dummyTutorial(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
+    //   hitCount++;
+    // }
     super.onReceiveDamage(attacker, 0.0, identify);
   }
 
   void handleZoom(double minZoom) {
     Future.delayed(const Duration(milliseconds: 250), () {
       gameRef.camera.animateZoom(
-        zoom: Vector2(minZoom + (controller.hitcount * 0.075), minZoom + (controller.hitcount * 0.075)),
+        zoom: Vector2(minZoom + (controller.hitcount * 0.05), minZoom + (controller.hitcount * 0.05)),
         effectController: EffectController(
           duration: 0.250,
           curve: Curves.easeInSine,
@@ -78,39 +78,39 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
     });
   }
 
-  List<Say> firstHit = [
-    Say(text: [const TextSpan(text: 'Nice one, kid. Don`t even ask me what it is or if I`m gonna use it, just bash it with your hammer I guess')]),
-  ];
+  // List<Say> firstHit = [
+  //   Say(text: [const TextSpan(text: 'Nice one, kid. Don`t even ask me what it is or if I`m gonna use it, just bash it with your hammer I guess')]),
+  // ];
 
-  List<Say> secondHit = [
-    Say(text: [const TextSpan(text: 'That`s a Dummy, in case you`re wondering')]),
-  ];
+  // List<Say> secondHit = [
+  //   Say(text: [const TextSpan(text: 'That`s a Dummy, in case you`re wondering')]),
+  // ];
 
-  List<Say> thirdHit = [
-    Say(text: [const TextSpan(text: 'It`s very good for training your hits and accuracy')]),
-  ];
+  // List<Say> thirdHit = [
+  //   Say(text: [const TextSpan(text: 'It`s very good for training your hits and accuracy')]),
+  // ];
 
-  List<Say> forthHit = [
-    Say(text: [const TextSpan(text: 'Plus, sometimes rich farmers will hide a few coins in there, so you can get some bucks by breaking `em')]),
-  ];
+  // List<Say> forthHit = [
+  //   Say(text: [const TextSpan(text: 'Plus, sometimes rich farmers will hide a few coins in there, so you can get some bucks by breaking `em')]),
+  // ];
 
-  List<Say> dummyTutorial() {
-    switch (hitCount) {
-      case 0:
-        return firstHit;
-      case 1:
-        return secondHit;
-      case 2:
-        return thirdHit;
-      case 3:
-        return forthHit;
-      default:
-        return firstHit;
-    }
-  }
+  // List<Say> dummyTutorial() {
+  //   switch (hitCount) {
+  //     case 0:
+  //       return firstHit;
+  //     case 1:
+  //       return secondHit;
+  //     case 2:
+  //       return thirdHit;
+  //     case 3:
+  //       return forthHit;
+  //     default:
+  //       return firstHit;
+  //   }
+  // }
 }
 
-class BlackSmithMaster extends SimpleAlly with Lighting, BlockMovementCollision {
+class BlackSmithMaster extends SimpleAlly with Lighting {
   Vector2 hitboxSize;
   Vector2 hitboxPosition;
   LocalGameController controller;
@@ -152,9 +152,9 @@ class BlackSmithMaster extends SimpleAlly with Lighting, BlockMovementCollision 
 
     @override
     void onReceiveDamage(attacker, double damage, identify) {
-      if (willTalk) {
-        TalkDialog.show(context, getCurrentLines(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
-      }
+      // if (willTalk) {
+      //   TalkDialog.show(context, getCurrentLines(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
+      // }
       willTalk = !willTalk;
       super.onReceiveDamage(attacker, 0, identify);
     }
@@ -181,20 +181,20 @@ class BlackSmithMaster extends SimpleAlly with Lighting, BlockMovementCollision 
       Say(text: [const TextSpan(text: 'I can see someone is excited about the new job, huh? Keep up the good work kid')]),
     ];
 
-    List<Say> getCurrentLines() {
-      if(!tutorialExplained && controller.swords.isEmpty) {
-        tutorialExplained = true;
-        return masterForgeTutorial;
-      } else {
-        if (controller.swords.length == 1) {
-          if (controller.swords[0].isLegendary) {
-            return masterFirstSwordLegendary;
-          } else {
-            return masterFirstSwordForged;
-          }
-        } else {
-          return severalSwords;
-        }
-      }
-    }
+    // List<Say> getCurrentLines() {
+    //   if(!tutorialExplained && controller.swords.isEmpty) {
+    //     tutorialExplained = true;
+    //     return masterForgeTutorial;
+    //   } else {
+    //     if (controller.swords.length == 1) {
+    //       if (controller.swords[0].isLegendary) {
+    //         return masterFirstSwordLegendary;
+    //       } else {
+    //         return masterFirstSwordForged;
+    //       }
+    //     } else {
+    //       return severalSwords;
+    //     }
+    //   }
+    // }
 }

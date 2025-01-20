@@ -1,0 +1,1 @@
+enum OneTimeAnimations {none, swordComplete, perfectSwordComplete, acquiredIron, shrug}

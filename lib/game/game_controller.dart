@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
-import '../players/class_objects.dart/smith_sword.dart';
-import 'character_class.dart';
+import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
+import 'package:projeto_gbb_demo/game/items/base_item.dart';
+import 'package:projeto_gbb_demo/game/items/iron_item.dart';
+import 'package:projeto_gbb_demo/game/items/sword_item.dart';
+import 'enum/character_class.dart';
 import 'dart:math';
 
 class LocalGameController with ChangeNotifier {
@@ -11,7 +14,15 @@ class LocalGameController with ChangeNotifier {
   int _playerWallet = 0;
   int _playerFollowers = 0;
   int _hitCount = 0;
-  List<ForgedSword> swords = [];
+  final List<Item> _inventory = [
+    Item(name: 'empty'),
+    Item(name: 'empty'),
+    Item(name: 'empty'),
+    Item(name: 'empty'),
+  ];
+  List<Item> get inventory => _inventory;
+
+  //remove later
 
   int get playerLife => _playerLife;
   int get playerWallet => _playerWallet;
@@ -23,8 +34,8 @@ class LocalGameController with ChangeNotifier {
   int swordScore = 0;
   int minigameHitCount = 0;
   double timeCount = 0.0;
-  bool _playAnimation = false;
-  bool get playAnimation => _playAnimation;
+  OneTimeAnimations _playAnimation = OneTimeAnimations.none;
+  OneTimeAnimations get playAnimation => _playAnimation;
 
 
   void heal(int value) {
@@ -74,12 +85,27 @@ class LocalGameController with ChangeNotifier {
     notifyListeners();
   }
 
-  void startMinigame() {
-    minigameHitCount = 0;
-    swordScore = 0;
-    minigameIsActive = true;
-    startGameLoopCounter();
+  void getIron() {
+    if (!isInventoryFull()) {
+      addToInventory(IronBar());
+      _playAnimation = OneTimeAnimations.acquiredIron;
+    } else {
+      shrugPlayer();
+    }
     notifyListeners();
+  }
+
+  void startMinigame() {
+    if(hasIron()) {
+      removeFromInventory(IronBar());
+      minigameHitCount = 0;
+      swordScore = 0;
+      minigameIsActive = true;
+      startGameLoopCounter();
+      notifyListeners();
+    } else {
+      shrugPlayer();
+    }
   }
 
   void miniGameHit() {
@@ -90,8 +116,9 @@ class LocalGameController with ChangeNotifier {
     else {
       setSwordScore(sin(timeCount));
       if(swordScore >= 170) {
-        _playAnimation = true;
-        swords.add(ForgedSword(swordScore: swordScore, isLegendary: (swordScore == 250)));
+        _playAnimation = (swordScore == 250) ? OneTimeAnimations.perfectSwordComplete : OneTimeAnimations.swordComplete;
+        // swords.add(ForgedSword(swordScore: swordScore, isLegendary: (swordScore == 250)));
+        addToInventory(Sword(isLegenday: swordScore >= 250));
         print("added sword: score $swordScore");
       }
       minigameIsActive = false;
@@ -100,7 +127,7 @@ class LocalGameController with ChangeNotifier {
   }
 
   void turnOffAnimation() {
-    _playAnimation = false;
+    _playAnimation = OneTimeAnimations.none;
     notifyListeners();
   }
 
@@ -126,5 +153,70 @@ class LocalGameController with ChangeNotifier {
     } else {
       swordScore += 50;
     }
+  }
+
+  void addToInventory(Item itemToAdd) {
+    // _inventory.firstWhere((element) => element.name == 'empty');
+    if(_inventory[0].name == 'empty') {
+      _inventory[0] = itemToAdd;
+    } else if(_inventory[1].name == 'empty') {
+      _inventory[1] = itemToAdd;
+    } else if(_inventory[2].name == 'empty') {
+      _inventory[2] = itemToAdd;
+    } else if(_inventory[3].name == 'empty') {
+      _inventory[3] = itemToAdd;
+    }
+    notifyListeners();
+  }
+
+  void removeFromInventory(Item itemToRemove) {
+    // _inventory.firstWhere((element) => element.name == 'empty');
+    if(_inventory[0].name == itemToRemove.name) {
+      _inventory[0] = Item(name: 'empty');
+    } else if(_inventory[1].name == itemToRemove.name) {
+      _inventory[1] = Item(name: 'empty');
+    } else if(_inventory[2].name == itemToRemove.name) {
+      _inventory[2] = Item(name: 'empty');
+    } else if(_inventory[3].name == itemToRemove.name) {
+      _inventory[3] = Item(name: 'empty');
+    }
+    notifyListeners();
+  }
+
+  bool hasIron() {
+    bool _hasIron = false;
+    for (int i = 0; i < 4; i++) {
+      if(_inventory[i].name == 'ironBar') {
+        _hasIron = true;
+      }
+    }
+    return _hasIron;
+  }
+
+  bool isInventoryFull() {
+    bool _full = true;
+    for (int i = 0; i < 4; i++) {
+      if(_inventory[i].name == 'empty') {
+        _full = false;
+      }
+    }
+    return _full;
+  }
+
+  Item? getFirstOfType(Item type) {
+    int pos = -1;
+    for(int i = 0; i < 4; i++) {
+      if(_inventory[i].name == type.name) {
+        pos = i;
+      }
+    }
+    if(pos == -1) {
+      return null;
+    } 
+      return _inventory[pos];
+  }
+
+  void shrugPlayer() {
+    _playAnimation = OneTimeAnimations.shrug;
   }
 }

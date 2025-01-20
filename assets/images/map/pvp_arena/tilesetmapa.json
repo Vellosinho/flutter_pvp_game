@@ -6,9 +6,35 @@
  "name":"tileset",
  "spacing":0,
  "tilecount":640,
- "tiledversion":"1.10.1",
+ "tiledversion":"1.11.1",
  "tileheight":16,
  "tiles":[
+        {
+         "id":25,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":3,
+             "name":"",
+             "objects":[
+                    {
+                     "height":15.0086608927382,
+                     "id":3,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":16.074616922052,
+                     "x":-0.0426382411725516,
+                     "y":0.980679546968688
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
         {
          "id":26,
          "type":"above"
@@ -84,7 +110,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -110,7 +135,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -136,7 +160,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -162,7 +185,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -188,7 +210,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -223,7 +244,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -325,7 +345,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -376,7 +395,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
