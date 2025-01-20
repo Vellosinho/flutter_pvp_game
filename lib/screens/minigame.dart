@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:projeto_gbb_demo/screens/pause_screens/overlay_screen.dart';
+// import 'package:flutter/src/widgets/placeholder.dart';
+// import 'package:projeto_gbb_demo/screens/pause_screens/overlay_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../game/game_controller.dart';

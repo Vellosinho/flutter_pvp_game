@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
 import 'package:provider/provider.dart';
 

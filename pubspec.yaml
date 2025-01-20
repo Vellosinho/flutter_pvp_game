@@ -34,14 +34,20 @@ flutter:
     - assets/images/
     - assets/images/tutorialNPCs/
     - assets/images/objects/
+    - assets/images/objects/anvil_minigame/
+    - assets/images/objects/sword_box/
     - assets/images/communist/
     - assets/images/capitalist/
     - assets/images/loyalist/
     - assets/images/map/
     - assets/images/map/pvp_arena/
+    - assets/images/map/new_map/
+    - assets/images/items/
     - assets/images/interface/
     - assets/images/interface/lifebar/
-    - assets/images/parallax/
+    - assets/images/interface/inventoryBar/
+    - assets/images/interface/minimap/
+    - assets/images/background/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

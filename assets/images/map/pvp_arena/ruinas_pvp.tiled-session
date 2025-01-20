@@ -3,8 +3,9 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "ruinas_pvp.json",
+    "activeFile": "tilesetmapa.json",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "Todos os Ficheiros (*)",
     "fileStates": {
@@ -12,20 +13,24 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "Stone_Ruins_Free_Tileset_NoBG_2.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 3
+        },
         "bigorna.json": {
             "scaleInDock": 1,
-            "scaleInEditor": 8
+            "scaleInEditor": 3
         },
         "bigorna.tsj": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "ruinas_pvp.json": {
-            "scale": 2,
+            "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 180,
-                "y": 269
+                "x": 259,
+                "y": 130
             }
         },
         "ruinas_pvp.tmj": {
@@ -46,22 +51,24 @@
         }
     },
     "last.exportedFilePath": "C:/Users/user/projects/projeto_gbb_demo/assets/images/map/pvp_arena",
-    "last.imagePath": "C:/Users/user/projects/projeto_gbb_demo/assets/images/map/pvp_arena",
+    "last.imagePath": "E:/projects/flutter_pvp_game/assets/images/map/pvp_arena",
     "map.height": 30,
     "map.lastUsedExportFilter": "Ficheiros de mapa JSON (*.tmj *.json)",
     "map.lastUsedFormat": "json",
-    "map.tileHeight": 16,
-    "map.tileWidth": 16,
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
     "openFiles": [
         "ruinas_pvp.json",
         "tilesetmapa.json",
-        "bigorna.json"
+        "bigorna.json",
+        "Stone_Ruins_Free_Tileset_NoBG_2.tsj"
     ],
     "project": "ruinas_pvp.tiled-project",
     "recentFiles": [
+        "ruinas_pvp.json",
+        "Stone_Ruins_Free_Tileset_NoBG_2.tsj",
         "bigorna.json",
         "tilesetmapa.json",
-        "ruinas_pvp.json",
         "bigorna.tsj",
         "ruinas_pvp.tmj",
         "tilesetmapa.tsj",
@@ -69,7 +76,7 @@
     ],
     "tileset.lastUsedFormat": "json",
     "tileset.tileSize": {
-        "height": 16,
-        "width": 16
+        "height": 32,
+        "width": 32
     }
 }

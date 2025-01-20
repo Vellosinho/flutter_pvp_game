@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:projeto_gbb_demo/game/character_faction.dart';
+import 'package:projeto_gbb_demo/game/enum/character_faction.dart';
 import 'package:provider/provider.dart';
 
 import '../game/game_sprite_sheet.dart';

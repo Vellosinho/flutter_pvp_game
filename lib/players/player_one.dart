@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/services.dart';
+import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
 
-import '../game/character_faction.dart';
+import '../game/enum/character_faction.dart';
 import '../game/game_sprite_sheet.dart';
 import 'player_consts.dart';
 
@@ -20,6 +21,9 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
   bool dashReady = true;
   bool escPressed = false;
   LocalGameController localGameController;
+
+  bool _isPlayingOneTimeAnimation = false;
+
   final String id;
   PlayerOne({
     required Vector2 position,
@@ -32,7 +36,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
   }) : super(
           position: position,
           life: playerLife,
-          initDirection: Direction.up,
+          initDirection: Direction.down,
           size: PlayerConsts.characterSize,
           animation: animations,
           speed: PlayerConsts.characterSpeed,
@@ -55,22 +59,19 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
     return super.onJoystickAction(event);
   }
 
+  @override
+    void update(double dt) {
+      playOneTimeAnimations();
+      _isPlayingOneTimeAnimation = localGameController.playAnimation != OneTimeAnimations.none;
+      super.update(dt);
+    }
+
 
   void swordsmanHitSet(JoystickActionEvent event) {
     if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady) {
         swordsmanHit();
-        Future.delayed(Duration(milliseconds: 400), () { 
-        if(localGameController.playAnimation) {
-          if(localGameController.swordScore == 250) {
-            animation?.playOnce(GameSpriteSheet.forgeLegedarySuccessful);
-          } else {
-            animation?.playOnce(GameSpriteSheet.forgeSuccessful);
-          }
-          localGameController.turnOffAnimation();
-        }
-        });
       }
-    if(event.id.keyId == LogicalKeyboardKey.keyX.keyId && dashReady) {
+    if(event.id.keyId == LogicalKeyboardKey.keyX.keyId && dashReady && !_isPlayingOneTimeAnimation) {
       swordsmanDash();
     }
     if(event.id == LogicalKeyboardKey.escape.keyId && !escPressed) {
@@ -93,7 +94,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
         simpleAttackMelee(
           sizePush: 0.2,
           damage: 10,
-          size: size * 1.4,
+          size: size * 1.15,
           animationRight: GameSpriteSheet.attackHorizontalRight,
           direction: lastDirection,
         );
@@ -151,6 +152,37 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
         dashReady = true;
     });
 
+  }
+
+  void playOneTimeAnimations() {
+    if (localGameController.playAnimation != OneTimeAnimations.none) {
+      Future.delayed(Duration(milliseconds: 0), () {
+        switch (localGameController.playAnimation) {
+          case OneTimeAnimations.swordComplete:
+            animation?.playOnce(GameSpriteSheet.forgeSuccessful);
+            turnOffAnimation();
+            return ;
+          case OneTimeAnimations.perfectSwordComplete:
+            animation?.playOnce(GameSpriteSheet.forgeLegedarySuccessful);
+            turnOffAnimation();
+            return ;
+          case OneTimeAnimations.acquiredIron:
+            animation?.playOnce(GameSpriteSheet.acquiredIron);
+            turnOffAnimation();
+            return ;
+          case OneTimeAnimations.shrug:
+            animation?.playOnce(GameSpriteSheet.communistBlacksmithShrug);
+              turnOffAnimation();
+            return ;
+          default:
+            return ;
+          }
+        }
+      );
+    }
+  }
+  void turnOffAnimation() {
+      localGameController.turnOffAnimation();
   }
 
   // Archer Skillset
