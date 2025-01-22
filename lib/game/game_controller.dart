@@ -1,3 +1,4 @@
+import 'package:bonfire/bonfire.dart';
 import 'package:flutter/foundation.dart';
 import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
 import 'package:projeto_gbb_demo/game/items/base_item.dart';
@@ -34,11 +35,14 @@ class LocalGameController with ChangeNotifier {
   int swordScore = 0;
   int minigameHitCount = 0;
   double timeCount = 0.0;
+  Vector2 minigamePos = Vector2(0,0);
   OneTimeAnimations _playAnimation = OneTimeAnimations.none;
   OneTimeAnimations get playAnimation => _playAnimation;
 
+  int stashedIron = 0;
 
-  void heal(int value) {
+
+  void heal(int value) { 
     ((_playerLife + value) > 20) ?
       _playerLife = 20 : _playerLife += value;
     notifyListeners();
@@ -85,22 +89,28 @@ class LocalGameController with ChangeNotifier {
     notifyListeners();
   }
 
-  void getIron() {
-    if (!isInventoryFull()) {
-      addToInventory(IronBar());
-      _playAnimation = OneTimeAnimations.acquiredIron;
-    } else {
-      shrugPlayer();
+    bool getIron(ironCount) {
+      if (!isInventoryFull() && (ironCount > 0)) {
+        addToInventory(IronBar());
+        stashedIron--;
+        _playAnimation = OneTimeAnimations.acquiredIron;
+        notifyListeners();
+        return true;
+      } else {
+        shrugPlayer();
+        notifyListeners();
+        return false;
+      }
     }
-    notifyListeners();
-  }
+  // Anvil functions:
 
-  void startMinigame() {
+  void startMinigame(Vector2 pos) {
     if(hasIron()) {
       removeFromInventory(IronBar());
       minigameHitCount = 0;
       swordScore = 0;
       minigameIsActive = true;
+      minigamePos = pos;
       startGameLoopCounter();
       notifyListeners();
     } else {
@@ -119,11 +129,24 @@ class LocalGameController with ChangeNotifier {
         _playAnimation = (swordScore == 250) ? OneTimeAnimations.perfectSwordComplete : OneTimeAnimations.swordComplete;
         // swords.add(ForgedSword(swordScore: swordScore, isLegendary: (swordScore == 250)));
         addToInventory(Sword(isLegenday: swordScore >= 250));
-        print("added sword: score $swordScore");
       }
       minigameIsActive = false;
     }
     notifyListeners();
+  }
+
+  void checkMinigameDistance(Vector2 currentPosition) {
+    if(minigameIsActive){
+      if (((currentPosition.x - minigamePos.x > 320) || (currentPosition.x - minigamePos.x < -320)) || ((currentPosition.y - minigamePos.y > 320) ||(currentPosition.y - minigamePos.y < -320))) {
+        cancelMinigame();
+        notifyListeners();
+      }
+    }
+  }
+
+  void cancelMinigame() {
+    minigameIsActive = false;
+    notifyListeners;
   }
 
   void turnOffAnimation() {
@@ -154,6 +177,9 @@ class LocalGameController with ChangeNotifier {
       swordScore += 50;
     }
   }
+
+
+  // Inventory Functions:
 
   void addToInventory(Item itemToAdd) {
     // _inventory.firstWhere((element) => element.name == 'empty');
@@ -208,6 +234,7 @@ class LocalGameController with ChangeNotifier {
     for(int i = 0; i < 4; i++) {
       if(_inventory[i].name == type.name) {
         pos = i;
+        break;
       }
     }
     if(pos == -1) {

@@ -61,6 +61,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
 
   @override
     void update(double dt) {
+      localGameController.checkMinigameDistance(position);
       playOneTimeAnimations();
       _isPlayingOneTimeAnimation = localGameController.playAnimation != OneTimeAnimations.none;
       super.update(dt);
