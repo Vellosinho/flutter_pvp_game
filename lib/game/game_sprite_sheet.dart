@@ -216,11 +216,18 @@ class GameObjectsSprites {
   static Future<Sprite> swordShippingBoxFour = Sprite.load('objects/sword_box/sword_box_4.png');
 
   static Future<Sprite> anvilMinigame = Sprite.load('objects/anvil_minigame.png');
+  
+  //furnace
   static Future<Sprite> furnace = Sprite.load('objects/furnace.png');
   static Future<SpriteAnimation> get activeFurnace => SpriteAnimation.load(
     'objects/active_furnace.png',
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.2, textureSize: Vector2(64,192))
   );
+
+  //
+  static Future<Sprite> launchStation = Sprite.load('objects/launch_station/launch_station_idle.png');
+  static Future<SpriteAnimation> launchStationActivation = SpriteAnimation.load('objects/launch_station/launch_station_activating.png', SpriteAnimationData.sequenced(amount: 10, stepTime: 0.2, textureSize: Vector2(92, 70)));
+  static Future<Sprite> launchStationActivated = Sprite.load('objects/launch_station/launch_station_activated.png');
 }
 
   SimpleDirectionAnimation communistArcher = SimpleDirectionAnimation(
@@ -417,6 +424,11 @@ List<Widget> getToken(CharacterClass characterClass, CharacterFaction faction) {
   // sideToken.add(InterfaceSpriteSheet.interface);
   return sideToken;
 
+}
+
+class MinigameInterface {
+  static Image get minigameBackground => Image.asset('assets/images/minigame/minigame.png',height: 400, fit: BoxFit.cover,);
+  static Image get minigameDecoration => Image.asset('assets/images/minigame/minigame_decoration.png',height: 400, fit: BoxFit.cover,);
 }
 
 class BackgroundImages {

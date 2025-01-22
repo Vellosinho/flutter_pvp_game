@@ -16,7 +16,7 @@ class SwordShippingBox extends GameDecoration with Attackable {
       return super.onLoad();
     }
 
-    List<Item> swordsInBox = [];
+    List<Sword> swordsInBox = [];
     
     @override
     void onReceiveDamage(attacker, double damage, identify) {
@@ -30,7 +30,7 @@ class SwordShippingBox extends GameDecoration with Attackable {
         clearBox();
       } else {
         if(sword != null) {
-          swordsInBox.add(sword);
+          swordsInBox.add(sword as Sword);
           localGameController.removeFromInventory(sword);
           updateShippingBoxSprite();
         } else {
@@ -43,6 +43,14 @@ class SwordShippingBox extends GameDecoration with Attackable {
     }
 
     void clearBox() {
+      int totalPoints = 0;
+
+      for (int i = 0; i < swordsInBox.length; i++) {
+        totalPoints += (swordsInBox[i].isLegenday) ? 50 : 25;
+      }
+
+      localGameController.getMoney(totalPoints);
+
       swordsInBox.clear();
       updateShippingBoxSprite();
       return;
