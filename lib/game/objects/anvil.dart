@@ -31,11 +31,17 @@ class Anvil extends GameDecoration with Attackable {
         sprite = await GameObjectsSprites.anvil;
       }
     }
+
+    @override
+  void update(double dt) {
+    updateAnvilSprite();
+    super.update(dt);
+  }
     
     @override
     void onReceiveDamage(attacker, double damage, identify) {
       localGameController.minigameIsActive ? localGameController.miniGameHit() : localGameController.startMinigame(position);
-      updateAnvilSprite();
+      // updateAnvilSprite();
       super.onReceiveDamage(attacker, 0.0, identify);
     }
 

@@ -1,4 +1,5 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
 import 'package:projeto_gbb_demo/game/game_sprite_sheet.dart';
 
@@ -11,6 +12,16 @@ class Furnace extends GameDecoration with Attackable {
 ;    @override
     Future<void> onLoad() {
       add(RectangleHitbox(size:Vector2(324, 192), position: Vector2(24, 932),));
+      setupLighting(
+        LightingConfig(
+          radius: width * 0.65,
+          align: Vector2(0, 560),
+          color: Color(0xffea5c0a).withAlpha(80),
+          blurBorder: 120, // this is a default value
+          // type: LightingType.circle, // this is a default value
+          // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
+        ),
+      );
       initFurnace();
       return super.onLoad();
     }

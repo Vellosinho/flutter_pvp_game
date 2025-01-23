@@ -1,5 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:projeto_gbb_demo/game/enum/enum_day_time.dart';
 import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
 import 'package:projeto_gbb_demo/game/items/base_item.dart';
 import 'package:projeto_gbb_demo/game/items/iron_item.dart';
@@ -8,6 +10,11 @@ import 'enum/character_class.dart';
 import 'dart:math';
 
 class LocalGameController with ChangeNotifier {
+  int hour = 06;
+  int minute = 10;
+
+  DayTime daytime = DayTime.sunrise;
+
   bool gameIsPaused = false;
   bool minigameIsActive = false;
 
@@ -155,10 +162,12 @@ class LocalGameController with ChangeNotifier {
   }
 
   Future<void> startGameLoopCounter() async {
+    Random rand = Random();
+    double randVelocity = (rand.nextInt(75) + 50) / 1000;
     timeCount = 0;
     while (minigameIsActive) {
       await Future.delayed(const Duration(milliseconds: 25), () { 
-        timeCount = timeCount + 0.075; //Increment Counter
+        timeCount = timeCount + randVelocity; //Increment Counter
       });
       notifyListeners();
     }
@@ -241,6 +250,65 @@ class LocalGameController with ChangeNotifier {
       return null;
     } 
       return _inventory[pos];
+  }
+
+  void startDaynightCycle() {
+    Future.delayed(Duration(seconds: 10), () {
+      passMinute();
+    });
+  }
+
+  void passMinute() {
+    print("$hour:$minute");
+    if (minute > 40) {
+      passHour();
+      minute = 00;
+    } else {
+      minute += 10;
+    }
+
+    updateShading();
+
+    // Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 10), () {
+      passMinute();
+    });
+  }
+
+  void passHour() {
+    if (hour > 22) {
+      hour = 00;
+    } else {
+      hour++;
+    }
+    updateShading();
+  }
+
+  void updateShading() {
+    Color nightColor = Colors.indigo[900]!.withAlpha(148);
+    Color sunRiseColor = Colors.orange[400]!.withAlpha(48);
+    Color noonColor = Colors.orange[400]!.withAlpha(0);
+
+    switch(hour) {
+      case 6:
+        daytime = DayTime.sunrise;
+        break;
+      case 7:
+        daytime = DayTime.noon;
+        break;
+      case 18:
+        daytime = DayTime.sunset;
+        break;
+      case 19:
+        daytime = DayTime.night;
+        break;
+    }
+    notifyListeners();
+  }
+
+  void turnOffTimechange() {
+    daytime = DayTime.same;
+    notifyListeners();
   }
 
   void shrugPlayer() {
