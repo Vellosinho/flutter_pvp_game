@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bonfire/bonfire.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
@@ -20,6 +21,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
   bool attackReady = true;
   bool dashReady = true;
   bool escPressed = false;
+  bool isArmed = false;
   LocalGameController localGameController;
 
   bool _isPlayingOneTimeAnimation = false;
@@ -30,7 +32,6 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
     required this.onHit,
     required this.playerLife,
     required CharacterFaction faction,
-    required SimpleDirectionAnimation animations,
     required this.localGameController,
     required this.id,
   }) : super(
@@ -38,7 +39,8 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
           life: playerLife,
           initDirection: Direction.down,
           size: PlayerConsts.characterSize,
-          animation: animations,
+          animation: communistUnarmedBlacksmith,
+          // speed: PlayerConsts.characterSpeed,
           speed: PlayerConsts.characterSpeed,
         ) {}
   @override
@@ -89,14 +91,40 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
     }
   }
 
+  void equipWeapon() {
+    gameRef.camera.animateZoom(
+      zoom: Vector2(1, 1),
+      effectController: EffectController(
+        duration: 0.250,
+        curve: Curves.easeInSine,
+      ),
+    );
+    isArmed = true;
+    replaceAnimation(communistArmedBlacksmith);
+    speed = PlayerConsts.slowCharacterSpeed;
+    
+    animation?.playOnce(GameSpriteSheet.equippingHammer);
+    animation?.play(SimpleAnimationEnum.idleDown);
+    
+    Future.delayed(Duration(seconds: 1), () {
+      gameRef.camera.animateZoom(
+      zoom: Vector2(0.96, 0.96),
+      effectController: EffectController(
+        duration: 0.250,
+        curve: Curves.easeInSine,
+      ),
+    );
+    }); 
+  }
+
   void swordsmanHit() {
     // if(hasGameRef && !gameRef.camera.) {
     if(hasGameRef) {
         simpleAttackMelee(
           sizePush: 0.2,
-          damage: 10,
+          damage: isArmed ? 20 : 5,
           size: size * 1.15,
-          animationRight: GameSpriteSheet.attackHorizontalRight,
+          animationRight: isArmed ? GameSpriteSheet.hammerAttackHorizontalRight : GameSpriteSheet.attackHorizontalRight,
           direction: lastDirection,
         );
         // position.translate(diffBase.x, diffBase.y);
@@ -120,31 +148,55 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
     );
 
 
-    FutureOr<SpriteAnimation> getAnimation(String direction) {
+    FutureOr<SpriteAnimation> getArmedAnimation(String direction) {
       switch (direction) {
         case '3.141592653589793':
-          return GameSpriteSheet.communistArcherDashLeft;
+          return GameSpriteSheet.communistArmedBlacksmithDashLeft;
         case '1.7453292519943295e-9':
-          return GameSpriteSheet.communistArcherDashRight;
+          return GameSpriteSheet.communistArmedBlacksmithDashRight;
         case '-0.7853981633974483':
-          return GameSpriteSheet.communistArcherDashBack;
+          return GameSpriteSheet.communistArmedBlacksmithDashBack;
         case '2.356194490192345':
-          return GameSpriteSheet.communistArcherDashFront;
+          return GameSpriteSheet.communistArmedBlacksmithDashFront;
         case '-2.356194490192345':
-          return GameSpriteSheet.communistArcherDashBack;
+          return GameSpriteSheet.communistArmedBlacksmithDashBack;
         case '0.7853981633974483':
-          return GameSpriteSheet.communistArcherDashFront;
+          return GameSpriteSheet.communistArmedBlacksmithDashFront;
         case '-1.5707963267948966':
-          return GameSpriteSheet.communistArcherDashBack;
+          return GameSpriteSheet.communistArmedBlacksmithDashBack;
         case '1.5707963267948966':
-          return GameSpriteSheet.communistArcherDashFront;
+          return GameSpriteSheet.communistArmedBlacksmithDashFront;
+        default:
+          return GameSpriteSheet.dummyHit;
+      }
+    }
+
+    FutureOr<SpriteAnimation> getUnarmedAnimation(String direction) {
+      switch (direction) {
+        case '3.141592653589793':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashLeft;
+        case '1.7453292519943295e-9':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashRight;
+        case '-0.7853981633974483':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashBack;
+        case '2.356194490192345':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashFront;
+        case '-2.356194490192345':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashBack;
+        case '0.7853981633974483':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashFront;
+        case '-1.5707963267948966':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashBack;
+        case '1.5707963267948966':
+          return GameSpriteSheet.communistUnarmedBlacksmithDashFront;
         default:
           return GameSpriteSheet.dummyHit;
       }
     }
 
     animation?.playOnce(
-      getAnimation(lastDirection.toRadians().toString())
+      isArmed ? getArmedAnimation(lastDirection.toRadians().toString()) 
+      : getUnarmedAnimation(lastDirection.toRadians().toString())
     );
     
     translate(diffBase);
@@ -172,8 +224,19 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
             turnOffAnimation();
             return ;
           case OneTimeAnimations.shrug:
-            animation?.playOnce(GameSpriteSheet.communistBlacksmithShrug);
+            animation?.playOnce(isArmed ? GameSpriteSheet.communistArmedBlacksmithShrug : GameSpriteSheet.communistUnarmedBlacksmithShrug);
               turnOffAnimation();
+            return ;
+          case OneTimeAnimations.acquiredHammer:
+            // equipWeapon();
+            replaceAnimation(communistArmedBlacksmith);
+            turnOffAnimation();
+            Future.delayed(Duration(milliseconds: 50),() {
+            animation?.playOnce(GameSpriteSheet.equippingHammer);
+              isArmed = true;
+              speed = PlayerConsts.slowCharacterSpeed;
+              animation?.play(SimpleAnimationEnum.idleDown);
+            });
             return ;
           default:
             return ;

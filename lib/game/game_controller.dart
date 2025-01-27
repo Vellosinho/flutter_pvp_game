@@ -10,10 +10,12 @@ import 'enum/character_class.dart';
 import 'dart:math';
 
 class LocalGameController with ChangeNotifier {
-  int hour = 06;
-  int minute = 10;
+  int hour = 5;
+  int minute = 40;
 
-  DayTime daytime = DayTime.sunrise;
+  DayTime daytime = DayTime.same;
+
+  Color mapTintColor = Colors.indigo[900]!.withAlpha(148);
 
   bool gameIsPaused = false;
   bool minigameIsActive = false;
@@ -109,10 +111,18 @@ class LocalGameController with ChangeNotifier {
         return false;
       }
     }
+
+  // Smithing Table functions:
+
+  void getWeapon() {
+    _playAnimation = OneTimeAnimations.acquiredHammer;
+    notifyListeners();
+  }
+
   // Anvil functions:
 
-  void startMinigame(Vector2 pos) {
-    if(hasIron()) {
+  void startMinigame(Vector2 pos, double damage) {
+    if(hasIron() && damage >= 15) {
       removeFromInventory(IronBar());
       minigameHitCount = 0;
       swordScore = 0;
@@ -291,15 +301,19 @@ class LocalGameController with ChangeNotifier {
 
     switch(hour) {
       case 6:
+        mapTintColor = sunRiseColor;
         daytime = DayTime.sunrise;
         break;
       case 7:
+      mapTintColor = noonColor;
         daytime = DayTime.noon;
         break;
       case 18:
+        mapTintColor = sunRiseColor;
         daytime = DayTime.sunset;
         break;
       case 19:
+        mapTintColor = nightColor;
         daytime = DayTime.night;
         break;
     }

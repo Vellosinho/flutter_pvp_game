@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
-import 'package:projeto_gbb_demo/game/game_sprite_sheet.dart';
+import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 
 class Anvil extends GameDecoration with Attackable {
   LocalGameController localGameController;
@@ -40,7 +40,7 @@ class Anvil extends GameDecoration with Attackable {
     
     @override
     void onReceiveDamage(attacker, double damage, identify) {
-      localGameController.minigameIsActive ? localGameController.miniGameHit() : localGameController.startMinigame(position);
+      localGameController.minigameIsActive ? localGameController.miniGameHit() : localGameController.startMinigame(position, damage);
       // updateAnvilSprite();
       super.onReceiveDamage(attacker, 0.0, identify);
     }

@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
-import 'package:projeto_gbb_demo/game/game_sprite_sheet.dart';
+import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 
 class Furnace extends GameDecoration with Attackable {
   LocalGameController localGameController;

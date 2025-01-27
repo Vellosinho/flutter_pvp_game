@@ -24,11 +24,14 @@ class _PlayerInterfaceState extends State<PlayerInterface> {
   @override
   Widget build(BuildContext context) {
     // return PlayerLife(game: widget.game, characterClass: widget.characterClass, characterFaction: widget.characterFaction,);
-    return Stack(
-      children: [
-        PlayerLife(game: widget.game, characterClass: widget.characterClass, characterFaction: widget.characterFaction),
-        GameMiniMap(game: widget.game),
-      ],
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          PlayerLife(game: widget.game, characterClass: widget.characterClass, characterFaction: widget.characterFaction),
+          GameMiniMap(game: widget.game),
+        ],
+      ),
     );
   }
 }
@@ -48,11 +51,11 @@ class PlayerLife extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 64),
+          padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 64),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children:  [
-                          LifebarInterface(characterClass: characterClass, characterFaction: characterFaction),
+                          // LifebarInterface(characterClass: characterClass, characterFaction: characterFaction),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
