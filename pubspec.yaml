@@ -37,11 +37,13 @@ flutter:
     - assets/images/objects/anvil_minigame/
     - assets/images/objects/launch_station/
     - assets/images/objects/sword_box/
-    - assets/images/communist/
+    - assets/images/objects/smithing_table/
+    - assets/images/communist/blacksmith/
+    - assets/images/communist/blacksmith/armed/
+    - assets/images/communist/blacksmith/unarmed/
     - assets/images/capitalist/
     - assets/images/loyalist/
     - assets/images/map/
-    - assets/images/map/pvp_arena/
     - assets/images/map/new_map/
     - assets/images/items/
     - assets/images/interface/

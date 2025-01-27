@@ -1,7 +1,7 @@
 
 import 'package:bonfire/bonfire.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
-import 'package:projeto_gbb_demo/game/game_sprite_sheet.dart';
+import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 import 'package:projeto_gbb_demo/game/items/base_item.dart';
 import 'package:projeto_gbb_demo/game/items/sword_item.dart';
 
@@ -12,7 +12,7 @@ class SwordShippingBox extends GameDecoration with Attackable {
       : super.withSprite(sprite: GameObjectsSprites.swordShippingBoxEmpty, position: position, size: Vector2(192, 192)) 
 ;    @override
     Future<void> onLoad() {
-      add(RectangleHitbox(size:Vector2(128, 64), position: Vector2(0, 64),));
+      add(RectangleHitbox(size:Vector2(192, 128), position: Vector2(0, 64),));
       return super.onLoad();
     }
 

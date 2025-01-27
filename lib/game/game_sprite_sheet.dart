@@ -7,141 +7,136 @@ import 'enum/character_faction.dart';
 
 
 class GameSpriteSheet {
-  // Archer Sprites
-  static Future<SpriteAnimation> get capitalistArcherIdleLeft => SpriteAnimation.load(
-    'capitalist/capitalist_archer_idle_left.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherIdleRight => SpriteAnimation.load(
-    'capitalist/capitalist_archer_idle_right.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherIdleFront => SpriteAnimation.load(
-    'capitalist/capitalist_archer_idle_front.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherIdleBack => SpriteAnimation.load(
-    'capitalist/capitalist_archer_idle_back.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherWalkLeft => SpriteAnimation.load(
-    'capitalist/capitalist_archer_walk_left.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherDashLeft => SpriteAnimation.load(
-    'capitalist/capitalist_archer_dash_left.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherWalkRight => SpriteAnimation.load(
-    'capitalist/capitalist_archer_walk_right.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherWalkFront => SpriteAnimation.load(
-    'capitalist/capitalist_archer_walk_front.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get capitalistArcherWalkBack => SpriteAnimation.load(
-    'capitalist/capitalist_archer_walk_back.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
   // Communist Sprites
+
+  // Blacksmith
+
+  // One Time animations
   static Future<SpriteAnimation> get forgeSuccessful => SpriteAnimation.load(
-    'communist/communist_archer_sword_complete.png',
+    'communist/blacksmith/blacksmith_sword_complete.png',
     SpriteAnimationData.sequenced(amount: 8, stepTime: 0.15, textureSize: Vector2(32, 40))
   );
   static Future<SpriteAnimation> get forgeLegedarySuccessful => SpriteAnimation.load(
-    'communist/communist_archer_legendary_sword_complete.png',
+    'communist/blacksmith/blacksmith_legendary_sword_complete.png',
     SpriteAnimationData.sequenced(amount: 8, stepTime: 0.15, textureSize: Vector2(32, 40))
   );
   static Future<SpriteAnimation> get acquiredIron => SpriteAnimation.load(
-    'communist/communist_archer_iron_acquired.png',
+    'communist/blacksmith/blacksmith_iron_acquired.png',
     SpriteAnimationData.sequenced(amount: 8, stepTime: 0.15, textureSize: Vector2(32, 40))
   );
-  static Future<SpriteAnimation> get communistBlacksmithShrug => SpriteAnimation.load(
-    'communist/communist_archer_shrug.png',
+  static Future<SpriteAnimation> get equippingHammer => SpriteAnimation.load(
+    'communist/blacksmith/blacksmith_equipping_hammer.png',
+    SpriteAnimationData.sequenced(amount: 7, stepTime: 0.2, textureSize: Vector2(32, 40))
+  );
+
+  // Armed
+  static Future<SpriteAnimation> get communistArmedBlacksmithShrug => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_shrug.png',
     SpriteAnimationData.sequenced(amount: 8, stepTime: 0.2, textureSize: Vector2(32, 40))
   );
-  static Future<SpriteAnimation> get communistArcherIdleLeft => SpriteAnimation.load(
-    'communist/communist_archer_idle_left.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithIdleLeft => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_idle_left.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherIdleRight => SpriteAnimation.load(
-    'communist/communist_archer_idle_right.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithIdleRight => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_idle_right.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherIdleFront => SpriteAnimation.load(
-    'communist/communist_archer_idle_front.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithIdleFront => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_idle_front.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherIdleBack => SpriteAnimation.load(
-    'communist/communist_archer_idle_back.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithIdleBack => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_idle_back.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherWalkLeft => SpriteAnimation.load(
-    'communist/communist_archer_walk_left.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,40))
+  static Future<SpriteAnimation> get communistArmedBlacksmithWalkLeft => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_walk_left.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.1, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherDashLeft => SpriteAnimation.load(
-    'communist/communist_archer_dash_left.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithDashLeft => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_dash_left.png',
     SpriteAnimationData.sequenced(amount:4, stepTime: 0.075, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherWalkRight => SpriteAnimation.load(
-    'communist/communist_archer_walk_right.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,40))
+  static Future<SpriteAnimation> get communistArmedBlacksmithWalkRight => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_walk_right.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.1, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherDashRight => SpriteAnimation.load(
-    'communist/communist_archer_dash_right.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithDashRight => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_dash_right.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherWalkFront => SpriteAnimation.load(
-    'communist/communist_archer_walk_front.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,40))
+  static Future<SpriteAnimation> get communistArmedBlacksmithWalkFront => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_walk_front.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.1, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherDashFront => SpriteAnimation.load(
-    'communist/communist_archer_dash_front.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithDashFront => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_dash_front.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherWalkBack => SpriteAnimation.load(
-    'communist/communist_archer_walk_back.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,40))
+  static Future<SpriteAnimation> get communistArmedBlacksmithWalkBack => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_walk_back.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.1, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get communistArcherDashBack => SpriteAnimation.load(
-    'communist/communist_archer_dash_back.png',
+  static Future<SpriteAnimation> get communistArmedBlacksmithDashBack => SpriteAnimation.load(
+    'communist/blacksmith/armed/blacksmith_dash_back.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,40))
   );
-  //Loyalist sprites
-  static Future<SpriteAnimation> get loyalistArcherIdleLeft => SpriteAnimation.load(
-    'loyalist/loyalist_archer_idle_left.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
+  // Unarmed
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithShrug => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_shrug.png',
+    SpriteAnimationData.sequenced(amount: 8, stepTime: 0.2, textureSize: Vector2(32, 40))
   );
-  static Future<SpriteAnimation> get loyalistArcherIdleRight => SpriteAnimation.load(
-    'loyalist/loyalist_archer_idle_right.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithIdleLeft => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_idle_left.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get loyalistArcherIdleFront => SpriteAnimation.load(
-    'loyalist/loyalist_archer_idle_front.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithIdleRight => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_idle_right.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get loyalistArcherIdleBack => SpriteAnimation.load(
-    'loyalist/loyalist_archer_idle_back.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithIdleFront => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_idle_front.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get loyalistArcherWalkLeft => SpriteAnimation.load(
-    'loyalist/loyalist_archer_walk_left.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithIdleBack => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_idle_back.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get loyalistArcherWalkRight => SpriteAnimation.load(
-    'loyalist/loyalist_archer_walk_right.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithWalkLeft => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_walk_left.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get loyalistArcherWalkFront => SpriteAnimation.load(
-    'loyalist/loyalist_archer_walk_front.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithDashLeft => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_dash_left.png',
+    SpriteAnimationData.sequenced(amount:4, stepTime: 0.075, textureSize: Vector2(32,40))
   );
-  static Future<SpriteAnimation> get loyalistArcherWalkBack => SpriteAnimation.load(
-    'loyalist/loyalist_archer_walk_back.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithWalkRight => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_walk_right.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,40))
   );
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithDashRight => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_dash_right.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,40))
+  );
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithWalkFront => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_walk_front.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,40))
+  );
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithDashFront => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_dash_front.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,40))
+  );
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithWalkBack => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_walk_back.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,40))
+  );
+  static Future<SpriteAnimation> get communistUnarmedBlacksmithDashBack => SpriteAnimation.load(
+    'communist/blacksmith/unarmed/blacksmith_dash_back.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(32,40))
+  );
+
+
   static Future<SpriteAnimation> get dummyStand => SpriteAnimation.load(
     'dummy_stand.png',
     SpriteAnimationData.sequenced(amount: 7, stepTime: 0.2, textureSize: Vector2(32,32))
@@ -158,158 +153,59 @@ class GameSpriteSheet {
     'horizontal_attack_right.png',
     SpriteAnimationData.sequenced(amount: 3, stepTime: 0.15, textureSize: Vector2(32,32))
   );
+  static Future<SpriteAnimation> get hammerAttackHorizontalRight => SpriteAnimation.load(
+    'hammer_attack_right.png',
+    SpriteAnimationData.sequenced(amount: 3, stepTime: 0.15, textureSize: Vector2(32,32))
+  );
   static Future<SpriteAnimation> get arrowHorizontalRight => SpriteAnimation.load(
     'arrow_right.png',
     SpriteAnimationData.sequenced(amount: 3, stepTime: 0.3  , textureSize: Vector2(22,14))
   );
 
-  //Knight Sprites
-  static Future<SpriteAnimation> get loyalistKnightIdleLeft => SpriteAnimation.load(
-    'loyalist/loyalist_knight_idle_left.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get loyalistKnightIdleRight => SpriteAnimation.load(
-    'loyalist/loyalist_knight_idle_right.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get loyalistKnightIdleFront => SpriteAnimation.load(
-    'loyalist/loyalist_knight_idle_front.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get loyalistKnightIdleBack => SpriteAnimation.load(
-    'loyalist/loyalist_knight_idle_back.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get loyalistKnightWalkLeft => SpriteAnimation.load(
-    'loyalist/loyalist_knight_walk_left.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get loyalistKnightWalkRight => SpriteAnimation.load(
-    'loyalist/loyalist_knight_walk_right.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get loyalistKnightWalkFront => SpriteAnimation.load(
-    'loyalist/loyalist_knight_walk_front.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
-  static Future<SpriteAnimation> get loyalistKnightWalkBack => SpriteAnimation.load(
-    'loyalist/loyalist_knight_walk_back.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.05, textureSize: Vector2(32,32))
-  );
   
 }
 
-class GameObjectsSprites {
-  //anvil sprites:
-  static Future<Sprite> anvil = Sprite.load('objects/anvil.png');
-  static Future<Sprite> anvilFirstHit = Sprite.load('objects/anvil_minigame/anvil_minigame_1.png');
-  static Future<Sprite> anvilSecondHit = Sprite.load('objects/anvil_minigame/anvil_minigame_2.png');
-  static Future<Sprite> anvilThirdHit = Sprite.load('objects/anvil_minigame/anvil_minigame_3.png');
-  static Future<Sprite> anvilFourthHit = Sprite.load('objects/anvil_minigame/anvil_minigame_4.png');
-  static Future<Sprite> anvilFifthHit = Sprite.load('objects/anvil_minigame/anvil_minigame_5.png');
+
+  SimpleDirectionAnimation communistArmedBlacksmith = SimpleDirectionAnimation(
+    idleRight: GameSpriteSheet.communistArmedBlacksmithIdleRight,
+    runRight: GameSpriteSheet.communistArmedBlacksmithWalkRight,
+    idleLeft: GameSpriteSheet.communistArmedBlacksmithIdleLeft,
+    runLeft: GameSpriteSheet.communistArmedBlacksmithWalkLeft,
+    idleDown: GameSpriteSheet.communistArmedBlacksmithIdleFront,
+    idleDownRight: GameSpriteSheet.communistArmedBlacksmithIdleFront,
+    idleDownLeft: GameSpriteSheet.communistArmedBlacksmithIdleFront,
+    runDown: GameSpriteSheet.communistArmedBlacksmithWalkFront,
+    runDownLeft: GameSpriteSheet.communistArmedBlacksmithWalkFront,
+    runDownRight: GameSpriteSheet.communistArmedBlacksmithWalkFront,
+    idleUp: GameSpriteSheet.communistArmedBlacksmithIdleBack,
+    idleUpRight: GameSpriteSheet.communistArmedBlacksmithIdleBack,
+    idleUpLeft: GameSpriteSheet.communistArmedBlacksmithIdleBack,
+    runUp: GameSpriteSheet.communistArmedBlacksmithWalkBack,
+    runUpRight: GameSpriteSheet.communistArmedBlacksmithWalkBack,
+    runUpLeft: GameSpriteSheet.communistArmedBlacksmithWalkBack,
+  );
   
-  //sword shipping box sprites:
-  static Future<Sprite> swordShippingBoxEmpty = Sprite.load('objects/sword_box/sword_box_0.png');
-  static Future<Sprite> swordShippingBoxOne = Sprite.load('objects/sword_box/sword_box_1.png');
-  static Future<Sprite> swordShippingBoxTwo = Sprite.load('objects/sword_box/sword_box_2.png');
-  static Future<Sprite> swordShippingBoxThree = Sprite.load('objects/sword_box/sword_box_3.png');
-  static Future<Sprite> swordShippingBoxFour = Sprite.load('objects/sword_box/sword_box_4.png');
-
-  static Future<Sprite> anvilMinigame = Sprite.load('objects/anvil_minigame.png');
-  
-  //furnace
-  static Future<Sprite> furnace = Sprite.load('objects/furnace.png');
-  static Future<SpriteAnimation> get activeFurnace => SpriteAnimation.load(
-    'objects/active_furnace.png',
-    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.2, textureSize: Vector2(64,192))
-  );
-
-  //
-  static Future<Sprite> launchStation = Sprite.load('objects/launch_station/launch_station_idle.png');
-  static Future<SpriteAnimation> launchStationActivation = SpriteAnimation.load('objects/launch_station/launch_station_activating.png', SpriteAnimationData.sequenced(amount: 10, stepTime: 0.2, textureSize: Vector2(92, 70)));
-  static Future<Sprite> launchStationActivated = Sprite.load('objects/launch_station/launch_station_activated.png');
-}
-
-  SimpleDirectionAnimation communistArcher = SimpleDirectionAnimation(
-    idleRight: GameSpriteSheet.communistArcherIdleRight,
-    runRight: GameSpriteSheet.communistArcherWalkRight,
-    idleLeft: GameSpriteSheet.communistArcherIdleLeft,
-    runLeft: GameSpriteSheet.communistArcherWalkLeft,
-    idleDown: GameSpriteSheet.communistArcherIdleFront,
-    idleDownRight: GameSpriteSheet.communistArcherIdleFront,
-    idleDownLeft: GameSpriteSheet.communistArcherIdleFront,
-    runDown: GameSpriteSheet.communistArcherWalkFront,
-    runDownLeft: GameSpriteSheet.communistArcherWalkFront,
-    runDownRight: GameSpriteSheet.communistArcherWalkFront,
-    idleUp: GameSpriteSheet.communistArcherIdleBack,
-    idleUpRight: GameSpriteSheet.communistArcherIdleBack,
-    idleUpLeft: GameSpriteSheet.communistArcherIdleBack,
-    runUp: GameSpriteSheet.communistArcherWalkBack,
-    runUpRight: GameSpriteSheet.communistArcherWalkBack,
-    runUpLeft: GameSpriteSheet.communistArcherWalkBack,
-  );
-
-  SimpleDirectionAnimation capitalistArcher = SimpleDirectionAnimation(
-    idleRight: GameSpriteSheet.capitalistArcherIdleRight,
-    runRight: GameSpriteSheet.capitalistArcherWalkRight,
-    idleLeft: GameSpriteSheet.capitalistArcherIdleLeft,
-    runLeft: GameSpriteSheet.capitalistArcherWalkLeft,
-    idleDown: GameSpriteSheet.capitalistArcherIdleFront,
-    idleDownLeft: GameSpriteSheet.capitalistArcherIdleFront,
-    idleDownRight: GameSpriteSheet.capitalistArcherIdleFront,
-    runDown: GameSpriteSheet.capitalistArcherWalkFront,
-    runDownLeft: GameSpriteSheet.capitalistArcherWalkFront,
-    runDownRight: GameSpriteSheet.capitalistArcherWalkFront,
-    idleUp: GameSpriteSheet.capitalistArcherIdleBack,
-    idleUpLeft: GameSpriteSheet.capitalistArcherIdleBack,
-    idleUpRight: GameSpriteSheet.capitalistArcherIdleBack,
-    runUp: GameSpriteSheet.capitalistArcherWalkBack,
-    runUpRight: GameSpriteSheet.capitalistArcherWalkBack,
-    runUpLeft: GameSpriteSheet.capitalistArcherWalkBack,
-  );
-
-  SimpleDirectionAnimation loyalistArcher = SimpleDirectionAnimation(
-    idleRight: GameSpriteSheet.loyalistArcherIdleRight,
-    runRight: GameSpriteSheet.loyalistArcherWalkRight,
-    idleLeft: GameSpriteSheet.loyalistArcherIdleLeft,
-    runLeft: GameSpriteSheet.loyalistArcherWalkLeft,
-    idleDown: GameSpriteSheet.loyalistArcherIdleFront,
-    idleDownRight: GameSpriteSheet.loyalistArcherIdleFront,
-    idleDownLeft: GameSpriteSheet.loyalistArcherIdleFront,
-    runDown: GameSpriteSheet.loyalistArcherWalkFront,
-    runDownLeft: GameSpriteSheet.loyalistArcherWalkFront,
-    runDownRight: GameSpriteSheet.loyalistArcherWalkFront,
-    idleUp: GameSpriteSheet.loyalistArcherIdleBack,
-    idleUpLeft: GameSpriteSheet.loyalistArcherIdleBack,
-    idleUpRight: GameSpriteSheet.loyalistArcherIdleBack,
-    runUp: GameSpriteSheet.loyalistArcherWalkBack,
-    runUpRight: GameSpriteSheet.loyalistArcherWalkBack,
-    runUpLeft: GameSpriteSheet.loyalistArcherWalkBack,
-  );
-
-  SimpleDirectionAnimation loyalistKnight = SimpleDirectionAnimation(
-    idleRight: GameSpriteSheet.loyalistKnightIdleRight,
-    runRight: GameSpriteSheet.loyalistKnightWalkRight,
-    idleLeft: GameSpriteSheet.loyalistKnightIdleLeft,
-    runLeft: GameSpriteSheet.loyalistKnightWalkLeft,
-    idleDown: GameSpriteSheet.loyalistKnightIdleFront,
-    idleDownLeft: GameSpriteSheet.loyalistKnightIdleFront,
-    idleDownRight: GameSpriteSheet.loyalistKnightIdleFront,
-    runDown: GameSpriteSheet.loyalistKnightWalkFront,
-    runDownLeft: GameSpriteSheet.loyalistKnightWalkFront,
-    runDownRight: GameSpriteSheet.loyalistKnightWalkFront,
-    idleUp: GameSpriteSheet.loyalistKnightIdleBack,
-    idleUpRight: GameSpriteSheet.loyalistKnightIdleBack,
-    idleUpLeft: GameSpriteSheet.loyalistKnightIdleBack,
-    runUp: GameSpriteSheet.loyalistKnightWalkBack,
-    runUpRight: GameSpriteSheet.loyalistKnightWalkBack,
-    runUpLeft: GameSpriteSheet.loyalistKnightWalkBack,
+  SimpleDirectionAnimation communistUnarmedBlacksmith = SimpleDirectionAnimation(
+    idleRight: GameSpriteSheet.communistUnarmedBlacksmithIdleRight,
+    runRight: GameSpriteSheet.communistUnarmedBlacksmithWalkRight,
+    idleLeft: GameSpriteSheet.communistUnarmedBlacksmithIdleLeft,
+    runLeft: GameSpriteSheet.communistUnarmedBlacksmithWalkLeft,
+    idleDown: GameSpriteSheet.communistUnarmedBlacksmithIdleFront,
+    idleDownRight: GameSpriteSheet.communistUnarmedBlacksmithIdleFront,
+    idleDownLeft: GameSpriteSheet.communistUnarmedBlacksmithIdleFront,
+    runDown: GameSpriteSheet.communistUnarmedBlacksmithWalkFront,
+    runDownLeft: GameSpriteSheet.communistUnarmedBlacksmithWalkFront,
+    runDownRight: GameSpriteSheet.communistUnarmedBlacksmithWalkFront,
+    idleUp: GameSpriteSheet.communistUnarmedBlacksmithIdleBack,
+    idleUpRight: GameSpriteSheet.communistUnarmedBlacksmithIdleBack,
+    idleUpLeft: GameSpriteSheet.communistUnarmedBlacksmithIdleBack,
+    runUp: GameSpriteSheet.communistUnarmedBlacksmithWalkBack,
+    runUpRight: GameSpriteSheet.communistUnarmedBlacksmithWalkBack,
+    runUpLeft: GameSpriteSheet.communistUnarmedBlacksmithWalkBack,
   );
 
   SimpleDirectionAnimation getAnimations(CharacterClass classe, CharacterFaction faction) {
     switch (classe) {
-      case CharacterClass.Knight:
-        return getKnightAnimations(faction);
       case CharacterClass.Archer:
         return getArcherAnimations(faction);
       default:
@@ -317,26 +213,13 @@ class GameObjectsSprites {
 
     }
   }
-  
-  SimpleDirectionAnimation getKnightAnimations(CharacterFaction faction) {
-    switch (faction) {
-      case CharacterFaction.Monarchist:
-        return loyalistKnight;
-      default:  
-        return loyalistKnight;
-    }
-  }
 
   SimpleDirectionAnimation getArcherAnimations(CharacterFaction faction) {
     switch (faction) {
       case CharacterFaction.Communist:
-        return communistArcher;
-      case CharacterFaction.Capitalist:
-        return capitalistArcher;
-      case CharacterFaction.Monarchist:
-        return loyalistArcher;
+        return communistArmedBlacksmith;
       default:
-        return capitalistArcher;
+        return communistArmedBlacksmith;
     }
   }
 
@@ -388,7 +271,8 @@ class InterfaceSpriteSheet {
   // ];
   static Image get inventoryBar => Image.asset('assets/images/interface/inventoryBar/inventory_bar.png',height: 88, fit: BoxFit.cover,);
   static Image get lifeBar => Image.asset('assets/images/interface/lifebar/lifebar.png',height: 152, fit: BoxFit.cover,);
-  static Image get miniMapDecoration => Image.asset('assets/images/interface/minimap/minimap.png',height: 320, fit: BoxFit.cover,);
+  // static Image get miniMapDecoration => Image.asset('assets/images/interface/minimap/minimap.png',height: 340, fit: BoxFit.cover,);
+  static Image get miniMapDecoration => Image.asset('assets/images/interface/minimap/complete_minimap_interface.png',height: 360, fit: BoxFit.cover,);
   //Interface elements
   static Image get coin => Image.asset('assets/images/interface/coin.png');
   static Image get people => Image.asset('assets/images/interface/people.png');

@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
-import 'package:projeto_gbb_demo/game/game_sprite_sheet.dart';
+import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 
 class LaunchStation extends GameDecoration {
   LocalGameController localGameController;

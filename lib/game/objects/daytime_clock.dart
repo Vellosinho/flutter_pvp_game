@@ -2,7 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game/enum/enum_day_time.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
-import 'package:projeto_gbb_demo/game/game_sprite_sheet.dart';
+import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 
 class DayTimeClock extends GameDecoration {
   LocalGameController localGameController;
@@ -34,19 +34,19 @@ class DayTimeClock extends GameDecoration {
     if (localGameController.daytime != DayTime.same) {
       switch (localGameController.daytime) {
         case DayTime.sunrise:
-          gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(48), duration: Duration(seconds: 5));
+          gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(48), duration: Duration(seconds: 10));
           localGameController.turnOffTimechange();
           return ;
         case DayTime.noon:
-          gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(0), duration: Duration(seconds: 5));
+          gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(0), duration: Duration(seconds: 10));
           localGameController.turnOffTimechange();
           return ;
         case DayTime.sunset:
-          gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(48), duration: Duration(seconds: 5));
+          gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(48), duration: Duration(seconds: 10));
           localGameController.turnOffTimechange();
           return ;
         case DayTime.night:
-          gameRef.lighting!.animateToColor(Colors.indigo[900]!.withAlpha(148), duration: Duration(seconds: 5));
+          gameRef.lighting!.animateToColor(Colors.indigo[900]!.withAlpha(148), duration: Duration(seconds: 10));
           localGameController.turnOffTimechange();
           return ;
         default:

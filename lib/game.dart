@@ -66,6 +66,7 @@ class _GameState extends State<Game> {
           LogicalKeyboardKey.arrowRight,
           LogicalKeyboardKey.keyZ,
           LogicalKeyboardKey.keyX,
+          LogicalKeyboardKey.keyC,
           LogicalKeyboardKey.escape,
         ] 
       ))
@@ -86,6 +87,7 @@ class _GameState extends State<Game> {
           Furnace(position: Vector2(tileSize * 21, tileSize * 11), localGameController: context.read<LocalGameController>()),
           SwordShippingBox(position: Vector2(tileSize * 19, tileSize * 18.5),localGameController: context.read<LocalGameController>()),
           LaunchStation(position: Vector2(tileSize * 14, tileSize * 9.5),localGameController: context.read<LocalGameController>()),
+          SmithingTable(position: Vector2(tileSize * 22.75, tileSize * 16.85), localGameController: context.read<LocalGameController>()),
           DayTimeClock(position: Vector2(0,0), localGameController: context.read<LocalGameController>())
         ],
         cameraConfig: CameraConfig(zoom: 0.8),
@@ -99,7 +101,6 @@ class _GameState extends State<Game> {
           },
           faction: playerFaction,
           position: Vector2(tileSize * 15, tileSize * 9.5),
-          animations: playerOneAnimations,
         ),
         overlayBuilderMap: {
           PlayerInterface.overlayKey: (context,game) => PlayerInterface(game: game, characterClass: playerOneClass, characterFaction: playerFaction),
