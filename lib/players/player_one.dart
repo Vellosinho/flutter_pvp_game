@@ -18,10 +18,18 @@ import 'player_consts.dart';
 class PlayerOne extends SimplePlayer with BlockMovementCollision {
   Function onHit;
   double playerLife;
+
+  // control booleans:
   bool attackReady = true;
   bool dashReady = true;
+  bool holdReady = true;
+  int holdHits = 0;
+
+
   bool escPressed = false;
   bool isArmed = false;
+  bool attackHold = false;
+  bool holdAttackUsed = false;
   LocalGameController localGameController;
 
   bool _isPlayingOneTimeAnimation = false;
@@ -71,9 +79,30 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
 
 
   void swordsmanHitSet(JoystickActionEvent event) {
-    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady) {
-        swordsmanHit();
+    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady && event.event == ActionEvent.DOWN && isArmed) {
+        holdHits = 0;
+        attackHold = true;
+        Future.delayed(Duration(milliseconds: 200),() {
+          if (attackHold) {
+            replaceAnimation(spinningBlacksmithAttack);
+            holdAttackUsed = true;
+            spinAttack();
+          } 
+        });
       }
+    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady && event.event == ActionEvent.UP) {
+      attackHold = false;
+      if (holdAttackUsed) {
+        holdReady = false;
+        isArmed ? replaceAnimation(communistArmedBlacksmith) : null;
+        holdAttackUsed = false;
+        Future.delayed(Duration(seconds: 5), () {
+          holdReady = true;
+          print("set HoldReady to True");
+        });
+      }
+      swordsmanHit();
+    }
     if(event.id.keyId == LogicalKeyboardKey.keyX.keyId && dashReady && !_isPlayingOneTimeAnimation) {
       swordsmanDash();
     }
@@ -91,30 +120,27 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
     }
   }
 
-  void equipWeapon() {
-    gameRef.camera.animateZoom(
-      zoom: Vector2(1, 1),
-      effectController: EffectController(
-        duration: 0.250,
-        curve: Curves.easeInSine,
-      ),
+  void spinAttack() {
+    simpleAttackMelee(
+      centerOffset: Vector2(0, 0),
+      sizePush: 0.2,
+      damage: isArmed ? 20 : 5,
+      size: Vector2(384, 384),
+      animationRight: GameSpriteSheet.hammerSpinAttack,
+      direction: lastDirection,
     );
-    isArmed = true;
-    replaceAnimation(communistArmedBlacksmith);
-    speed = PlayerConsts.slowCharacterSpeed;
-    
-    animation?.playOnce(GameSpriteSheet.equippingHammer);
-    animation?.play(SimpleAnimationEnum.idleDown);
-    
-    Future.delayed(Duration(seconds: 1), () {
-      gameRef.camera.animateZoom(
-      zoom: Vector2(0.96, 0.96),
-      effectController: EffectController(
-        duration: 0.250,
-        curve: Curves.easeInSine,
-      ),
-    );
-    }); 
+    Future.delayed(Duration(milliseconds: 300), () {
+      if(attackHold && holdHits  < 10) {
+        spinAttack();
+        holdHits++;
+      } else {
+        holdReady = false;
+        replaceAnimation(communistArmedBlacksmith);
+        Future.delayed(Duration(seconds: 5), () {
+          holdReady = true;
+        });
+      }
+    });
   }
 
   void swordsmanHit() {
@@ -167,7 +193,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
         case '1.5707963267948966':
           return GameSpriteSheet.communistArmedBlacksmithDashFront;
         default:
-          return GameSpriteSheet.dummyHit;
+          return GameSpriteSheet.communistArmedBlacksmithDashFront;
       }
     }
 
@@ -190,7 +216,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
         case '1.5707963267948966':
           return GameSpriteSheet.communistUnarmedBlacksmithDashFront;
         default:
-          return GameSpriteSheet.dummyHit;
+          return GameSpriteSheet.communistArmedBlacksmithDashFront;
       }
     }
 
@@ -231,7 +257,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
             // equipWeapon();
             replaceAnimation(communistArmedBlacksmith);
             turnOffAnimation();
-            Future.delayed(Duration(milliseconds: 50),() {
+            Future.delayed(Duration(milliseconds: 250),() {
             animation?.playOnce(GameSpriteSheet.equippingHammer);
               isArmed = true;
               speed = PlayerConsts.slowCharacterSpeed;

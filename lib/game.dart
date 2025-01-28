@@ -1,6 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projeto_gbb_demo/game/npcs/npcs.dart';
 import 'package:projeto_gbb_demo/game/objects/daytime_clock.dart';
 import 'package:projeto_gbb_demo/game/objects/objects.dart';
 import 'package:projeto_gbb_demo/parallax/parallax_clouds.dart';
@@ -12,7 +13,6 @@ import 'package:uuid/uuid.dart';
 import 'game/enum/character_class.dart';
 import 'game/enum/character_faction.dart';
 import 'game/game_controller.dart';
-import 'game/npc_definitions.dart';
 import 'players/player_consts.dart';
 import 'screens/pause_menu.dart';
 import 'package:projeto_gbb_demo/forge_minigame/minigame.dart';
@@ -55,7 +55,7 @@ class _GameState extends State<Game> {
   void onOtherPlayersHit = playerOneClass == CharacterClass.Archer ? context.read<LocalGameController>().addArrowHitCount() : context.read<LocalGameController>().addHitCount();
 
   return BonfireWidget(
-    backgroundColor: Colors.blue,
+    backgroundColor: Color(0xff2c6ec7),
     background: BonfireParallaxBackground(),
     playerControllers: [
       Keyboard(config: 
@@ -72,17 +72,14 @@ class _GameState extends State<Game> {
       ))
     ],
     // gameController: gameController,
-        lightingColorGame: Colors.indigo[900]!.withAlpha(148),
+        lightingColorGame: Colors.orange[400]!.withAlpha(48),
         components: [
           StaticDummy(hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, size: PlayerConsts.npcSize, position: Vector2(tileSize * 15, tileSize * 8), 
             minZoom: 0.8,
             controller: context.read<LocalGameController>(),
-            onHit: () {
-              // context.read<LocalGameController>().hit(2);
-              context.read<LocalGameController>().getMoney(7);
-              onOtherPlayersHit;
+            onHit: () { 
           }),
-          BlackSmithMaster(position: Vector2(tileSize * 19.25, tileSize * 15.5), size: PlayerConsts.npcSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition, controller: context.read<LocalGameController>()),
+          BlackSmithMaster(position: Vector2(tileSize * 19.25, tileSize * 15.5), size: PlayerConsts.tallNPCSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition, controller: context.read<LocalGameController>()),
           Anvil(position: Vector2(tileSize * 21.5, tileSize * 19.5), localGameController: context.read<LocalGameController>()),
           Furnace(position: Vector2(tileSize * 21, tileSize * 11), localGameController: context.read<LocalGameController>()),
           SwordShippingBox(position: Vector2(tileSize * 19, tileSize * 18.5),localGameController: context.read<LocalGameController>()),
