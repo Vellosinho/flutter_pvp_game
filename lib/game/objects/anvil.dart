@@ -9,8 +9,9 @@ class Anvil extends GameDecoration with Attackable {
       : super.withSprite(sprite: GameObjectsSprites.anvil, position: position, size: Vector2(144, 144)) 
       // : super.withSprite(sprite: GameObjectsSprites.anvil, position: position, size: Vector2(96, 96)) 
 ;    @override
-    Future<void> onLoad() {
+    Future<void> onLoad() async {
       add(RectangleHitbox(size:Vector2(144, 64), position: Vector2(0, 80),));
+      // final program = await FragmentProgram.fromAsset('shaders/myshader.frag');
       return super.onLoad();
     }
 

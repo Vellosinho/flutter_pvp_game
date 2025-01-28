@@ -6,12 +6,11 @@ import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
 import 'package:projeto_gbb_demo/game/items/base_item.dart';
 import 'package:projeto_gbb_demo/game/items/iron_item.dart';
 import 'package:projeto_gbb_demo/game/items/sword_item.dart';
-import 'enum/character_class.dart';
 import 'dart:math';
 
 class LocalGameController with ChangeNotifier {
-  int hour = 5;
-  int minute = 40;
+  int hour = 6;
+  int minute = 00;
 
   DayTime daytime = DayTime.same;
 
