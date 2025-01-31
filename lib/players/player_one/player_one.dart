@@ -1,23 +1,24 @@
 import 'dart:async';
 
 import 'package:bonfire/bonfire.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/players/player_one/player_one_animations.dart';
 
-import '../game/enum/character_faction.dart';
-import '../game/game_sprite_sheet.dart';
-import 'player_consts.dart';
+import '../../game/enum/character_faction.dart';
+import '../../game/game_sprite_sheet.dart';
+import '../player_consts.dart';
 
 /* 
   static Vector2 characterSize = Vector2(192, 192);
   static Vector2 characterHitbox = Vector2(96, 40);
 */
 
-class PlayerOne extends SimplePlayer with BlockMovementCollision {
+class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
   Function onHit;
   double playerLife;
+  PlayerOneAnimations playerOneAnimations = PlayerOneAnimations();
 
   // control booleans:
   bool attackReady = true;
@@ -54,6 +55,16 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
   @override
   Future<void> onLoad() {
     add(RectangleHitbox(size: PlayerConsts.characterHitbox, position: PlayerConsts.characterHitboxPosition));
+    setupLighting(
+      LightingConfig(
+        radius: 0,
+        color: Color(0xffea5c0a).withAlpha(80),
+        blurBorder: 160, // this is a default value
+        // type: LightingType.circle, // this is a default value
+        // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
+      ),
+    );
+    // gameRef?.camera.animateZoom(zoom: Vector2(0.8, 0.8));
     return super.onLoad();
   }
 
@@ -84,8 +95,19 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
         attackHold = true;
         Future.delayed(Duration(milliseconds: 200),() {
           if (attackHold) {
+            // setupLighting(
+            //   LightingConfig(
+            //     radius: 3 * width / 4,
+            //     color: Color(0xffea5c0a).withAlpha(80),
+            //     blurBorder: 80, // this is a default value
+            //     align: Vector2(0, 128),
+            //     // type: LightingType.circle, // this is a default value
+            //     // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
+            //   ),
+            // );
             replaceAnimation(spinningBlacksmithAttack);
             holdAttackUsed = true;
+            holdReady = false;
             spinAttack();
           } 
         });
@@ -93,13 +115,18 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
     if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady && event.event == ActionEvent.UP) {
       attackHold = false;
       if (holdAttackUsed) {
+        // setupLighting(
+        //   LightingConfig(
+        //     radius: 0,
+        //     color: Color(0xffea5c0a).withAlpha(80),
+        //     blurBorder: 160, // this is a default value
+        //     // type: LightingType.circle, // this is a default value
+        //     // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
+        //   ),
+        // );
         holdReady = false;
         isArmed ? replaceAnimation(communistArmedBlacksmith) : null;
         holdAttackUsed = false;
-        Future.delayed(Duration(seconds: 5), () {
-          holdReady = true;
-          print("set HoldReady to True");
-        });
       }
       swordsmanHit();
     }
@@ -122,12 +149,13 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
 
   void spinAttack() {
     simpleAttackMelee(
-      centerOffset: Vector2(0, 0),
-      sizePush: 0.2,
-      damage: isArmed ? 20 : 5,
-      size: Vector2(384, 384),
+      centerOffset: Vector2(-96, 0),
+      // sizePush: 0.2,
+      withPush: false,
+      damage: 10,
+      size: Vector2(384, 276),
       animationRight: GameSpriteSheet.hammerSpinAttack,
-      direction: lastDirection,
+      direction: Direction.right,
     );
     Future.delayed(Duration(milliseconds: 300), () {
       if(attackHold && holdHits  < 10) {
@@ -135,8 +163,16 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
         holdHits++;
       } else {
         holdReady = false;
+          // setupLighting(
+          // LightingConfig(
+          //   radius: 0,
+          //   color: Color(0xffea5c0a).withAlpha(80),
+          //   blurBorder: 160,
+          //   align: Vector2(96, 0)
+          //   ),
+          // );
         replaceAnimation(communistArmedBlacksmith);
-        Future.delayed(Duration(seconds: 5), () {
+        Future.delayed(Duration(seconds: 10), () {
           holdReady = true;
         });
       }
@@ -145,6 +181,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
 
   void swordsmanHit() {
     // if(hasGameRef && !gameRef.camera.) {
+    print(position);
     if(hasGameRef) {
         simpleAttackMelee(
           sizePush: 0.2,
@@ -173,56 +210,9 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision {
       lastDirection.toRadians(),
     );
 
-
-    FutureOr<SpriteAnimation> getArmedAnimation(String direction) {
-      switch (direction) {
-        case '3.141592653589793':
-          return GameSpriteSheet.communistArmedBlacksmithDashLeft;
-        case '1.7453292519943295e-9':
-          return GameSpriteSheet.communistArmedBlacksmithDashRight;
-        case '-0.7853981633974483':
-          return GameSpriteSheet.communistArmedBlacksmithDashBack;
-        case '2.356194490192345':
-          return GameSpriteSheet.communistArmedBlacksmithDashFront;
-        case '-2.356194490192345':
-          return GameSpriteSheet.communistArmedBlacksmithDashBack;
-        case '0.7853981633974483':
-          return GameSpriteSheet.communistArmedBlacksmithDashFront;
-        case '-1.5707963267948966':
-          return GameSpriteSheet.communistArmedBlacksmithDashBack;
-        case '1.5707963267948966':
-          return GameSpriteSheet.communistArmedBlacksmithDashFront;
-        default:
-          return GameSpriteSheet.communistArmedBlacksmithDashFront;
-      }
-    }
-
-    FutureOr<SpriteAnimation> getUnarmedAnimation(String direction) {
-      switch (direction) {
-        case '3.141592653589793':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashLeft;
-        case '1.7453292519943295e-9':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashRight;
-        case '-0.7853981633974483':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashBack;
-        case '2.356194490192345':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashFront;
-        case '-2.356194490192345':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashBack;
-        case '0.7853981633974483':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashFront;
-        case '-1.5707963267948966':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashBack;
-        case '1.5707963267948966':
-          return GameSpriteSheet.communistUnarmedBlacksmithDashFront;
-        default:
-          return GameSpriteSheet.communistArmedBlacksmithDashFront;
-      }
-    }
-
     animation?.playOnce(
-      isArmed ? getArmedAnimation(lastDirection.toRadians().toString()) 
-      : getUnarmedAnimation(lastDirection.toRadians().toString())
+      isArmed ? playerOneAnimations.getArmedAnimation(lastDirection.toRadians().toString()) 
+      : playerOneAnimations.getUnarmedAnimation(lastDirection.toRadians().toString())
     );
     
     translate(diffBase);

@@ -192,7 +192,11 @@ class GameSpriteSheet {
   );
   static Future<SpriteAnimation> get hammerSpinAttack => SpriteAnimation.load(
     'hammer_spin_attack.png',
-    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(64,64))
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(64,46))
+  );
+  static Future<SpriteAnimation> get hammerSpinAttackFire => SpriteAnimation.load(
+    'fire_hammer_spin_attack.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(64,46))
   );
   
 }

@@ -57,10 +57,9 @@ packages:
   bonfire:
     dependency: "direct main"
     description:
-      name: bonfire
-      sha256: c8a2db06bee8165a7da8ff43224cf632f76357da0298f49f1d9f25f43dcc9578
-      url: "https://pub.dev"
-    source: hosted
+      path: "bonfire-3.10.0-hijacking"
+      relative: true
+    source: path
     version: "3.10.0"
   boolean_selector:
     dependency: transitive

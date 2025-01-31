@@ -2,7 +2,9 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game/enum/enum_day_time.dart';
 import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/npcs/farmerNPC/farmer_npc.dart';
 import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
+import 'package:projeto_gbb_demo/players/player_consts.dart';
 
 class DayTimeClock extends GameDecoration {
   LocalGameController localGameController;
@@ -13,13 +15,14 @@ class DayTimeClock extends GameDecoration {
 ;    @override
     Future<void> onLoad() {
       localGameController.startDaynightCycle();
+      updateNpcRoutine();
+      updateGameLighting();
       print('initialized Daynight Cycle');
       return super.onLoad();
     }
 
     @override
     void update(double dt) {
-      updateGameLighting();
         // do anything
         super.update(dt); 
     }
@@ -31,6 +34,10 @@ class DayTimeClock extends GameDecoration {
     // }
 
     void updateGameLighting() {
+    print("updating Game lighting");
+    Future.delayed(Duration(seconds: 10), () {
+      updateGameLighting();
+    });
     if (localGameController.daytime != DayTime.same) {
       switch (localGameController.daytime) {
         case DayTime.sunrise:
@@ -54,4 +61,21 @@ class DayTimeClock extends GameDecoration {
         }
     }
   }
+
+  void updateNpcRoutine() {
+    print("updating Npc Routines");
+    int time = localGameController.getTime();
+
+    switch (time) {
+      case 630:
+        gameRef.add(FarmerNPC(position: Vector2(1501, 2770), size: PlayerConsts.tallNPCSize, initDirection: Direction.right, controller: localGameController),);
+        break;
+      default:
+    }
+
+    Future.delayed(Duration(seconds: 10), () {
+      updateNpcRoutine();
+    });
+  }
+  
 } 

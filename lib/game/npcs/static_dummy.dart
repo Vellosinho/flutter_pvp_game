@@ -12,6 +12,18 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
   double minZoom;
   int hitCount = 0;
 
+  SimpleDirectionAnimation dummyAnimations = SimpleDirectionAnimation(
+    idleDown: NPCSprites.dummyStand,
+    idleRight: NPCSprites.dummyStand,
+    runRight: NPCSprites.dummyStand,
+  );
+
+  SimpleDirectionAnimation emptyAnimations = SimpleDirectionAnimation(
+      idleDown: NPCSprites.empty,
+      idleRight: NPCSprites.empty,
+      runRight: NPCSprites.empty,
+  );
+
   StaticDummy({
     required Vector2 position,  
     required Vector2 size,
@@ -25,10 +37,9 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
     size: size,
     speed: 0,
     animation: SimpleDirectionAnimation(
-      idleDown: NPCSprites.dummyStand,
-      idleRight: NPCSprites.dummyStand,
-      runRight: NPCSprites.dummyStand,
-      
+      idleDown: NPCSprites.empty,
+      idleRight: NPCSprites.empty,
+      runRight: NPCSprites.empty,
     ),
     ) {}
 
@@ -38,7 +49,11 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
         size: hitboxSize,
         position: hitboxPosition,));
 
-      animation?.playOnce(NPCSprites.dummyCreate);
+        replaceAnimation(dummyAnimations);
+      Future.delayed(Duration(milliseconds: 20), () {
+        animation?.playOnce(NPCSprites.dummyCreate);
+      });
+      
       return super.onLoad();
     }
 
