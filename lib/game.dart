@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'game/enum/character_class.dart';
 import 'game/enum/character_faction.dart';
-import 'game/game_controller.dart';
+import 'game/controller/game_controller.dart';
 import 'players/player_consts.dart';
 import 'screens/pause_menu.dart';
 import 'package:projeto_gbb_demo/forge_minigame/minigame.dart';
@@ -41,7 +41,6 @@ class _GameState extends State<Game> {
     playerFaction = context.read<PlayerConsts>().faccao;
     playerOneAnimations = getAnimations(playerOneClass, playerFaction);
     id = const Uuid().v1();
-    CameraConfig renderAllConfig = CameraConfig(zoom: 0.1);
     // gameController = GameController();
     super.initState();
     

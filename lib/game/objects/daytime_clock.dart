@@ -1,10 +1,13 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto_gbb_demo/game/controller/npc_controller.dart';
 import 'package:projeto_gbb_demo/game/enum/enum_day_time.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/npcs/farmerNPC/farmer_npc.dart';
 import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
+import 'package:projeto_gbb_demo/game/structs/npc_structure.dart';
 import 'package:projeto_gbb_demo/players/player_consts.dart';
+import 'package:provider/provider.dart';
 
 class DayTimeClock extends GameDecoration {
   LocalGameController localGameController;
@@ -66,11 +69,12 @@ class DayTimeClock extends GameDecoration {
     print("updating Npc Routines");
     int time = localGameController.getTime();
 
-    switch (time) {
-      case 630:
-        gameRef.add(FarmerNPC(position: Vector2(1501, 2770), size: PlayerConsts.tallNPCSize, initDirection: Direction.right, controller: localGameController),);
-        break;
-      default:
+    List<NpcStructure> npcs = context.read<NPCController>().getSpawningNpcs(localGameController.getTime());
+
+    for(int i = 0; i < npcs.length; i++){
+      gameRef.add(
+        FarmerNPC(position: npcs[i].spawningLocation, initDirection: Direction.right, index: npcs[i].index, controller: localGameController, dialogue: npcs[i].dialogue)
+      );
     }
 
     Future.delayed(Duration(seconds: 10), () {

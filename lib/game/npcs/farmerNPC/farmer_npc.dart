@@ -1,34 +1,52 @@
 import 'dart:math';
 
 import 'package:bonfire/bonfire.dart';
-import 'package:projeto_gbb_demo/game.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/npcs/farmerNPC/farmer_ally.dart';
+import 'package:projeto_gbb_demo/game/npcs/npcFunctionalities/npc_dialogue.dart';
+import 'package:projeto_gbb_demo/game/npcs/npcFunctionalities/npc_say.dart';
 import 'package:projeto_gbb_demo/game/npcs/npc_points_of_interest.dart';
 import 'package:projeto_gbb_demo/game/npcs/npcs_sprite_sheet.dart';
 import 'package:projeto_gbb_demo/players/player_consts.dart';
+import 'package:provider/provider.dart';
+import 'package:projeto_gbb_demo/game/controller/npc_controller.dart';
 
 class FarmerNPC extends SimpleAlly {
   LocalGameController controller;
   bool isbusy = false;
+  int index = 0;
+  int currentConversation = 0;
+  bool willTalk = true;
+  List<List<NpcDialogue>> dialogue;
 
-  Vector2 destiny = PointsOfInterest.blacksmithMaster;
-  Function task = () {};
+  Vector2 currentDestination = PointsOfInterest.blacksmithMaster;
+  Function currentTask = () {};
 
   FarmerNPC({
-    required Vector2 position,  
-    required Vector2 size,
+    required Vector2 position,
     required Direction initDirection,
+    required this.dialogue,
+    required int index,
     required this.controller,
   }) : super(
     position: position,
-    size: size,
+    size: PlayerConsts.tallNPCSize,
     speed: PlayerConsts.npcSpeed / 2,
     initDirection: initDirection,
     animation: NeutralFarmerNPCSprites().neutralFarmerAnimations,
     receivesAttackFrom: AcceptableAttackOriginEnum.ALL,
     keepRendered: true,
     );
+
+    // List<List<NpcDialogue>> dialogue = [
+    //   [NpcDialogue(
+    //     npcLines: Say(text: [const TextSpan(text: 'Estou cansada de comer morangos, queria que essa fazenda fosse minha para plantar o que eu quiser')],),
+    //     answers:['Porque voce nao compra uma?', 'Porque esta me dizendo isso?', 'Talvez um dia voce possa...'], correctAnswer: 2),],
+    //   [NpcDialogue(
+    //     npcLines: Say(text: [const TextSpan(text: 'Eu sou muito grata ao dono dessas terras, ele me da abrigo, comida... O que seria de mim sem ele?')],),
+    //     answers: ['Voce seria desempregada', 'Voce seria livre', 'Voce passaria fome'], correctAnswer: 1),],
+    // ];
 
     @override
     Future<void> onLoad() {
@@ -44,13 +62,32 @@ class FarmerNPC extends SimpleAlly {
       // if (willTalk) {
       //   TalkDialog.show(context, getCurrentLines(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
       // }
-      convert();
+      // convert();
+      if (willTalk && currentConversation < dialogue.length) {
+        talk();
+      }
+      checkAffinity();
+      willTalk = !willTalk;
       super.onReceiveDamage(attacker, 0, identify);
+    }
+
+    void checkAffinity() {
+      if (context.read<NPCController>().npcs[index].affinity >= 5) {
+        convert();
+      }
+    }
+
+    void talk() {
+      NPCDialog.show(
+        context, index, dialogue[currentConversation], style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5, color: Colors.white),
+        );
+        currentConversation++;
     }
 
     void convert() {
       controller.playerFollowersAdd();
       gameRef.add(FarmerAlly(position: position, size: size, hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, controller: controller));
+      toggleKeepRendered();
       removeFromParent();
     }
 
@@ -59,16 +96,15 @@ class FarmerNPC extends SimpleAlly {
       // moveToPosition(Vector2(1749.2115225360892,4038.724698533417));
       // goToDestiny()
       checkHasToMove();
-      (gameRef as BonfireGame).addVisible(this);
       super.update(dt);
     }
 
     void checkHasToMove() {
-      if (((position.x >= destiny.x - 200) && (position.x <= destiny.x + 200)) && ((position.y >= destiny.y - 200) && (position.y <= destiny.y + 200))) {
+      if (((position.x >= currentDestination.x - 175) && (position.x <= currentDestination.x + 175)) && ((position.y >= currentDestination.y - 175) && (position.y <= currentDestination.y + 175))) {
         stopMove();
         if (!isbusy) {
           isbusy = true;
-          task();
+          currentTask();
         }
       }else {
         isbusy = false;
@@ -85,7 +121,7 @@ class FarmerNPC extends SimpleAlly {
     }
 
     void goToDestiny() {
-      moveToPosition(destiny);
+      moveToPosition(currentDestination);
     }
 
     void initializeRoutine() {
@@ -93,8 +129,7 @@ class FarmerNPC extends SimpleAlly {
 
       switch (time) {
         case 700:
-          // shuffleRoutine();
-          read();
+          shuffleRoutine();
           break;
         case 1100:
           shuffleRoutine();
@@ -104,6 +139,9 @@ class FarmerNPC extends SimpleAlly {
           break;
         case 1800:
           print('Day over');
+          break;
+        case 1850:
+          returnHome();
           break;
         //   stopMove();
         //   moveLeft();
@@ -148,41 +186,63 @@ class FarmerNPC extends SimpleAlly {
   }
 
   void read() {
-    print("reading");
-    destiny = PointsOfInterest.readingTree;
-    task =() {
-      replaceAnimation(NeutralFarmerNPCSprites().neutralFarmerReading);
-      Future.delayed(Duration(milliseconds: 100), () {
-        animation?.play(SimpleAnimationEnum.idleDown);
-      });
-    };
+    setDestinationTask (
+      destination: PointsOfInterest.readingTree,
+      onArrival: () {
+        replaceAnimation(NeutralFarmerNPCSprites().neutralFarmerReading);
+        Future.delayed(Duration(milliseconds: 100), () {
+          animation?.play(SimpleAnimationEnum.idleDown);
+        });
+      },
+    );
   }
 
   void pray() {
-    print("praying");
-    destiny = PointsOfInterest.goddessStatue;
-    task = () {
+    setDestinationTask(destination: PointsOfInterest.goddessStatue, onArrival: () {
       replaceAnimation(NeutralFarmerNPCSprites().neutralFarmerPraying);
       Future.delayed(Duration(milliseconds: 100), () {
         animation?.play(SimpleAnimationEnum.idleDown);
       });
-    };
+    }
+    );
+    
   }
 
    void gatherStrawberry() {
-    print("gathering Straberries");
-    destiny = PointsOfInterest.straberryBush;
-    task = () {
-      replaceAnimation(NeutralFarmerNPCSprites().farmerGathering);
-      Future.delayed(Duration(milliseconds: 100), () {
-        animation?.play(SimpleAnimationEnum.idleDown);
-      });
-    };
+    setDestinationTask(
+      destination: PointsOfInterest.straberryBush,
+      onArrival: () {
+        replaceAnimation(NeutralFarmerNPCSprites().farmerGathering);
+        Future.delayed(Duration(milliseconds: 100), () {
+          animation?.play(SimpleAnimationEnum.idleDown);
+        });
+      },
+    );
 
   }
 
   void returnHome() {
-    print('returning Home');
-    // destiny()
+    setDestinationTask(
+      destination: PointsOfInterest.farmersHouse, 
+      onArrival: () {
+      toggleKeepRendered();
+      context.read<NPCController>().npcs[index].isInGame = false;
+      removeFromParent();
+    });
+  }
+
+  void setDestinationTask({required Vector2 destination, required Function onArrival}) {
+    if(!isCloseEnoughToDestination(destination)) {
+      replaceAnimation(NeutralFarmerNPCSprites().neutralFarmerAnimations);
+
+      currentDestination = destination;
+      currentTask = () {
+        onArrival();
+      };
+    }
+  }
+  
+  bool isCloseEnoughToDestination(Vector2 destination) {
+    return ((position.x >= destination.x - 175) && (position.x <= destination.x + 175)) && ((position.y >= destination.y - 175) && (position.y <= destination.y + 175));
   }
 }

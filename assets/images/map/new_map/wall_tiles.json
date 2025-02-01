@@ -1242,7 +1242,8 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "type":"above"
         }, 
         {
          "id":218,
@@ -1267,7 +1268,8 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "type":"above"
         }, 
         {
          "id":219,
@@ -1292,7 +1294,8 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "type":"above"
         }, 
         {
          "id":220,

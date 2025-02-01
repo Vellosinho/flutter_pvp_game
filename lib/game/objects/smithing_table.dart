@@ -1,5 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 
 class SmithingTable extends GameDecoration with Attackable {

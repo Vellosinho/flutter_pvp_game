@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/npcs/npcs_sprite_sheet.dart';
 
 class BlackSmithMaster extends SimpleAlly with Lighting {
@@ -21,6 +21,7 @@ class BlackSmithMaster extends SimpleAlly with Lighting {
     speed: 0,
     animation: SimpleDirectionAnimation(
       idleDown: NPCSprites.smithMasterStand,
+      idleLeft: NPCSprites.smithMasterStandLeft,
       idleRight: NPCSprites.smithMasterStand,
       runRight: NPCSprites.smithMasterStand,
     ),
@@ -40,6 +41,7 @@ class BlackSmithMaster extends SimpleAlly with Lighting {
     @override
     Future<void> onLoad() {
       add(RectangleHitbox(size: hitboxSize, position: hitboxPosition));
+      initializeRoutine();
       return super.onLoad();
     }
 
@@ -90,4 +92,24 @@ class BlackSmithMaster extends SimpleAlly with Lighting {
     //     }
     //   }
     // }
+
+    void initializeRoutine() {
+      int time = controller.getTime();
+
+      switch (time) {
+        case 640:
+          animation?.play(SimpleAnimationEnum.idleLeft);
+          break;
+        case 700:
+          animation?.play(SimpleAnimationEnum.idleDown);
+          break;
+        default:
+          // stopMove();
+      }
+      
+      
+      Future.delayed(Duration(seconds: 10), () {
+        initializeRoutine();
+      });
+    }
 }

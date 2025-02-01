@@ -7,7 +7,7 @@ import 'package:projeto_gbb_demo/common/common.dart';
 // import 'package:projeto_gbb_demo/screens/pause_screens/overlay_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../game/game_controller.dart';
+import '../game/controller/game_controller.dart';
 
 class MiniGame extends StatelessWidget {
   static const overlayKey = 'minigameOverlay';

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/players/player_one/player_one_animations.dart';
 
 import '../../game/enum/character_faction.dart';
@@ -186,6 +186,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
         simpleAttackMelee(
           sizePush: 0.2,
           damage: isArmed ? 20 : 5,
+          withPush: isArmed ? true : false,
           size: size * 1.15,
           animationRight: isArmed ? GameSpriteSheet.hammerAttackHorizontalRight : GameSpriteSheet.attackHorizontalRight,
           direction: lastDirection,

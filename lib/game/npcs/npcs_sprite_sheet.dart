@@ -9,6 +9,10 @@ class NPCSprites {
     'tutorialNPCs/smith_master_idle.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,34))
   );
+  static Future<SpriteAnimation> get smithMasterStandLeft => SpriteAnimation.load(
+    'tutorialNPCs/smith_master_idle_left.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,34))
+  );
   static Future<SpriteAnimation> get dummyHit => SpriteAnimation.load(
     'dummy_hit.png',
     SpriteAnimationData.sequenced(amount: 3, stepTime: 0.2, textureSize: Vector2(32,32))
