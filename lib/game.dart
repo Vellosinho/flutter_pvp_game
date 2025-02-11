@@ -1,5 +1,4 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire/camera/bonfire_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_gbb_demo/game/npcs/npcs.dart';
@@ -86,7 +85,7 @@ class _GameState extends State<Game> {
           Anvil(position: Vector2(tileSize * 21.5, tileSize * 19.5), localGameController: gameController),
           Furnace(position: Vector2(tileSize * 21, tileSize * 11), localGameController: gameController),
           SwordShippingBox(position: Vector2(tileSize * 19, tileSize * 18.5),localGameController: gameController),
-          LaunchStation(position: Vector2(tileSize * 14, tileSize * 9.5),localGameController: gameController),
+          LaunchStation(position: Vector2(tileSize * 14, tileSize * 13.5),localGameController: gameController),
           SmithingTable(position: Vector2(tileSize * 22.75, tileSize * 16.85), localGameController: gameController),
           DayTimeClock(position: Vector2(0,0), localGameController: gameController)
         ],
@@ -101,7 +100,7 @@ class _GameState extends State<Game> {
             gameController.hit(2);
           },
           faction: playerFaction,
-          position: Vector2(tileSize * 15, tileSize * 9.5),
+          position: Vector2(tileSize * 15, tileSize * 13.5),
         ),
         overlayBuilderMap: {
           PlayerInterface.overlayKey: (context,game) => PlayerInterface(game: game, characterClass: playerOneClass, characterFaction: playerFaction),

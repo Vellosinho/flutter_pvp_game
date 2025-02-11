@@ -6,7 +6,6 @@ import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/npcs/farmerNPC/farmer_npc.dart';
 import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 import 'package:projeto_gbb_demo/game/structs/npc_structure.dart';
-import 'package:projeto_gbb_demo/players/player_consts.dart';
 import 'package:provider/provider.dart';
 
 class DayTimeClock extends GameDecoration {
@@ -45,7 +44,7 @@ class DayTimeClock extends GameDecoration {
       switch (localGameController.daytime) {
         case DayTime.sunrise:
           gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(48), duration: Duration(seconds: 10));
-          localGameController.turnOffTimechange();
+          localGameController.turnOffTimechange();  
           return ;
         case DayTime.noon:
           gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(0), duration: Duration(seconds: 10));
@@ -66,10 +65,9 @@ class DayTimeClock extends GameDecoration {
   }
 
   void updateNpcRoutine() {
-    print("updating Npc Routines");
     int time = localGameController.getTime();
 
-    List<NpcStructure> npcs = context.read<NPCController>().getSpawningNpcs(localGameController.getTime());
+    List<NpcStructure> npcs = context.read<NPCController>().getSpawningNpcs(time);
 
     for(int i = 0; i < npcs.length; i++){
       gameRef.add(
