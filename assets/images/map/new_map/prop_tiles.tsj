@@ -168,7 +168,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -199,7 +198,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -290,6 +288,22 @@
             }
         }, 
         {
+         "id":189,
+         "type":"above"
+        }, 
+        {
+         "id":190,
+         "type":"above"
+        }, 
+        {
+         "id":205,
+         "type":"above"
+        }, 
+        {
+         "id":206,
+         "type":"above"
+        }, 
+        {
          "id":208,
          "objectgroup":
             {
@@ -344,7 +358,6 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
@@ -355,6 +368,58 @@
                      "type":"",
                      "visible":true,
                      "width":22.8181818181818,
+                     "x":0,
+                     "y":0
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":221,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":32,
+                     "id":1,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":32,
+                     "x":0,
+                     "y":0
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":222,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":32,
+                     "id":1,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":32,
                      "x":0,
                      "y":0
                     }],

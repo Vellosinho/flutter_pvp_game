@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/npcs/npcs_sprite_sheet.dart';
 
 class StaticDummy extends SimpleEnemy with BlockMovementCollision{
@@ -11,6 +11,18 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
   LocalGameController controller;
   double minZoom;
   int hitCount = 0;
+
+  SimpleDirectionAnimation dummyAnimations = SimpleDirectionAnimation(
+    idleDown: NPCSprites.dummyStand,
+    idleRight: NPCSprites.dummyStand,
+    runRight: NPCSprites.dummyStand,
+  );
+
+  SimpleDirectionAnimation emptyAnimations = SimpleDirectionAnimation(
+      idleDown: NPCSprites.empty,
+      idleRight: NPCSprites.empty,
+      runRight: NPCSprites.empty,
+  );
 
   StaticDummy({
     required Vector2 position,  
@@ -25,10 +37,9 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
     size: size,
     speed: 0,
     animation: SimpleDirectionAnimation(
-      idleDown: NPCSprites.dummyStand,
-      idleRight: NPCSprites.dummyStand,
-      runRight: NPCSprites.dummyStand,
-      
+      idleDown: NPCSprites.empty,
+      idleRight: NPCSprites.empty,
+      runRight: NPCSprites.empty,
     ),
     ) {}
 
@@ -38,7 +49,11 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
         size: hitboxSize,
         position: hitboxPosition,));
 
-      animation?.playOnce(NPCSprites.dummyCreate);
+        replaceAnimation(dummyAnimations);
+      Future.delayed(Duration(milliseconds: 20), () {
+        animation?.playOnce(NPCSprites.dummyCreate);
+      });
+      
       return super.onLoad();
     }
 

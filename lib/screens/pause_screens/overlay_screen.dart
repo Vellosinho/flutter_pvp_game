@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../../game/game_sprite_sheet.dart';

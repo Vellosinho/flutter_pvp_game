@@ -1,8 +1,12 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto_gbb_demo/game/controller/npc_controller.dart';
 import 'package:projeto_gbb_demo/game/enum/enum_day_time.dart';
-import 'package:projeto_gbb_demo/game/game_controller.dart';
+import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
+import 'package:projeto_gbb_demo/game/npcs/farmerNPC/farmer_npc.dart';
 import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
+import 'package:projeto_gbb_demo/game/structs/npc_structure.dart';
+import 'package:provider/provider.dart';
 
 class DayTimeClock extends GameDecoration {
   LocalGameController localGameController;
@@ -13,13 +17,14 @@ class DayTimeClock extends GameDecoration {
 ;    @override
     Future<void> onLoad() {
       localGameController.startDaynightCycle();
+      updateNpcRoutine();
+      updateGameLighting();
       print('initialized Daynight Cycle');
       return super.onLoad();
     }
 
     @override
     void update(double dt) {
-      updateGameLighting();
         // do anything
         super.update(dt); 
     }
@@ -31,11 +36,15 @@ class DayTimeClock extends GameDecoration {
     // }
 
     void updateGameLighting() {
+    print("updating Game lighting");
+    Future.delayed(Duration(seconds: 10), () {
+      updateGameLighting();
+    });
     if (localGameController.daytime != DayTime.same) {
       switch (localGameController.daytime) {
         case DayTime.sunrise:
           gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(48), duration: Duration(seconds: 10));
-          localGameController.turnOffTimechange();
+          localGameController.turnOffTimechange();  
           return ;
         case DayTime.noon:
           gameRef.lighting!.animateToColor(Colors.orange[400]!.withAlpha(0), duration: Duration(seconds: 10));
@@ -54,4 +63,21 @@ class DayTimeClock extends GameDecoration {
         }
     }
   }
+
+  void updateNpcRoutine() {
+    int time = localGameController.getTime();
+
+    List<NpcStructure> npcs = context.read<NPCController>().getSpawningNpcs(time);
+
+    for(int i = 0; i < npcs.length; i++){
+      gameRef.add(
+        FarmerNPC(position: npcs[i].spawningLocation, initDirection: Direction.right, index: npcs[i].index, controller: localGameController, dialogue: npcs[i].dialogue)
+      );
+    }
+
+    Future.delayed(Duration(seconds: 10), () {
+      updateNpcRoutine();
+    });
+  }
+  
 } 

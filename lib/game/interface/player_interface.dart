@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game/interface/minimap.dart';
 import 'package:projeto_gbb_demo/game/items/base_item.dart';
 import '../enum/character_faction.dart';
-import '../game_controller.dart';
+import '../controller/game_controller.dart';
 import '../game_sprite_sheet.dart';
 import 'package:provider/provider.dart';
 import '../enum/character_class.dart';

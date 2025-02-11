@@ -7,12 +7,12 @@ import 'package:projeto_gbb_demo/game/objects/objects.dart';
 import 'package:projeto_gbb_demo/parallax/parallax_clouds.dart';
 import 'game/game_sprite_sheet.dart';
 import 'game/interface/player_interface.dart';
-import 'players/player_one.dart';
+import 'players/player_one/player_one.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'game/enum/character_class.dart';
 import 'game/enum/character_faction.dart';
-import 'game/game_controller.dart';
+import 'game/controller/game_controller.dart';
 import 'players/player_consts.dart';
 import 'screens/pause_menu.dart';
 import 'package:projeto_gbb_demo/forge_minigame/minigame.dart';
@@ -49,12 +49,14 @@ class _GameState extends State<Game> {
   void dispose() {
     super.dispose();
   }
+  
 
   @override
   Widget build(BuildContext context) {
-  void onOtherPlayersHit = playerOneClass == CharacterClass.Archer ? context.read<LocalGameController>().addArrowHitCount() : context.read<LocalGameController>().addHitCount();
+  LocalGameController gameController = context.read<LocalGameController>();
 
   return BonfireWidget(
+    
     backgroundColor: Color(0xff2c6ec7),
     background: BonfireParallaxBackground(),
     playerControllers: [
@@ -76,32 +78,33 @@ class _GameState extends State<Game> {
         components: [
           StaticDummy(hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, size: PlayerConsts.npcSize, position: Vector2(tileSize * 15, tileSize * 8), 
             minZoom: 0.8,
-            controller: context.read<LocalGameController>(),
+            controller: gameController,
             onHit: () { 
           }),
-          BlackSmithMaster(position: Vector2(tileSize * 19.25, tileSize * 15.5), size: PlayerConsts.tallNPCSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition, controller: context.read<LocalGameController>()),
-          Anvil(position: Vector2(tileSize * 21.5, tileSize * 19.5), localGameController: context.read<LocalGameController>()),
-          Furnace(position: Vector2(tileSize * 21, tileSize * 11), localGameController: context.read<LocalGameController>()),
-          SwordShippingBox(position: Vector2(tileSize * 19, tileSize * 18.5),localGameController: context.read<LocalGameController>()),
-          LaunchStation(position: Vector2(tileSize * 14, tileSize * 9.5),localGameController: context.read<LocalGameController>()),
-          SmithingTable(position: Vector2(tileSize * 22.75, tileSize * 16.85), localGameController: context.read<LocalGameController>()),
-          DayTimeClock(position: Vector2(0,0), localGameController: context.read<LocalGameController>())
+          BlackSmithMaster(position: Vector2(tileSize * 19.25, tileSize * 15.5), size: PlayerConsts.tallNPCSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition, controller: gameController),
+          Anvil(position: Vector2(tileSize * 21.5, tileSize * 19.5), localGameController: gameController),
+          Furnace(position: Vector2(tileSize * 21, tileSize * 11), localGameController: gameController),
+          SwordShippingBox(position: Vector2(tileSize * 19, tileSize * 18.5),localGameController: gameController),
+          LaunchStation(position: Vector2(tileSize * 14, tileSize * 13.5),localGameController: gameController),
+          SmithingTable(position: Vector2(tileSize * 22.75, tileSize * 16.85), localGameController: gameController),
+          DayTimeClock(position: Vector2(0,0), localGameController: gameController)
         ],
         cameraConfig: CameraConfig(zoom: 0.8),
+        // cameraConfig: CameraConfig(zoom: 0.2),
         map: WorldMapByTiled(WorldMapReader.fromAsset('map/new_map/ruins_map_pvp.json'), forceTileSize: Vector2(tileSize, tileSize)),
         player: PlayerOne(
-          localGameController: context.read<LocalGameController>(),
+          localGameController: gameController,
           id: id,
           playerLife: context.watch<LocalGameController>().playerLife.toDouble(),
           onHit: () {
-            context.read<LocalGameController>().hit(2);
+            gameController.hit(2);
           },
           faction: playerFaction,
-          position: Vector2(tileSize * 15, tileSize * 9.5),
+          position: Vector2(tileSize * 15, tileSize * 13.5),
         ),
         overlayBuilderMap: {
           PlayerInterface.overlayKey: (context,game) => PlayerInterface(game: game, characterClass: playerOneClass, characterFaction: playerFaction),
-          // PauseMenu.overlayKey: (context,game) => context.read<LocalGameController>().gameIsPaused ? const PauseMenu() : const SizedBox(),
+          // PauseMenu.overlayKey: (context,game) => gameController.gameIsPaused ? const PauseMenu() : const SizedBox(),
           PauseMenu.overlayKey: (context, game) => PauseMenu(),
           MiniGame.overlayKey: (context, game) => MiniGame(),
         },

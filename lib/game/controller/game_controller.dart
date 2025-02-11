@@ -14,7 +14,7 @@ class LocalGameController with ChangeNotifier {
 
   DayTime daytime = DayTime.same;
 
-  Color mapTintColor = Colors.indigo[900]!.withAlpha(148);
+  Color mapTintColor = Colors.orange[400]!.withAlpha(48);
 
   bool gameIsPaused = false;
   bool minigameIsActive = false;
@@ -194,6 +194,11 @@ class LocalGameController with ChangeNotifier {
     } else {
       swordScore += 50;
     }
+  }
+
+  int getTime() {
+    int time = (hour * 100) + minute;
+    return time;
   }
 
 
