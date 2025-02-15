@@ -19,9 +19,9 @@ class SwordShippingBox extends GameDecoration with Attackable {
     List<Sword> swordsInBox = [];
     
     @override
-    void onReceiveDamage(attacker, double damage, identify) {
+    void onReceiveDamage(attacker, double damage, identify, damageType) {
       putSwordInBox();
-      super.onReceiveDamage(attacker, 0.0, identify);
+      super.onReceiveDamage(attacker, 0.0, identify, damageType);
     }
 
     void putSwordInBox() {

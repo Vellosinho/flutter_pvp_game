@@ -29,6 +29,12 @@ class GameObjectsSprites {
     SpriteAnimationData.sequenced(amount: 6, stepTime: 0.2, textureSize: Vector2(64,192))
   );
 
+  // Wheat
+  static Future<SpriteAnimation> wheat = SpriteAnimation.load('objects/wheat_fields/wheat_animation.png', SpriteAnimationData.sequenced(amount: 4, stepTime: 0.4, textureSize: Vector2(32, 32)));
+  static Future<SpriteAnimation> wheatFire = SpriteAnimation.load('objects/wheat_fields/wheat_fire_animation.png', SpriteAnimationData.sequenced(amount: 4, stepTime: 0.4, textureSize: Vector2(32, 32)));
+  static Future<SpriteAnimation> wheatFire2 = SpriteAnimation.load('objects/wheat_fields/wheat_fire_animation_var2.png', SpriteAnimationData.sequenced(amount: 4, stepTime: 0.4, textureSize: Vector2(32, 32)));
+  static Future<SpriteAnimation> deadWheat = SpriteAnimation.load('objects/wheat_fields/dead_wheat.png', SpriteAnimationData.sequenced(amount: 1, stepTime: 0.4, textureSize: Vector2(32, 32)));
+
   //
   static Future<Sprite> launchStation = Sprite.load('objects/launch_station/launch_station_idle.png');
   static Future<SpriteAnimation> launchStationActivation = SpriteAnimation.load('objects/launch_station/launch_station_activating.png', SpriteAnimationData.sequenced(amount: 10, stepTime: 0.2, textureSize: Vector2(92, 70)));

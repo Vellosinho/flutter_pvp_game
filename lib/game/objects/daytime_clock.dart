@@ -36,7 +36,6 @@ class DayTimeClock extends GameDecoration {
     // }
 
     void updateGameLighting() {
-    print("updating Game lighting");
     Future.delayed(Duration(seconds: 10), () {
       updateGameLighting();
     });

@@ -50,11 +50,11 @@ class Furnace extends GameDecoration with Attackable {
   
     
     @override
-    void onReceiveDamage(attacker, double damage, identify) {
+    void onReceiveDamage(attacker, double damage, identify, damageType) {
       bool gotIron = localGameController.getIron(stashedIron);
       if (gotIron) {
         stashedIron--;
       }
-      super.onReceiveDamage(attacker, 0.0, identify);
+      super.onReceiveDamage(attacker, 0.0, identify, damageType);
     }
 } 

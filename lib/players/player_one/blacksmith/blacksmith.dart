@@ -6,16 +6,16 @@ import 'package:projeto_gbb_demo/game/enum/one_time_animations.dart';
 import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/players/player_one/player_one_animations.dart';
 
-import '../../game/enum/character_faction.dart';
-import '../../game/game_sprite_sheet.dart';
-import '../player_consts.dart';
+import '../../../game/enum/character_faction.dart';
+import '../../../game/game_sprite_sheet.dart';
+import '../../player_consts.dart';
 
 /* 
   static Vector2 characterSize = Vector2(192, 192);
   static Vector2 characterHitbox = Vector2(96, 40);
 */
 
-class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
+class BlacksmithClass extends SimplePlayer with BlockMovementCollision, Lighting {
   Function onHit;
   double playerLife;
   PlayerOneAnimations playerOneAnimations = PlayerOneAnimations();
@@ -36,7 +36,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
   bool _isPlayingOneTimeAnimation = false;
 
   final String id;
-  PlayerOne({
+  BlacksmithClass({
     required Vector2 position,
     required this.onHit,
     required this.playerLife,
@@ -69,9 +69,9 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
   }
 
   @override
-  void onReceiveDamage(attacker, double damage, identify) {
+  void onReceiveDamage(attacker, double damage, identify, damageType) {
     onHit();
-    super.onReceiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, damage, identify, damageType);
   }
 
   @override
@@ -90,46 +90,7 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
 
 
   void swordsmanHitSet(JoystickActionEvent event) {
-    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady && event.event == ActionEvent.DOWN && isArmed) {
-        holdHits = 0;
-        attackHold = true;
-        Future.delayed(Duration(milliseconds: 200),() {
-          if (attackHold) {
-            // setupLighting(
-            //   LightingConfig(
-            //     radius: 3 * width / 4,
-            //     color: Color(0xffea5c0a).withAlpha(80),
-            //     blurBorder: 80, // this is a default value
-            //     align: Vector2(0, 128),
-            //     // type: LightingType.circle, // this is a default value
-            //     // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
-            //   ),
-            // );
-            replaceAnimation(spinningBlacksmithAttack);
-            holdAttackUsed = true;
-            holdReady = false;
-            spinAttack();
-          } 
-        });
-      }
-    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady && event.event == ActionEvent.UP) {
-      attackHold = false;
-      if (holdAttackUsed) {
-        // setupLighting(
-        //   LightingConfig(
-        //     radius: 0,
-        //     color: Color(0xffea5c0a).withAlpha(80),
-        //     blurBorder: 160, // this is a default value
-        //     // type: LightingType.circle, // this is a default value
-        //     // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
-        //   ),
-        // );
-        holdReady = false;
-        isArmed ? replaceAnimation(communistArmedBlacksmith) : null;
-        holdAttackUsed = false;
-      }
-      swordsmanHit();
-    }
+    hammerAttack(event);
     if(event.id.keyId == LogicalKeyboardKey.keyX.keyId && dashReady && !_isPlayingOneTimeAnimation) {
       swordsmanDash();
     }
@@ -147,6 +108,48 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
     }
   }
 
+  void hammerAttack(JoystickActionEvent event) {
+    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady && event.event == ActionEvent.DOWN && isArmed) {
+        holdHits = 0;
+        attackHold = true;
+        Future.delayed(Duration(milliseconds: 200),() {
+          if (attackHold) {
+            setupLighting(
+              LightingConfig(
+                radius: width * 1.2,
+                color: Color(0xffea5c0a).withAlpha(80 - (holdHits * 8)),
+                // color: Color(0xff9dc1e8).withAlpha(80 - (holdHits * 8)),
+                blurBorder: 160, // this is a default value
+                align: Vector2(0, 128),
+              ),
+            );
+            replaceAnimation(spinningBlacksmithAttack);
+            holdAttackUsed = true;
+            holdReady = false;
+            spinAttack();
+          } 
+        });
+      }
+    if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && attackReady && event.event == ActionEvent.UP) {
+      attackHold = false;
+      if (holdAttackUsed) {
+        setupLighting(
+          LightingConfig(
+            radius: 0,
+            color: Color(0xffea5c0a).withAlpha(80),
+            blurBorder: 160, // this is a default value
+            // type: LightingType.circle, // this is a default value
+            // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
+          ),
+        );
+        holdReady = false;
+        isArmed ? replaceAnimation(communistArmedBlacksmith) : null;
+        holdAttackUsed = false;
+      }
+      swordsmanHit();
+    }
+  }
+
   void spinAttack() {
     simpleAttackMelee(
       centerOffset: Vector2(-96, 0),
@@ -154,23 +157,36 @@ class PlayerOne extends SimplePlayer with BlockMovementCollision, Lighting {
       withPush: false,
       damage: 10,
       size: Vector2(384, 276),
-      animationRight: GameSpriteSheet.hammerSpinAttack,
+      // animationRight: GameSpriteSheet.hammerSpinAttack,
+      animationRight: GameSpriteSheet.hammerSpinAttackFire,
+      // animationRight: GameSpriteSheet.hammerSpinAttackHammer,
       direction: Direction.right,
+      damageType: DamageType.FIRE,
     );
     Future.delayed(Duration(milliseconds: 300), () {
       if(attackHold && holdHits  < 10) {
+          setupLighting(
+          LightingConfig(
+            radius: width * 1.2 - holdHits * 16,
+            color: Color(0xffea5c0a).withAlpha(80),
+            // color: Color(0xff9dc1e8).withAlpha(80),
+            blurBorder: 160,
+            align: Vector2(0, 128),
+            ),
+          );
         spinAttack();
         holdHits++;
       } else {
         holdReady = false;
-          // setupLighting(
-          // LightingConfig(
-          //   radius: 0,
-          //   color: Color(0xffea5c0a).withAlpha(80),
-          //   blurBorder: 160,
-          //   align: Vector2(96, 0)
-          //   ),
-          // );
+          setupLighting(
+          LightingConfig(
+            radius: 0,
+            // color: Color(0xffea5c0a).withAlpha(80),
+            color: Color(0xff9dc1e8).withAlpha(80 * (holdHits * 8)),
+            blurBorder: 160,
+            align: Vector2(96, 0)
+            ),
+          );
         replaceAnimation(communistArmedBlacksmith);
         Future.delayed(Duration(seconds: 10), () {
           holdReady = true;

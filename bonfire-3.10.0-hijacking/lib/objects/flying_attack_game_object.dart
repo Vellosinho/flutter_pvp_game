@@ -11,6 +11,7 @@ class FlyingAttackGameObject extends AnimatedGameObject
   final Direction? direction;
   final double damage;
   final AttackOriginEnum attackFrom;
+  final DamageType damageType;
   final bool withDecorationCollision;
   final VoidCallback? onDestroy;
   final bool enabledDiagonal;
@@ -31,6 +32,7 @@ class FlyingAttackGameObject extends AnimatedGameObject
     double speed = 150,
     this.damage = 1,
     this.attackFrom = AttackOriginEnum.ENEMY,
+    this.damageType = DamageType.NONE,
     this.withDecorationCollision = true,
     this.onDestroy,
     this.enabledDiagonal = true,
@@ -61,6 +63,7 @@ class FlyingAttackGameObject extends AnimatedGameObject
     double speed = 150,
     this.damage = 1,
     this.attackFrom = AttackOriginEnum.ENEMY,
+    this.damageType = DamageType.NONE,
     this.withDecorationCollision = true,
     this.onDestroy,
     this.enabledDiagonal = true,
@@ -83,6 +86,7 @@ class FlyingAttackGameObject extends AnimatedGameObject
     double speed = 150,
     this.damage = 1,
     this.attackFrom = AttackOriginEnum.ENEMY,
+    this.damageType = DamageType.NONE,
     this.withDecorationCollision = true,
     this.onDestroy,
     this.enabledDiagonal = true,
@@ -123,7 +127,7 @@ class FlyingAttackGameObject extends AnimatedGameObject
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Attackable && animationDestroy == null) {
-      other.handleAttack(attackFrom, damage, id);
+      other.handleAttack(attackFrom, damage, id, damageType);
     }
     if (other is GameComponent) {
       _destroyObject(other);

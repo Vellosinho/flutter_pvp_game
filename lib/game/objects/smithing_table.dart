@@ -25,14 +25,14 @@ class SmithingTable extends GameDecoration with Attackable {
   }
 
     @override
-    void onReceiveDamage(attacker, double damage, identify) {
+    void onReceiveDamage(attacker, double damage, identify, damageType) {
       if(_hasHammer) {
         updateSprite();
         localGameController.getWeapon();
         _hasHammer = false;
       }
       // updateAnvilSprite();
-      super.onReceiveDamage(attacker, 0.0, identify);
+      super.onReceiveDamage(attacker, 0.0, identify, damageType);
     }
 
     

@@ -9,7 +9,8 @@ import 'package:projeto_gbb_demo/game/items/sword_item.dart';
 import 'dart:math';
 
 class LocalGameController with ChangeNotifier {
-  int hour = 6;
+  int hour = 18;
+  // int hour = 6
   int minute = 00;
 
   DayTime daytime = DayTime.same;

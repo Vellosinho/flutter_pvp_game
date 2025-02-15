@@ -8,6 +8,9 @@ enum AcceptableAttackOriginEnum { ALL, ENEMY, PLAYER_AND_ALLY, NONE }
 // ignore: constant_identifier_names
 enum AttackOriginEnum { ENEMY, PLAYER_OR_ALLY, WORLD }
 
+
+enum DamageType { NONE, FIRE, THUNDER, WATER }
+
 /// Mixin responsible for adding damage-taking behavior to the component.
 mixin Attackable on GameComponent {
   /// Used to define which type of component can be damaged
@@ -31,7 +34,7 @@ mixin Attackable on GameComponent {
     _maxLife = life;
   }
 
-  /// Increase life
+/// Increase life
   void addLife(double life) {
     double newLife = _life + life;
 
@@ -84,10 +87,11 @@ mixin Attackable on GameComponent {
     AttackOriginEnum attacker,
     double damage,
     dynamic identify,
+    DamageType damageType,
   ) {
     final canReceive = checkCanReceiveDamage(attacker);
     if (canReceive) {
-      onReceiveDamage(attacker, damage, identify);
+      onReceiveDamage(attacker, damage, identify, damageType);
     }
     return canReceive;
   }
@@ -97,6 +101,7 @@ mixin Attackable on GameComponent {
     AttackOriginEnum attacker,
     double damage,
     dynamic identify,
+    DamageType damageType,
   ) {
     removeLife(damage);
   }

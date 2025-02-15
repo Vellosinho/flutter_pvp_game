@@ -123,6 +123,7 @@ extension RotationEnemyExtensions on RotationEnemy {
       angle: angle,
       animation: animationRight,
       attackFrom: AttackOriginEnum.ENEMY,
+      damageType: DamageType.NONE,
     );
 
     execute?.call();

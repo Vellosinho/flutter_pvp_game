@@ -67,6 +67,7 @@ extension RotationPlayerExtensions on RotationPlayer {
       marginFromCenter: marginFromCenter,
       centerOffset: centerOffset,
       attackFrom: AttackOriginEnum.PLAYER_OR_ALLY,
+      damageType: DamageType.NONE,
     );
   }
 }
