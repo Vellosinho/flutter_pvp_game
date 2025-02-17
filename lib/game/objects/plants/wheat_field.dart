@@ -1,18 +1,12 @@
-import 'dart:math';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire/mixins/flamable.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/common/common.dart';
 import 'package:projeto_gbb_demo/game.dart';
-import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/npcs/static_dummy.dart';
 import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
 
 class Wheat extends GameDecoration with Attackable, Flamable{
-  bool isOnFire = false;
-  int spreadCount = 10;
-  Random rand = Random();
 
   Wheat({
     required super.position})
@@ -39,6 +33,10 @@ class Wheat extends GameDecoration with Attackable, Flamable{
         if (chance > 4) {
           setFire();
         }
+      } else {
+        if(isBurnt) {
+          removeFromParent();
+        }
       }
       super.onReceiveDamage(attacker, damage, identify, damageType);
     }
@@ -55,9 +53,9 @@ class Wheat extends GameDecoration with Attackable, Flamable{
     }
 
     @override
-    Future<void> onDie() async {
+    Future<void> onBurn() async {
       setAnimation(await GameObjectsSprites.deadWheat);
-      super.onDie();
+      super.onBurn();
     }
         
 }

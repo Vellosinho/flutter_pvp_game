@@ -5,8 +5,8 @@ import 'package:bonfire/bonfire.dart';
 mixin Flamable on Lighting {
   /// Used to define which type of component can be damaged
 
-  bool _isDead = false;
-  bool get isDead => _isDead;
+  bool _isBurnt = false;
+  bool get isBurnt => _isBurnt;
 
   int _spreadCount = 10;
   int get spreadCount => _spreadCount;
@@ -68,13 +68,12 @@ mixin Flamable on Lighting {
         fireSpread();
       });
     } else {
-      onDie();
+      onBurn();
     }
   }
 
-  // Called when the component dies
-  void onDie() {
-    _isDead = true;
+  void onBurn() {
+    _isBurnt = true;
     setupLighting(
       LightingConfig(
         radius: 0,
@@ -85,6 +84,8 @@ mixin Flamable on Lighting {
         ),
     );
   }
+
+  // Called when the component dies
 
 
   // Get rect collision of the component used to receive damage
