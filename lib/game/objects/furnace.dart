@@ -1,7 +1,9 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
-import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/game/controller/game_controller.dart';
 import 'package:projeto_gbb_demo/game/objects/object_sprites.dart';
+import 'package:projeto_gbb_demo/players/consts.dart';
 
 class Furnace extends GameDecoration with Attackable {
   LocalGameController localGameController;
@@ -12,18 +14,32 @@ class Furnace extends GameDecoration with Attackable {
 ;    @override
     Future<void> onLoad() {
       add(RectangleHitbox(size:Vector2(324, 192), position: Vector2(24, 932),));
+      updateLighting(radiusWidth: 0.65);
+      initFurnace();
+      Future.delayed(Duration(microseconds: 400),() {
+        fireOscilation();
+      });
+      return super.onLoad();
+    }
+
+    void fireOscilation() {
+      Random rand = Random();
+      int random = rand.nextInt(10) + 50;
+      updateLighting(radiusWidth: (random / 100));
+      Future.delayed(Duration(seconds: 1), () {
+        fireOscilation();
+      });
+    }
+
+    void updateLighting({required double radiusWidth}) {
       setupLighting(
         LightingConfig(
-          radius: width * 0.65,
-          align: Vector2(0, 560),
-          color: Color(0xffea5c0a).withAlpha(80),
+          radius: width * radiusWidth,
+          align: Vector2(0, 460),
+          color: ElementColors.fireColor.withAlpha(80),
           blurBorder: 120, // this is a default value
-          // type: LightingType.circle, // this is a default value
-          // useComponentAngle: false, // this is a default value. When true light rotate together component when change `angle` param.
         ),
       );
-      initFurnace();
-      return super.onLoad();
     }
 
     @override
@@ -50,11 +66,11 @@ class Furnace extends GameDecoration with Attackable {
   
     
     @override
-    void onReceiveDamage(attacker, double damage, identify) {
+    void onReceiveDamage(attacker, double damage, identify, damageType) {
       bool gotIron = localGameController.getIron(stashedIron);
       if (gotIron) {
         stashedIron--;
       }
-      super.onReceiveDamage(attacker, 0.0, identify);
+      super.onReceiveDamage(attacker, 0.0, identify, damageType);
     }
 } 

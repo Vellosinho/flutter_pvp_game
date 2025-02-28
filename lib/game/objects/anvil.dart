@@ -40,10 +40,10 @@ class Anvil extends GameDecoration with Attackable {
   }
     
     @override
-    void onReceiveDamage(attacker, double damage, identify) {
+    void onReceiveDamage(attacker, double damage, identify, damageType) {
       localGameController.minigameIsActive ? localGameController.miniGameHit() : localGameController.startMinigame(position, damage);
       // updateAnvilSprite();
-      super.onReceiveDamage(attacker, 0.0, identify);
+      super.onReceiveDamage(attacker, 0.0, identify, damageType);
     }
 
     

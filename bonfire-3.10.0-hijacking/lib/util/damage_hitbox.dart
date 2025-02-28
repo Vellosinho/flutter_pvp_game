@@ -7,6 +7,7 @@ class DamageHitbox extends GameComponent {
   final Duration duration;
   final Duration damageInterval;
   final AttackOriginEnum origin;
+  final DamageType damageType;
   final dynamic id;
   final void Function(Attackable attackable)? onDamage;
 
@@ -18,6 +19,7 @@ class DamageHitbox extends GameComponent {
     required this.damage,
     required this.origin,
     required Vector2 size,
+    this.damageType = DamageType.NONE,
     double angle = 0,
     this.onDamage,
     Anchor anchor = Anchor.center,
@@ -52,7 +54,7 @@ class DamageHitbox extends GameComponent {
           .attackables(onlyVisible: true)
           .where((a) => a.rectAttackable().overlaps(toAbsoluteRect()))
           .forEach((attackable) {
-        final receiveDamage = attackable.handleAttack(origin, damage, id);
+        final receiveDamage = attackable.handleAttack(origin, damage, id, damageType);
         if (receiveDamage) {
           onDamage?.call(attackable);
         }

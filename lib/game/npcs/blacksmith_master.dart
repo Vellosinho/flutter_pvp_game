@@ -47,12 +47,12 @@ class BlackSmithMaster extends SimpleAlly with Lighting {
     }
 
     @override
-    void onReceiveDamage(attacker, double damage, identify) {
+    void onReceiveDamage(attacker, double damage, identify, damageType) {
       if (willTalk) {
         // TalkDialog.show(context, getCurrentLines(), style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5));
       }
       willTalk = !willTalk;
-      super.onReceiveDamage(attacker, 0, identify);
+      super.onReceiveDamage(attacker, 0, identify, damageType);
     }
     List<List<NpcDialogue>> dialogue = [
       [NpcDialogue(

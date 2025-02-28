@@ -51,13 +51,13 @@ class BaseNPC extends SimpleAlly with PathFinding {
     }
 
     @override
-    void onReceiveDamage(attacker, double damage, identify) {
+    void onReceiveDamage(attacker, double damage, identify, damageType) {
       if (willTalk && currentConversation < dialogue.length) {
         talk();
       }
       checkAffinity();
       willTalk = !willTalk;
-      super.onReceiveDamage(attacker, 0, identify);
+      super.onReceiveDamage(attacker, 0, identify, damageType);
     }
 
     void checkAffinity() {
@@ -83,7 +83,7 @@ class BaseNPC extends SimpleAlly with PathFinding {
     void checkHasToMove() {
       if ((((position.x >= currentDestination.x - 175) && (position.x <= currentDestination.x + 175)) && ((position.y >= currentDestination.y - 175) && (position.y <= currentDestination.y + 175)) && !isbusy)) {
         isbusy = true;
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(Duration(milliseconds: 1000), () {
           currentTask();
         });
       }

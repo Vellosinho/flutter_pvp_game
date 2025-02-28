@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:projeto_gbb_demo/game/npcs/npcs.dart';
 import 'package:projeto_gbb_demo/game/objects/daytime_clock.dart';
 import 'package:projeto_gbb_demo/game/objects/objects.dart';
+import 'package:projeto_gbb_demo/game/objects/plants/wheat_field.dart';
 import 'package:projeto_gbb_demo/parallax/parallax_clouds.dart';
+import 'package:projeto_gbb_demo/players/player_one/blacksmith/blacksmith.dart';
 import 'game/game_sprite_sheet.dart';
 import 'game/interface/player_interface.dart';
-import 'players/player_one/player_one.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'game/enum/character_class.dart';
@@ -76,23 +77,19 @@ class _GameState extends State<Game> {
     // gameController: gameController,
         lightingColorGame: Colors.orange[400]!.withAlpha(48),
         components: [
-          StaticDummy(hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, size: PlayerConsts.npcSize, position: Vector2(tileSize * 15, tileSize * 8), 
-            minZoom: 0.8,
-            controller: gameController,
-            onHit: () { 
-          }),
           BlackSmithMaster(position: Vector2(tileSize * 19.25, tileSize * 15.5), size: PlayerConsts.tallNPCSize, hitboxSize: PlayerConsts.characterHitbox, hitboxPosition: PlayerConsts.hitboxPosition, controller: gameController),
           Anvil(position: Vector2(tileSize * 21.5, tileSize * 19.5), localGameController: gameController),
           Furnace(position: Vector2(tileSize * 21, tileSize * 11), localGameController: gameController),
           SwordShippingBox(position: Vector2(tileSize * 19, tileSize * 18.5),localGameController: gameController),
           LaunchStation(position: Vector2(tileSize * 14, tileSize * 13.5),localGameController: gameController),
           SmithingTable(position: Vector2(tileSize * 22.75, tileSize * 16.85), localGameController: gameController),
-          DayTimeClock(position: Vector2(0,0), localGameController: gameController)
-        ],
-        cameraConfig: CameraConfig(zoom: 0.8),
+          DayTimeClock(position: Vector2(0,0), localGameController: gameController),
+        ]..addAll(wheatField!),
+        // ],
+        cameraConfig: CameraConfig(zoom: 0.8, moveOnlyMapArea: true),
         // cameraConfig: CameraConfig(zoom: 0.2),
         map: WorldMapByTiled(WorldMapReader.fromAsset('map/new_map/ruins_map_pvp.json'), forceTileSize: Vector2(tileSize, tileSize)),
-        player: PlayerOne(
+        player: BlacksmithClass(
           localGameController: gameController,
           id: id,
           playerLife: context.watch<LocalGameController>().playerLife.toDouble(),

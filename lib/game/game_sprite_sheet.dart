@@ -183,19 +183,23 @@ class GameSpriteSheet {
   );
   
   static Future<SpriteAnimation> get attackHorizontalRight => SpriteAnimation.load(
-    'horizontal_attack_right.png',
+    'attack_sprites/horizontal_attack_right.png',
     SpriteAnimationData.sequenced(amount: 3, stepTime: 0.15, textureSize: Vector2(32,32))
   );
   static Future<SpriteAnimation> get hammerAttackHorizontalRight => SpriteAnimation.load(
-    'hammer_attack_right.png',
+    'attack_sprites/hammer_attack_right.png',
     SpriteAnimationData.sequenced(amount: 3, stepTime: 0.15, textureSize: Vector2(32,32))
   );
   static Future<SpriteAnimation> get hammerSpinAttack => SpriteAnimation.load(
-    'hammer_spin_attack.png',
+    'attack_sprites/hammer_spin_attack.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(64,46))
   );
   static Future<SpriteAnimation> get hammerSpinAttackFire => SpriteAnimation.load(
-    'fire_hammer_spin_attack.png',
+    'attack_sprites/fire_hammer_spin_attack.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(64,46))
+  );
+  static Future<SpriteAnimation> get hammerSpinAttackHammer => SpriteAnimation.load(
+    'attack_sprites/thunder_hammer_spin_attack.png',
     SpriteAnimationData.sequenced(amount: 4, stepTime: 0.075, textureSize: Vector2(64,46))
   );
   
