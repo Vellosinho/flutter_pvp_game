@@ -14,7 +14,11 @@ class PlayerInterface extends StatefulWidget {
   CharacterFaction? characterFaction = CharacterFaction.Monarchist;
   static const overlayKey = 'playerInterface';
 
-  PlayerInterface({required this.game, required this.characterClass, this.characterFaction, Key? key}) : super(key: key);
+  PlayerInterface(
+      {required this.game,
+      required this.characterClass,
+      this.characterFaction,
+      super.key});
 
   @override
   State<PlayerInterface> createState() => _PlayerInterfaceState();
@@ -28,7 +32,10 @@ class _PlayerInterfaceState extends State<PlayerInterface> {
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          PlayerLife(game: widget.game, characterClass: widget.characterClass, characterFaction: widget.characterFaction),
+          PlayerLife(
+              game: widget.game,
+              characterClass: widget.characterClass,
+              characterFaction: widget.characterFaction),
           GameMiniMap(game: widget.game),
         ],
       ),
@@ -40,10 +47,14 @@ class PlayerLife extends StatelessWidget {
   final BonfireGame game;
   final CharacterClass characterClass;
   final CharacterFaction? characterFaction;
-  
-  const PlayerLife({required this.game, required this.characterClass, this.characterFaction, Key? key}) : super(key: key);
 
-  @override 
+  const PlayerLife(
+      {required this.game,
+      required this.characterClass,
+      this.characterFaction,
+      super.key});
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red[900]!.withAlpha(0),
@@ -54,16 +65,14 @@ class PlayerLife extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 64),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children:  [
-                          // LifebarInterface(characterClass: characterClass, characterFaction: characterFaction),
+            children: [
+              // LifebarInterface(characterClass: characterClass, characterFaction: characterFaction),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  
                   Inventory(),
                 ],
               ),
-          
             ],
           ),
         ),
@@ -73,26 +82,40 @@ class PlayerLife extends StatelessWidget {
 }
 
 class Inventory extends StatelessWidget {
-  
+  const Inventory({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return 
-      Consumer<LocalGameController>(
-        builder: (context, controller, _) => Stack(
-          children: [
-            SizedBox(height: 88, width: 304, child: DecoratedBox(decoration: BoxDecoration(color: Colors.black.withAlpha(160)),)),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(children: [
-                InventorySlot(item: controller.inventory[0],),
-                InventorySlot(item: controller.inventory[1],),
-                InventorySlot(item: controller.inventory[2],),
-                InventorySlot(item: controller.inventory[3],),
-                        ],),
-            ),
-          InterfaceSpriteSheet.inventoryBar
-        ]),
-      );
+    return Consumer<LocalGameController>(
+      builder: (context, controller, _) => Stack(children: [
+        SizedBox(
+            height: 88,
+            width: 304,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Colors.black.withAlpha(160)),
+            )),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            children: [
+              InventorySlot(
+                item: controller.inventory[0],
+              ),
+              InventorySlot(
+                item: controller.inventory[1],
+              ),
+              InventorySlot(
+                item: controller.inventory[2],
+              ),
+              InventorySlot(
+                item: controller.inventory[3],
+              ),
+            ],
+          ),
+        ),
+        InterfaceSpriteSheet.inventoryBar
+      ]),
+    );
   }
 }
 
@@ -105,19 +128,21 @@ class InventorySlot extends StatelessWidget {
     // return const Placeholder();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-      child: SizedBox(height: 64, width: 64,
-        child: (item?.assetPath == 'empty') ?
-          SizedBox() 
-          : item?.assetPath),
+      child: SizedBox(
+          height: 64,
+          width: 64,
+          child: (item?.assetPath == 'empty') ? SizedBox() : item?.assetPath),
     );
   }
 }
 
-
 class LifebarInterface extends StatelessWidget {
   final CharacterClass characterClass;
   final CharacterFaction? characterFaction;
-  const LifebarInterface({required this.characterClass, required this.characterFaction, super.key});
+  const LifebarInterface(
+      {required this.characterClass,
+      required this.characterFaction,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -130,11 +155,23 @@ class LifebarInterface extends StatelessWidget {
             children: [
               InterfaceSpriteSheet.coin,
               const SizedBox(width: 8),
-              Text('${context.watch<LocalGameController>().playerWallet}', style: TextStyle(fontFamily: 'PressStart2P', color: Colors.amber[400], fontSize: 24),),
+              Text(
+                '${context.watch<LocalGameController>().playerWallet}',
+                style: TextStyle(
+                    fontFamily: 'PressStart2P',
+                    color: Colors.amber[400],
+                    fontSize: 24),
+              ),
               const SizedBox(width: 8),
-              InterfaceSpriteSheet.people ,
+              InterfaceSpriteSheet.people,
               const SizedBox(width: 8),
-              Text('${context.watch<LocalGameController>().playerFollowers}', style: const TextStyle(fontFamily: 'PressStart2P', color: Colors.white, fontSize: 24),),
+              Text(
+                '${context.watch<LocalGameController>().playerFollowers}',
+                style: const TextStyle(
+                    fontFamily: 'PressStart2P',
+                    color: Colors.white,
+                    fontSize: 24),
+              ),
             ],
           ),
         ),
@@ -145,9 +182,10 @@ class LifebarInterface extends StatelessWidget {
     );
   }
 }
+
 class LifeBar extends StatefulWidget {
   final num life;
-  const LifeBar({required this.life, Key? key}) : super(key: key);
+  const LifeBar({required this.life, super.key});
 
   @override
   State<LifeBar> createState() => _LifeBarState();

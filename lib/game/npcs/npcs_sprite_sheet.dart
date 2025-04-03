@@ -168,3 +168,54 @@ class CommunistFarmerNPCSprites {
     runDownLeft: communistFarmerWalkFront,
   );
 }
+
+class NeutralSheppardNPCSprites {
+  static Future<SpriteAnimation> get idleFront => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_idle_front.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,34))
+  );
+  static Future<SpriteAnimation> get idleRight => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_idle_right.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,34))
+  );
+  static Future<SpriteAnimation> get idleLeft => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_idle_left.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,34))
+  );
+  static Future<SpriteAnimation> get idleBack => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_idle_back.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.2, textureSize: Vector2(32,34))
+  );
+  static Future<SpriteAnimation> get walkFront => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_walk_front.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,34))
+  );
+  static Future<SpriteAnimation> get walkRight => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_walk_right.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,34))
+  );
+  static Future<SpriteAnimation> get walkLeft => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_walk_left.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,34))
+  );
+  static Future<SpriteAnimation> get walkBack => SpriteAnimation.load(
+    'tutorialNPCs/tutorial_farmer/neutral_shepard/tutorial_shepard_walk_back.png',
+    SpriteAnimationData.sequenced(amount: 6, stepTime: 0.075, textureSize: Vector2(32,34))
+  );
+
+  
+  SimpleDirectionAnimation defaultAnimations = SimpleDirectionAnimation(
+    idleUp: idleBack,
+    idleRight: idleRight,
+    idleLeft: idleLeft,
+    idleDown: idleFront,
+    runUp: walkBack,
+    runRight: walkRight,
+    runLeft: walkLeft,
+    runDown: walkFront,
+    runUpRight: walkBack,
+    runUpLeft: walkBack,
+    runDownRight: walkFront,
+    runDownLeft: walkFront,
+  );
+}

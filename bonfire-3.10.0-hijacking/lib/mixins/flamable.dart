@@ -11,60 +11,59 @@ mixin Flamable on Lighting {
   int _spreadCount = 10;
   int get spreadCount => _spreadCount;
 
-  bool _isInFlames = false;
+  final bool _isInFlames = false;
   bool get isInFlames => _isInFlames;
 
   Random rand = Random();
 
   @override
   Future<void> onLoad() {
-      setupLighting(
+    setupLighting(
       LightingConfig(
         radius: 0,
-        color: Color(0xffea5c0a).withAlpha(80),
+        color: const Color(0xffea5c0a).withAlpha(80),
         // color: Color(0xff9dc1e8).withAlpha(80),
         blurBorder: 160,
         align: Vector2(0, 128),
-        ),
-      );
+      ),
+    );
     return super.onLoad();
   }
 
   void setFire() {
     if (!_isInFlames) {
       setupLighting(
-      LightingConfig(
-        radius: width * 1.2,
-        color: Color(0xffea5c0a).withAlpha(80),
-        // color: Color(0xff9dc1e8).withAlpha(80),
-        blurBorder: 160,
-        align: Vector2(0, 128),
+        LightingConfig(
+          radius: width * 1.2,
+          color: const Color(0xffea5c0a).withAlpha(80),
+          // color: Color(0xff9dc1e8).withAlpha(80),
+          blurBorder: 160,
+          align: Vector2(0, 128),
         ),
       );
-      Future.delayed(Duration(seconds: 5), () {
+      Future.delayed(const Duration(seconds: 5), () {
         fireSpread();
       });
     }
   }
 
-  
   void fireSpread() {
-    if(_spreadCount > 0) {
+    if (_spreadCount > 0) {
       int chance = rand.nextInt(10);
       if (chance > 8) {
         simpleAttackMeleeByAngle(
           centerOffset: Vector2(-96, -96),
           // sizePush: 0.2,
           withPush: false,
-          damage: 5, 
-          angle: 0, 
+          damage: 5,
+          angle: 0,
           attackFrom: AttackOriginEnum.WORLD,
-          size: Vector2(384, 384), 
+          size: Vector2(384, 384),
           damageType: DamageType.FIRE,
         );
       }
       _spreadCount--;
-      Future.delayed(Duration(seconds: 5), () {
+      Future.delayed(const Duration(seconds: 5), () {
         fireSpread();
       });
     } else {
@@ -77,16 +76,15 @@ mixin Flamable on Lighting {
     setupLighting(
       LightingConfig(
         radius: 0,
-        color: Color(0xffea5c0a).withAlpha(80),
+        color: const Color(0xffea5c0a).withAlpha(80),
         // color: Color(0xff9dc1e8).withAlpha(80),
         blurBorder: 160,
         align: Vector2(0, 128),
-        ),
+      ),
     );
   }
 
   // Called when the component dies
-
 
   // Get rect collision of the component used to receive damage
   Rect rectAttackable() => rectCollision;

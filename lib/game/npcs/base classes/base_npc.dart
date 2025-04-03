@@ -25,8 +25,8 @@ class BaseNPC extends SimpleAlly with PathFinding {
   SimpleDirectionAnimation defaultAnimations;
 
   BaseNPC({
-    required Vector2 position,
-    required Direction initDirection,
+    required super.position,
+    required super.initDirection,
     required this.dialogue,
     required int index,
     required this.controller,
@@ -34,110 +34,118 @@ class BaseNPC extends SimpleAlly with PathFinding {
     required this.actions,
     required this.housePosition,
   }) : super(
-    position: position,
-    size: PlayerConsts.tallNPCSize,
-    speed: PlayerConsts.npcSpeed / 2,
-    initDirection: initDirection,
-    receivesAttackFrom: AcceptableAttackOriginEnum.ALL,
-    animation: defaultAnimations,
-    keepRendered: true,
-    );
-    @override
-    Future<void> onLoad() {
-      add(RectangleHitbox(size: PlayerConsts.characterHitbox, position: PlayerConsts.hitboxPosition));
-      initializeDay();
-      setupPathFinding(pathLineColor: Colors.transparent);
-      return super.onLoad();
-    }
-
-    @override
-    void onReceiveDamage(attacker, double damage, identify, damageType) {
-      if (willTalk && currentConversation < dialogue.length) {
-        talk();
-      }
-      checkAffinity();
-      willTalk = !willTalk;
-      super.onReceiveDamage(attacker, 0, identify, damageType);
-    }
-
-    void checkAffinity() {
-      if (context.read<NPCController>().npcs[index].affinity >= 5) {
-        convert();
-      }
-    }
-
-    void talk() {
-      NPCDialog.show(
-        context, index, dialogue[currentConversation], style: const TextStyle(fontFamily: 'PressStart2P', fontSize: 24, height: 1.5, color: Colors.white),
+          size: PlayerConsts.tallNPCSize,
+          speed: PlayerConsts.npcSpeed / 2,
+          receivesAttackFrom: AcceptableAttackOriginEnum.ALL,
+          animation: defaultAnimations,
+          keepRendered: true,
         );
-        currentConversation++;
+  @override
+  Future<void> onLoad() {
+    add(RectangleHitbox(
+        size: PlayerConsts.characterHitbox,
+        position: PlayerConsts.hitboxPosition));
+    initializeDay();
+    setupPathFinding(pathLineColor: Colors.transparent);
+    return super.onLoad();
+  }
+
+  @override
+  void onReceiveDamage(attacker, double damage, identify, damageType) {
+    if (willTalk && currentConversation < dialogue.length) {
+      talk();
     }
+    checkAffinity();
+    willTalk = !willTalk;
+    super.onReceiveDamage(attacker, 0, identify, damageType);
+  }
 
-    void convert() {
-      controller.playerFollowersAdd();
-      // gameRef.add(FarmerAlly(position: position, size: size, hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, controller: controller));
-      toggleKeepRendered();
-      removeFromParent();
+  void checkAffinity() {
+    if (context.read<NPCController>().npcs[index].affinity >= 5) {
+      convert();
     }
+  }
 
-    void checkHasToMove() {
-      if ((((position.x >= currentDestination.x - 175) && (position.x <= currentDestination.x + 175)) && ((position.y >= currentDestination.y - 175) && (position.y <= currentDestination.y + 175)) && !isbusy)) {
-        isbusy = true;
-        Future.delayed(Duration(milliseconds: 1000), () {
-          currentTask();
-        });
-      }
+  void talk() {
+    NPCDialog.show(
+      context,
+      index,
+      dialogue[currentConversation],
+      style: const TextStyle(
+          fontFamily: 'PressStart2P',
+          fontSize: 24,
+          height: 1.5,
+          color: Colors.white),
+    );
+    currentConversation++;
+  }
 
-      Future.delayed(Duration(seconds: 5), () {
-        checkHasToMove();
+  void convert() {
+    controller.playerFollowersAdd();
+    // gameRef.add(FarmerAlly(position: position, size: size, hitboxPosition: PlayerConsts.hitboxPosition, hitboxSize: PlayerConsts.characterHitbox, controller: controller));
+    toggleKeepRendered();
+    removeFromParent();
+  }
+
+  void checkHasToMove() {
+    if ((((position.x >= currentDestination.x - 175) &&
+            (position.x <= currentDestination.x + 175)) &&
+        ((position.y >= currentDestination.y - 175) &&
+            (position.y <= currentDestination.y + 175)) &&
+        !isbusy)) {
+      isbusy = true;
+      Future.delayed(Duration(milliseconds: 1000), () {
+        currentTask();
       });
-
     }
 
-    void initializeDay() {
+    Future.delayed(Duration(seconds: 5), () {
+      checkHasToMove();
+    });
+  }
+
+  void initializeDay() {
+    getRoutine();
+
+    Future.delayed(Duration(seconds: 5), () {
+      checkHasToMove();
+    });
+  }
+
+  void getRoutine() {
+    int time = controller.getTime();
+    switch (time) {
+      case 640:
+        shuffleRoutine();
+        break;
+      case 900:
+        shuffleRoutine();
+        break;
+      case 1100:
+        shuffleRoutine();
+        break;
+      case 1300:
+        shuffleRoutine();
+        break;
+      case 1500:
+        shuffleRoutine();
+        break;
+      case 1700:
+        shuffleRoutine();
+        break;
+      case 1800:
+        returnHome();
+        break;
+      default:
+      // stopMove();
+    }
+
+    Future.delayed(Duration(seconds: 10), () {
       getRoutine();
-
-      Future.delayed(Duration(seconds: 5), () {
-        checkHasToMove();
-      });
-    }
-
-    void getRoutine() {
-      int time = controller.getTime();
-      switch (time) {
-        case 640:
-          shuffleRoutine();
-          break;
-        case 900:
-          shuffleRoutine(); 
-          break;
-        case 1100:
-          shuffleRoutine();
-          break;
-        case 1300:
-          shuffleRoutine();
-          break;
-        case 1500:
-          shuffleRoutine();
-          break;
-        case 1700:
-          shuffleRoutine();
-          break;
-        case 1800:
-          returnHome();
-          break;
-        default:
-          // stopMove();
-      }
-      
-      
-      Future.delayed(Duration(seconds: 10), () {
-        getRoutine();
-      });
-    }
+    });
+  }
 
   void shuffleRoutine() {
-
     int nextTask = rand.nextInt(3);
 
     switch (nextTask) {
@@ -153,11 +161,10 @@ class BaseNPC extends SimpleAlly with PathFinding {
       default:
         action1();
     }
-
   }
 
   void action1() {
-    setDestinationTask (
+    setDestinationTask(
       destination: actions[0].position,
       onArrival: () {
         replaceAnimation(actions[0].newAnimation);
@@ -169,7 +176,7 @@ class BaseNPC extends SimpleAlly with PathFinding {
   }
 
   void action2() {
-    setDestinationTask (
+    setDestinationTask(
       destination: actions[1].position,
       onArrival: () {
         replaceAnimation(actions[1].newAnimation);
@@ -180,8 +187,8 @@ class BaseNPC extends SimpleAlly with PathFinding {
     );
   }
 
-   void action3() {
-    setDestinationTask (
+  void action3() {
+    setDestinationTask(
       destination: actions[2].position,
       onArrival: () {
         replaceAnimation(actions[2].newAnimation);
@@ -194,28 +201,33 @@ class BaseNPC extends SimpleAlly with PathFinding {
 
   void returnHome() {
     setDestinationTask(
-      destination: housePosition,
-      onArrival: () {
-      toggleKeepRendered();
-      context.read<NPCController>().npcs[index].isInGame = false;
-      removeFromParent();
-    });
+        destination: housePosition,
+        onArrival: () {
+          toggleKeepRendered();
+          context.read<NPCController>().npcs[index].isInGame = false;
+          removeFromParent();
+        });
   }
 
-  void setDestinationTask({required Vector2 destination, required Function onArrival}) {
+  void setDestinationTask(
+      {required Vector2 destination, required Function onArrival}) {
     isbusy = false;
-    if(destination != currentConversation) {
+    if (destination != currentConversation) {
       replaceAnimation(defaultAnimations);
       currentDestination = destination;
       currentTask = () {
         onArrival();
       };
       Future.delayed(Duration(milliseconds: 1000), () {
-      moveToPositionWithPathFinding(currentDestination);});
+        moveToPositionWithPathFinding(currentDestination);
+      });
     }
   }
-  
+
   bool isCloseEnoughToDestination(Vector2 destination) {
-    return ((position.x >= destination.x - 175) && (position.x <= destination.x + 175)) && ((position.y >= destination.y - 175) && (position.y <= destination.y + 175));
+    return ((position.x >= destination.x - 175) &&
+            (position.x <= destination.x + 175)) &&
+        ((position.y >= destination.y - 175) &&
+            (position.y <= destination.y + 175));
   }
 }
