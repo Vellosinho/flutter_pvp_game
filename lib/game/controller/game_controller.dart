@@ -19,6 +19,8 @@ class LocalGameController with ChangeNotifier {
 
   bool gameIsPaused = false;
   bool minigameIsActive = false;
+  bool _resetColision = false;
+  bool get resetColision => _resetColision;
 
   int _playerLife = 20;
   int _playerWallet = 0;
@@ -56,6 +58,11 @@ class LocalGameController with ChangeNotifier {
 
   void hit(int value) {
     ((_playerLife - value) < 1) ? _playerLife = 1 : _playerLife -= value;
+    notifyListeners();
+  }
+
+  void toggleResetCollision() {
+    _resetColision = !_resetColision;
     notifyListeners();
   }
 

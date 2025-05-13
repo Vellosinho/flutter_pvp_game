@@ -49,10 +49,11 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
         );
   @override
   Future<void> onLoad() {
-    add(RectangleHitbox(
-        size: PlayerConsts.characterHitbox,
-        position: PlayerConsts.characterHitboxPosition));
-    // gameRef?.camera.animateZoom(zoom: Vector2(0.8, 0.8));
+    setupColisions();
+    // add(RectangleHitbox(
+    //     size: PlayerConsts.characterHitbox,
+    //     position: PlayerConsts.characterHitboxPosition));
+    // // gameRef?.camera.animateZoom(zoom: Vector2(0.8, 0.8));
     return super.onLoad();
   }
 
@@ -101,6 +102,14 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
   }
 
   void swordsmanDash() {
+    simpleAttackMelee(
+        sizePush: 0,
+        damage: 0,
+        withPush: false,
+        size: Vector2(96, 96),
+        animationRight: GameSpriteSheet.dashEffect,
+        direction: lastDirection,
+      );
     Vector2 initPosition = gameRef.player?.position.gg ?? Vector2(0, 0);
 
     Vector2 startPosition = initPosition + Vector2.zero();
@@ -125,6 +134,10 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
   }
 
   void playOneTimeAnimations() {
+    if (localGameController.resetColision) {
+      setupColisions();
+      localGameController.toggleResetCollision();
+    }
     if (localGameController.playAnimation != OneTimeAnimations.none) {
       Future.delayed(Duration(milliseconds: 0), () {
         switch (localGameController.playAnimation) {
@@ -170,6 +183,14 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
     replaceAnimation(communistArmedBlacksmith);
     damage = 20;
     damageType = DamageType.FIRE;
+  }
+
+  @override
+  void setupColisions() {
+    add(RectangleHitbox(
+        size: PlayerConsts.characterHitbox,
+        position: PlayerConsts.characterHitboxPosition));
+    super.setupColisions();
   }
 
   // Archer Skillset

@@ -1,23 +1,15 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:bonfire/player/lit_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:projeto_gbb_demo/game/npcs/npcs.dart';
-import 'package:projeto_gbb_demo/game/objects/daytime_clock.dart';
-import 'package:projeto_gbb_demo/game/objects/objects.dart';
-import 'package:projeto_gbb_demo/game/objects/plants/wheat_field.dart';
-import 'package:projeto_gbb_demo/maps/tavern.dart';
-import 'package:projeto_gbb_demo/parallax/parallax_clouds.dart';
+import 'package:projeto_gbb_demo/maps/tavern/tavern.dart';
 import 'package:projeto_gbb_demo/players/player_one/blacksmith/blacksmith.dart';
 import 'game/game_sprite_sheet.dart';
-import 'game/interface/player_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'game/enum/character_class.dart';
 import 'game/enum/character_faction.dart';
 import 'game/controller/game_controller.dart';
 import 'players/player_consts.dart';
-import 'screens/pause_menu.dart';
-import 'package:projeto_gbb_demo/forge_minigame/minigame.dart';
 
 double tileSize = 192;
 const CharacterClass playerOneClass = CharacterClass.SwordsMan;
@@ -42,6 +34,7 @@ class _GameState extends State<Game> {
     playerFaction = context.read<PlayerConsts>().faccao;
     playerOneAnimations = getAnimations(playerOneClass, playerFaction);
     id = const Uuid().v1();
+    context.read<LocalGameController>().startDaynightCycle();
     // gameController = GameController();
     super.initState();
   }
@@ -54,19 +47,18 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     LocalGameController gameController = context.read<LocalGameController>();
+    LitPlayer player = BlacksmithClass(
+      localGameController: gameController,
+      id: id,
+      playerLife: context.watch<LocalGameController>().playerLife.toDouble(),
+      onHit: () {
+        gameController.hit(2);
+      },
+      faction: playerFaction,
+      position: Vector2(tileSize * 3, tileSize * 8.75),
+    );
 
     return TavernMap(
-        player: BlacksmithClass(
-          localGameController: gameController,
-          id: id,
-          playerLife:
-              context.watch<LocalGameController>().playerLife.toDouble(),
-          onHit: () {
-            gameController.hit(2);
-          },
-          faction: playerFaction,
-          position: Vector2(tileSize * 15, tileSize * 13.5),
-        ),
-        controller: gameController);
+        exitFunction: () {}, player: player, controller: gameController);
   }
 }

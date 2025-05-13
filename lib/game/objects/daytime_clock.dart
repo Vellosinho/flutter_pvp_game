@@ -16,7 +16,7 @@ class DayTimeClock extends GameDecoration {
       : super.withSprite(sprite: GameObjectsSprites.anvil, size: Vector2(0, 0));
   @override
   Future<void> onLoad() {
-    localGameController.startDaynightCycle();
+    // localGameController.startDaynightCycle();
     updateNpcRoutine();
     updateGameLighting();
     print('initialized Daynight Cycle');
