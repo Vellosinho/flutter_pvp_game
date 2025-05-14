@@ -25,7 +25,6 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
   // control booleans:
   bool dashReady = true;
 
-
   bool escPressed = false;
   bool isArmed = false;
   LocalGameController localGameController;
@@ -34,25 +33,27 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
 
   final String id;
   BlacksmithClass({
-    required Vector2 position,
+    required super.position,
     required this.onHit,
     required this.playerLife,
     required CharacterFaction faction,
     required this.localGameController,
     required this.id,
   }) : super(
-          position: position,
           life: playerLife,
           initDirection: Direction.down,
           size: PlayerConsts.characterSize,
           animation: communistUnarmedBlacksmith,
           // speed: PlayerConsts.characterSpeed,
           speed: PlayerConsts.characterSpeed,
-        ) {}
+        );
   @override
   Future<void> onLoad() {
-    add(RectangleHitbox(size: PlayerConsts.characterHitbox, position: PlayerConsts.characterHitboxPosition));
-    // gameRef?.camera.animateZoom(zoom: Vector2(0.8, 0.8));
+    setupColisions();
+    // add(RectangleHitbox(
+    //     size: PlayerConsts.characterHitbox,
+    //     position: PlayerConsts.characterHitboxPosition));
+    // // gameRef?.camera.animateZoom(zoom: Vector2(0.8, 0.8));
     return super.onLoad();
   }
 
@@ -69,22 +70,24 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
   }
 
   @override
-    void update(double dt) {
-      localGameController.checkMinigameDistance(position);
-      playOneTimeAnimations();
-      _isPlayingOneTimeAnimation = localGameController.playAnimation != OneTimeAnimations.none;
-      super.update(dt);
-    }
-
+  void update(double dt) {
+    localGameController.checkMinigameDistance(position);
+    playOneTimeAnimations();
+    _isPlayingOneTimeAnimation =
+        localGameController.playAnimation != OneTimeAnimations.none;
+    super.update(dt);
+  }
 
   void swordsmanHitSet(JoystickActionEvent event) {
     if (event.id.keyId == LogicalKeyboardKey.keyZ.keyId) {
       hammerAttack(event);
     }
-    if(event.id.keyId == LogicalKeyboardKey.keyX.keyId && dashReady && !_isPlayingOneTimeAnimation) {
+    if (event.id.keyId == LogicalKeyboardKey.keyX.keyId &&
+        dashReady &&
+        !_isPlayingOneTimeAnimation) {
       swordsmanDash();
     }
-    if(event.id == LogicalKeyboardKey.escape.keyId && !escPressed) {
+    if (event.id == LogicalKeyboardKey.escape.keyId && !escPressed) {
       localGameController.togglePaused();
       escPressed = true;
       if (localGameController.gameIsPaused) {
@@ -99,74 +102,95 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
   }
 
   void swordsmanDash() {
-    Vector2 initPosition = gameRef.player?.position.gg ?? Vector2(0,0);
+    simpleAttackMelee(
+        sizePush: 0,
+        damage: 0,
+        withPush: false,
+        size: Vector2(96, 96),
+        animationRight: GameSpriteSheet.dashEffect,
+        direction: lastDirection,
+      );
+    Vector2 initPosition = gameRef.player?.position.gg ?? Vector2(0, 0);
 
-    Vector2 startPosition =
-        initPosition + Vector2.zero();
+    Vector2 startPosition = initPosition + Vector2.zero();
 
-     Vector2 diffBase = BonfireUtil.diffMovePointByAngle(
+    Vector2 diffBase = BonfireUtil.diffMovePointByAngle(
       startPosition,
       250,
       lastDirection.toRadians(),
     );
 
-    animation?.playOnce(
-      isArmed ? playerOneAnimations.getArmedAnimation(lastDirection.toRadians().toString()) 
-      : playerOneAnimations.getUnarmedAnimation(lastDirection.toRadians().toString())
-    );
-    
-    translate(diffBase);
-      dashReady = false;
-      Future.delayed(const Duration(seconds: 2),() {
-        dashReady = true;
-    });
+    animation?.playOnce(isArmed
+        ? playerOneAnimations
+            .getArmedAnimation(lastDirection.toRadians().toString())
+        : playerOneAnimations
+            .getUnarmedAnimation(lastDirection.toRadians().toString()));
 
+    translate(diffBase);
+    dashReady = false;
+    Future.delayed(const Duration(seconds: 2), () {
+      dashReady = true;
+    });
   }
 
   void playOneTimeAnimations() {
+    if (localGameController.resetColision) {
+      setupColisions();
+      localGameController.toggleResetCollision();
+    }
     if (localGameController.playAnimation != OneTimeAnimations.none) {
       Future.delayed(Duration(milliseconds: 0), () {
         switch (localGameController.playAnimation) {
           case OneTimeAnimations.swordComplete:
             animation?.playOnce(GameSpriteSheet.forgeSuccessful);
             turnOffAnimation();
-            return ;
+            return;
           case OneTimeAnimations.perfectSwordComplete:
             animation?.playOnce(GameSpriteSheet.forgeLegedarySuccessful);
             turnOffAnimation();
-            return ;
+            return;
           case OneTimeAnimations.acquiredIron:
             animation?.playOnce(GameSpriteSheet.acquiredIron);
             turnOffAnimation();
-            return ;
+            return;
           case OneTimeAnimations.shrug:
-            animation?.playOnce(isArmed ? GameSpriteSheet.communistArmedBlacksmithShrug : GameSpriteSheet.communistUnarmedBlacksmithShrug);
-              turnOffAnimation();
-            return ;
+            animation?.playOnce(isArmed
+                ? GameSpriteSheet.communistArmedBlacksmithShrug
+                : GameSpriteSheet.communistUnarmedBlacksmithShrug);
+            turnOffAnimation();
+            return;
           case OneTimeAnimations.acquiredHammer:
             equipWeapon();
             turnOffAnimation();
-            Future.delayed(Duration(milliseconds: 250),() {
-            animation?.playOnce(GameSpriteSheet.equippingHammer);
+            Future.delayed(Duration(milliseconds: 250), () {
+              animation?.playOnce(GameSpriteSheet.equippingHammer);
               speed = PlayerConsts.slowCharacterSpeed;
               animation?.play(SimpleAnimationEnum.idleDown);
             });
-            return ;
+            return;
           default:
-            return ;
-          }
+            return;
         }
-      );
+      });
     }
   }
+
   void turnOffAnimation() {
-      localGameController.turnOffAnimation();
+    localGameController.turnOffAnimation();
   }
 
   void equipWeapon() {
     replaceAnimation(communistArmedBlacksmith);
     damage = 20;
     damageType = DamageType.FIRE;
+  }
+
+  @override
+  void setupColisions() {
+    add(RectangleHitbox(
+        size: PlayerConsts.characterHitbox,
+        position: PlayerConsts.characterHitboxPosition));
+    super.setupColisions();
   }
 
   // Archer Skillset

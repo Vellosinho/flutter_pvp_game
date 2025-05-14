@@ -1,8 +1,5 @@
-
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire/mixins/attackable.dart';
 import 'package:projeto_gbb_demo/common/common.dart';
-import 'package:projeto_gbb_demo/game/game_sprite_sheet.dart';
 import 'package:bonfire/player/lit_player.dart';
 import 'package:projeto_gbb_demo/players/consts.dart';
 
@@ -15,24 +12,23 @@ mixin Hammer on LitPlayer {
   bool holdAttackUsed = false;
   bool holdReady = true;
 
-  
   void hammerAttack(JoystickActionEvent event) {
     if ((damage ?? 5) >= 20) {
-    // if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && holdReady && event.event == ActionEvent.DOWN) {
-      if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId) {
+      // if(event.id.keyId == LogicalKeyboardKey.keyZ.keyId && holdReady && event.event == ActionEvent.DOWN) {
+      if (event.id.keyId == LogicalKeyboardKey.keyZ.keyId) {
         if (event.event == ActionEvent.DOWN && holdReady) {
           holdHits = 0;
           attackHold = true;
-          Future.delayed(Duration(milliseconds: 300),() {
+          Future.delayed(Duration(milliseconds: 300), () {
             if (attackHold) {
               setupElementalLighting(width * 1.2);
               replaceAnimation(spinningBlacksmithAttack);
               holdAttackUsed = true;
               holdReady = false;
               spinAttack();
-            } 
+            }
           });
-        } else if (event.event == ActionEvent.UP){
+        } else if (event.event == ActionEvent.UP) {
           attackHold = false;
           if (holdAttackUsed) {
             setupElementalLighting(0);
@@ -50,7 +46,8 @@ mixin Hammer on LitPlayer {
       if (attackReady) {
         simpleHit();
       }
-  }}
+    }
+  }
 
   void spinAttack() {
     simpleAttackMelee(
@@ -65,7 +62,7 @@ mixin Hammer on LitPlayer {
       damageType: DamageType.FIRE,
     );
     Future.delayed(Duration(milliseconds: 300), () {
-      if(attackHold && holdHits  < 10) {
+      if (attackHold && holdHits < 10) {
         setupElementalLighting(width * 1.2 - holdHits * 16);
         spinAttack();
         holdHits++;
@@ -91,24 +88,24 @@ mixin Hammer on LitPlayer {
     );
   }
 
-  
   void simpleHit() {
     // if(hasGameRef && !gameRef.camera.) {
-    if(hasGameRef) {
-        simpleAttackMelee(
-          sizePush: 0.2,
-          damage: damage ?? 5,
-          withPush: ((damage ?? 5) >= 20) ? true : false,
-          size: size * 1.15,
-          animationRight: ((damage ?? 5) >= 20) ? GameSpriteSheet.hammerAttackHorizontalRight : GameSpriteSheet.attackHorizontalRight,
-          direction: lastDirection,
-        );
-        // position.translate(diffBase.x, diffBase.y);
-        attackReady = false;
-        Future.delayed(const Duration(seconds: 1), () {
-          attackReady = true;
-        });
+    if (hasGameRef) {
+      simpleAttackMelee(
+        sizePush: 0.2,
+        damage: damage ?? 5,
+        withPush: ((damage ?? 5) >= 20) ? true : false,
+        size: size * 1.15,
+        animationRight: ((damage ?? 5) >= 20)
+            ? GameSpriteSheet.hammerAttackHorizontalRight
+            : GameSpriteSheet.attackHorizontalRight,
+        direction: lastDirection,
+      );
+      // position.translate(diffBase.x, diffBase.y);
+      attackReady = false;
+      Future.delayed(const Duration(seconds: 1), () {
+        attackReady = true;
+      });
     }
   }
-
 }

@@ -1,0 +1,14 @@
+{ "columns":4,
+ "image":"stage.png",
+ "imageheight":96,
+ "imagewidth":128,
+ "margin":0,
+ "name":"stage",
+ "spacing":0,
+ "tilecount":12,
+ "tiledversion":"1.11.1-99-gec89c545",
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.10"
+}

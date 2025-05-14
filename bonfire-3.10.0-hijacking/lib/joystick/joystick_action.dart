@@ -143,7 +143,9 @@ class JoystickAction {
   void update(double dt) {
     if (_dragPosition == null ||
         _rectBackgroundDirection == null ||
-        _rect == null) return;
+        _rect == null) {
+      return;
+    }
     if (_dragging) {
       double radAngle = atan2(
         _dragPosition!.dy - _rectBackgroundDirection!.center.dy,

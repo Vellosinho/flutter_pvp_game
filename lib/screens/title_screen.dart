@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../game/game_sprite_sheet.dart';
@@ -19,13 +18,14 @@ class _TitleScreenState extends State<TitleScreen> {
     super.initState();
   }
 
-  void setFullscreen() async{
+  void setFullscreen() async {
     await WindowManager.instance.setFullScreen(true);
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(
+    return Scaffold(
+        body: Center(
       child: Stack(
         children: [
           Center(child: InterfaceSpriteSheet.titleScreen),
@@ -33,13 +33,22 @@ class _TitleScreenState extends State<TitleScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("GBB - Title", style: TextStyle(fontFamily: "PressStart2P")),
+                const Text("GBB - Title",
+                    style: TextStyle(fontFamily: "PressStart2P")),
                 SizedBox(height: 16),
-                GestureDetector(onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Game()));
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => FactionScreen()));
-                },
-                  child: const Text('Start', style: TextStyle(fontFamily: "PressStart2P", fontSize: 24),),),
+                GestureDetector(
+                  onTap: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Game()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FactionScreen()));
+                  },
+                  child: const Text(
+                    'Start',
+                    style: TextStyle(fontFamily: "PressStart2P", fontSize: 24),
+                  ),
+                ),
               ],
             ),
           ),

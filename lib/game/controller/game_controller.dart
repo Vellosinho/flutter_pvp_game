@@ -9,8 +9,8 @@ import 'package:projeto_gbb_demo/game/items/sword_item.dart';
 import 'dart:math';
 
 class LocalGameController with ChangeNotifier {
-  int hour = 18;
-  // int hour = 6
+  // int hour = 18;
+  int hour = 6;
   int minute = 00;
 
   DayTime daytime = DayTime.same;
@@ -19,6 +19,8 @@ class LocalGameController with ChangeNotifier {
 
   bool gameIsPaused = false;
   bool minigameIsActive = false;
+  bool _resetColision = false;
+  bool get resetColision => _resetColision;
 
   int _playerLife = 20;
   int _playerWallet = 0;
@@ -39,27 +41,28 @@ class LocalGameController with ChangeNotifier {
   int get playerFollowers => _playerFollowers;
   int get hitcount => _hitCount;
 
-
   //Mini Game logic:
   int swordScore = 0;
   int minigameHitCount = 0;
   double timeCount = 0.0;
-  Vector2 minigamePos = Vector2(0,0);
+  Vector2 minigamePos = Vector2(0, 0);
   OneTimeAnimations _playAnimation = OneTimeAnimations.none;
   OneTimeAnimations get playAnimation => _playAnimation;
 
   int stashedIron = 0;
 
-
-  void heal(int value) { 
-    ((_playerLife + value) > 20) ?
-      _playerLife = 20 : _playerLife += value;
+  void heal(int value) {
+    ((_playerLife + value) > 20) ? _playerLife = 20 : _playerLife += value;
     notifyListeners();
   }
 
   void hit(int value) {
-    ((_playerLife - value) < 1) ?
-      _playerLife = 1 : _playerLife -= value;
+    ((_playerLife - value) < 1) ? _playerLife = 1 : _playerLife -= value;
+    notifyListeners();
+  }
+
+  void toggleResetCollision() {
+    _resetColision = !_resetColision;
     notifyListeners();
   }
 
@@ -69,8 +72,7 @@ class LocalGameController with ChangeNotifier {
   }
 
   void spendMoney(int amount) {
-    (_playerWallet - amount < 0) ?
-    _playerWallet = 0 : _playerWallet -= amount;
+    (_playerWallet - amount < 0) ? _playerWallet = 0 : _playerWallet -= amount;
     notifyListeners();
   }
 
@@ -98,19 +100,19 @@ class LocalGameController with ChangeNotifier {
     notifyListeners();
   }
 
-    bool getIron(ironCount) {
-      if (!isInventoryFull() && (ironCount > 0)) {
-        addToInventory(IronBar());
-        stashedIron--;
-        _playAnimation = OneTimeAnimations.acquiredIron;
-        notifyListeners();
-        return true;
-      } else {
-        shrugPlayer();
-        notifyListeners();
-        return false;
-      }
+  bool getIron(ironCount) {
+    if (!isInventoryFull() && (ironCount > 0)) {
+      addToInventory(IronBar());
+      stashedIron--;
+      _playAnimation = OneTimeAnimations.acquiredIron;
+      notifyListeners();
+      return true;
+    } else {
+      shrugPlayer();
+      notifyListeners();
+      return false;
     }
+  }
 
   // Smithing Table functions:
 
@@ -122,7 +124,7 @@ class LocalGameController with ChangeNotifier {
   // Anvil functions:
 
   void startMinigame(Vector2 pos, double damage) {
-    if(hasIron() && damage >= 15) {
+    if (hasIron() && damage >= 15) {
       removeFromInventory(IronBar());
       minigameHitCount = 0;
       swordScore = 0;
@@ -139,11 +141,12 @@ class LocalGameController with ChangeNotifier {
     if (minigameHitCount < 4) {
       setSwordScore(sin(timeCount));
       minigameHitCount++;
-    }
-    else {
+    } else {
       setSwordScore(sin(timeCount));
-      if(swordScore >= 170) {
-        _playAnimation = (swordScore == 250) ? OneTimeAnimations.perfectSwordComplete : OneTimeAnimations.swordComplete;
+      if (swordScore >= 170) {
+        _playAnimation = (swordScore == 250)
+            ? OneTimeAnimations.perfectSwordComplete
+            : OneTimeAnimations.swordComplete;
         // swords.add(ForgedSword(swordScore: swordScore, isLegendary: (swordScore == 250)));
         addToInventory(Sword(isLegenday: swordScore >= 250));
       }
@@ -153,8 +156,11 @@ class LocalGameController with ChangeNotifier {
   }
 
   void checkMinigameDistance(Vector2 currentPosition) {
-    if(minigameIsActive){
-      if (((currentPosition.x - minigamePos.x > 320) || (currentPosition.x - minigamePos.x < -320)) || ((currentPosition.y - minigamePos.y > 320) ||(currentPosition.y - minigamePos.y < -320))) {
+    if (minigameIsActive) {
+      if (((currentPosition.x - minigamePos.x > 320) ||
+              (currentPosition.x - minigamePos.x < -320)) ||
+          ((currentPosition.y - minigamePos.y > 320) ||
+              (currentPosition.y - minigamePos.y < -320))) {
         cancelMinigame();
         notifyListeners();
       }
@@ -176,7 +182,7 @@ class LocalGameController with ChangeNotifier {
     double randVelocity = (rand.nextInt(75) + 50) / 1000;
     timeCount = 0;
     while (minigameIsActive) {
-      await Future.delayed(const Duration(milliseconds: 25), () { 
+      await Future.delayed(const Duration(milliseconds: 25), () {
         timeCount = timeCount + randVelocity; //Increment Counter
       });
       notifyListeners();
@@ -188,9 +194,9 @@ class LocalGameController with ChangeNotifier {
       value = value * -1;
     }
 
-    if(value > 0.45) {
+    if (value > 0.45) {
       swordScore += 10;
-    } else if(value > 0.15) {
+    } else if (value > 0.15) {
       swordScore += 25;
     } else {
       swordScore += 50;
@@ -202,18 +208,17 @@ class LocalGameController with ChangeNotifier {
     return time;
   }
 
-
   // Inventory Functions:
 
   void addToInventory(Item itemToAdd) {
     // _inventory.firstWhere((element) => element.name == 'empty');
-    if(_inventory[0].name == 'empty') {
+    if (_inventory[0].name == 'empty') {
       _inventory[0] = itemToAdd;
-    } else if(_inventory[1].name == 'empty') {
+    } else if (_inventory[1].name == 'empty') {
       _inventory[1] = itemToAdd;
-    } else if(_inventory[2].name == 'empty') {
+    } else if (_inventory[2].name == 'empty') {
       _inventory[2] = itemToAdd;
-    } else if(_inventory[3].name == 'empty') {
+    } else if (_inventory[3].name == 'empty') {
       _inventory[3] = itemToAdd;
     }
     notifyListeners();
@@ -221,50 +226,50 @@ class LocalGameController with ChangeNotifier {
 
   void removeFromInventory(Item itemToRemove) {
     // _inventory.firstWhere((element) => element.name == 'empty');
-    if(_inventory[0].name == itemToRemove.name) {
+    if (_inventory[0].name == itemToRemove.name) {
       _inventory[0] = Item(name: 'empty');
-    } else if(_inventory[1].name == itemToRemove.name) {
+    } else if (_inventory[1].name == itemToRemove.name) {
       _inventory[1] = Item(name: 'empty');
-    } else if(_inventory[2].name == itemToRemove.name) {
+    } else if (_inventory[2].name == itemToRemove.name) {
       _inventory[2] = Item(name: 'empty');
-    } else if(_inventory[3].name == itemToRemove.name) {
+    } else if (_inventory[3].name == itemToRemove.name) {
       _inventory[3] = Item(name: 'empty');
     }
     notifyListeners();
   }
 
   bool hasIron() {
-    bool _hasIron = false;
+    bool hasIron = false;
     for (int i = 0; i < 4; i++) {
-      if(_inventory[i].name == 'ironBar') {
-        _hasIron = true;
+      if (_inventory[i].name == 'ironBar') {
+        hasIron = true;
       }
     }
-    return _hasIron;
+    return hasIron;
   }
 
   bool isInventoryFull() {
-    bool _full = true;
+    bool full = true;
     for (int i = 0; i < 4; i++) {
-      if(_inventory[i].name == 'empty') {
-        _full = false;
+      if (_inventory[i].name == 'empty') {
+        full = false;
       }
     }
-    return _full;
+    return full;
   }
 
   Item? getFirstOfType(Item type) {
     int pos = -1;
-    for(int i = 0; i < 4; i++) {
-      if(_inventory[i].name == type.name) {
+    for (int i = 0; i < 4; i++) {
+      if (_inventory[i].name == type.name) {
         pos = i;
         break;
       }
     }
-    if(pos == -1) {
+    if (pos == -1) {
       return null;
-    } 
-      return _inventory[pos];
+    }
+    return _inventory[pos];
   }
 
   void startDaynightCycle() {
@@ -304,13 +309,13 @@ class LocalGameController with ChangeNotifier {
     Color sunRiseColor = Colors.orange[400]!.withAlpha(48);
     Color noonColor = Colors.orange[400]!.withAlpha(0);
 
-    switch(hour) {
+    switch (hour) {
       case 6:
         mapTintColor = sunRiseColor;
         daytime = DayTime.sunrise;
         break;
       case 7:
-      mapTintColor = noonColor;
+        mapTintColor = noonColor;
         daytime = DayTime.noon;
         break;
       case 18:
