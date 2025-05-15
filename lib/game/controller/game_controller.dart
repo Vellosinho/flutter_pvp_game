@@ -9,7 +9,7 @@ import 'package:projeto_gbb_demo/game/items/sword_item.dart';
 import 'dart:math';
 
 class LocalGameController with ChangeNotifier {
-  int hour = 18;
+  int hour = 06;
   // int hour = 6
   int minute = 00;
 
@@ -20,7 +20,7 @@ class LocalGameController with ChangeNotifier {
   bool gameIsPaused = false;
   bool minigameIsActive = false;
 
-  int _playerLife = 20;
+  double _playerLife = 100;
   int _playerWallet = 0;
   int _playerFollowers = 0;
   int _hitCount = 0;
@@ -34,7 +34,7 @@ class LocalGameController with ChangeNotifier {
 
   //remove later
 
-  int get playerLife => _playerLife;
+  double get playerLife => _playerLife;
   int get playerWallet => _playerWallet;
   int get playerFollowers => _playerFollowers;
   int get hitcount => _hitCount;
@@ -57,9 +57,8 @@ class LocalGameController with ChangeNotifier {
     notifyListeners();
   }
 
-  void hit(int value) {
-    ((_playerLife - value) < 1) ?
-      _playerLife = 1 : _playerLife -= value;
+  void hit(double value) {
+    _playerLife -= value;
     notifyListeners();
   }
 

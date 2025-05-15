@@ -48,10 +48,9 @@ flutter:
     - assets/images/communist/blacksmith/unarmed/
     - assets/images/capitalist/
     - assets/images/loyalist/
-    - assets/images/map/
-    - assets/images/map/new_map/
     - assets/images/items/
     - assets/images/interface/
+    - assets/images/ruins_village_map/
     - assets/images/interface/lifebar/
     - assets/images/interface/inventoryBar/
     - assets/images/interface/minimap/

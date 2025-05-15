@@ -33,11 +33,7 @@ class Wheat extends GameDecoration with Attackable, Flamable{
         if (chance > 4) {
           setFire();
         }
-      } else {
-        if(isBurnt) {
-          removeFromParent();
-        }
-      }
+      } 
       super.onReceiveDamage(attacker, damage, identify, damageType);
     }
 

@@ -15,7 +15,6 @@ import 'game/enum/character_class.dart';
 import 'game/enum/character_faction.dart';
 import 'game/controller/game_controller.dart';
 import 'players/player_consts.dart';
-import 'screens/pause_menu.dart';
 import 'package:projeto_gbb_demo/forge_minigame/minigame.dart';
 
 double tileSize = 192;
@@ -88,7 +87,7 @@ class _GameState extends State<Game> {
         // ],
         cameraConfig: CameraConfig(zoom: 0.8, moveOnlyMapArea: true),
         // cameraConfig: CameraConfig(zoom: 0.2),
-        map: WorldMapByTiled(WorldMapReader.fromAsset('map/new_map/ruins_map_pvp.json'), forceTileSize: Vector2(tileSize, tileSize)),
+        map: WorldMapByTiled(WorldMapReader.fromAsset('ruins_village_map/ruins_map_pvp.json'), forceTileSize: Vector2(tileSize, tileSize)),
         player: BlacksmithClass(
           localGameController: gameController,
           id: id,
@@ -102,12 +101,10 @@ class _GameState extends State<Game> {
         overlayBuilderMap: {
           PlayerInterface.overlayKey: (context,game) => PlayerInterface(game: game, characterClass: playerOneClass, characterFaction: playerFaction),
           // PauseMenu.overlayKey: (context,game) => gameController.gameIsPaused ? const PauseMenu() : const SizedBox(),
-          PauseMenu.overlayKey: (context, game) => PauseMenu(),
           MiniGame.overlayKey: (context, game) => MiniGame(),
         },
         initialActiveOverlays: const [
           PlayerInterface.overlayKey,
-          PauseMenu.overlayKey,
           MiniGame.overlayKey,
         ],
       // showCollisionArea: true,
