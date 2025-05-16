@@ -186,6 +186,10 @@ class GameSpriteSheet {
     'attack_sprites/horizontal_attack_right.png',
     SpriteAnimationData.sequenced(amount: 3, stepTime: 0.15, textureSize: Vector2(32,32))
   );
+  static Future<SpriteAnimation> get dashEffect => SpriteAnimation.load(
+    'attack_sprites/dash_effect.png',
+    SpriteAnimationData.sequenced(amount: 4, stepTime: 0.15, textureSize: Vector2(16,16))
+  );
   static Future<SpriteAnimation> get hammerAttackHorizontalRight => SpriteAnimation.load(
     'attack_sprites/hammer_attack_right.png',
     SpriteAnimationData.sequenced(amount: 3, stepTime: 0.15, textureSize: Vector2(32,32))
@@ -345,7 +349,7 @@ class InterfaceSpriteSheet {
   //   Image.asset('assets/images/interface/lifebar/life_bar_19.png', height: 144,),
   //   Image.asset('assets/images/interface/lifebar/life_bar_20.png', height: 144,),
   // ];
-  static Image get inventoryBar => Image.asset('assets/images/interface/inventoryBar/inventory_bar.png',height: 88, fit: BoxFit.cover,);
+  static Image get inventoryBar => Image.asset('assets/images/interface/inventorybar/inventory_bar.png',height: 88, fit: BoxFit.cover,);
   static Image get lifeBar => Image.asset('assets/images/interface/lifebar/lifebar.png',height: 152, fit: BoxFit.cover,);
   // static Image get miniMapDecoration => Image.asset('assets/images/interface/minimap/minimap.png',height: 340, fit: BoxFit.cover,);
   static Image get miniMapDecoration => Image.asset('assets/images/interface/minimap/complete_minimap_interface.png',height: 360, fit: BoxFit.cover,);

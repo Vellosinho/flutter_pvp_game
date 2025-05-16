@@ -1,6 +1,8 @@
 import 'package:bonfire/bonfire.dart';
 
 class LitPlayer extends SimplePlayer with Lighting {
+  static Vector2 characterHitbox = Vector2(96, 64);
+  static Vector2 characterHitboxPosition = Vector2(48,176);
   LitPlayer({
     required Vector2 position,
     required Vector2 size,
@@ -16,5 +18,9 @@ class LitPlayer extends SimplePlayer with Lighting {
         ) {
     this.animation = animation;
     lastDirection = initDirection;
+  }
+
+  void setupColisions() {
+
   }
 }

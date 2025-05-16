@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  build_runner: ^2.1.11
+  build_runner: ^2.1.11 
   web_socket_channel: ^3.0.1
   uuid: ^4.5.1
   provider: ^6.0.5
@@ -36,6 +36,7 @@ flutter:
     - assets/images/tutorialNPCs/
     - assets/images/tutorialNPCs/tutorial_farmer/neutral_farmer/
     - assets/images/tutorialNPCs/tutorial_farmer/communist_farmer/
+    - assets/images/tutorialNPCs/tutorial_farmer/neutral_shepard/
     - assets/images/objects/
     - assets/images/objects/anvil_minigame/
     - assets/images/objects/launch_station/
@@ -48,11 +49,13 @@ flutter:
     - assets/images/communist/blacksmith/unarmed/
     - assets/images/capitalist/
     - assets/images/loyalist/
+    - assets/images/map/
+    - assets/images/map/house_interior/yellow_house/
     - assets/images/items/
     - assets/images/interface/
     - assets/images/ruins_village_map/
     - assets/images/interface/lifebar/
-    - assets/images/interface/inventoryBar/
+    - assets/images/interface/inventorybar/
     - assets/images/interface/minimap/
     - assets/images/background/
     - assets/images/attack_sprites/

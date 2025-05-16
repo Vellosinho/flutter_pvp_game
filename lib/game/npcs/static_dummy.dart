@@ -3,7 +3,7 @@ import 'package:projeto_gbb_demo/game.dart';
 import 'package:projeto_gbb_demo/game/npcs/npcs_sprite_sheet.dart';
 import 'package:projeto_gbb_demo/players/player_consts.dart';
 
-class StaticDummy extends SimpleEnemy with BlockMovementCollision{
+class StaticDummy extends SimpleEnemy with BlockMovementCollision {
   int hitCount = 0;
 
   SimpleDirectionAnimation dummyAnimations = SimpleDirectionAnimation(
@@ -13,45 +13,43 @@ class StaticDummy extends SimpleEnemy with BlockMovementCollision{
   );
 
   SimpleDirectionAnimation emptyAnimations = SimpleDirectionAnimation(
-      idleDown: NPCSprites.empty,
-      idleRight: NPCSprites.empty,
-      runRight: NPCSprites.empty,
+    idleDown: NPCSprites.empty,
+    idleRight: NPCSprites.empty,
+    runRight: NPCSprites.empty,
   );
 
   StaticDummy({
-    required Vector2 position,
+    required super.position,
   }) : super(
-    position: position,
-    size: PlayerConsts.npcSize,
-    speed: 0,
-    animation: SimpleDirectionAnimation(
-      idleDown: NPCSprites.empty,
-      idleRight: NPCSprites.empty,
-      runRight: NPCSprites.empty,
-    ),
-    ) {}
+          size: PlayerConsts.npcSize,
+          speed: 0,
+          animation: SimpleDirectionAnimation(
+            idleDown: NPCSprites.empty,
+            idleRight: NPCSprites.empty,
+            runRight: NPCSprites.empty,
+          ),
+        );
 
-    @override
-    Future<void> onLoad() {
-      add(RectangleHitbox(
-        size: PlayerConsts.characterHitbox,
-        position: PlayerConsts.hitboxPosition,));
+  @override
+  Future<void> onLoad() {
+    add(RectangleHitbox(
+      size: PlayerConsts.characterHitbox,
+      position: PlayerConsts.hitboxPosition,
+    ));
 
-        replaceAnimation(dummyAnimations);
-      Future.delayed(Duration(milliseconds: 20), () {
-        animation?.playOnce(NPCSprites.dummyCreate);
-      });
-      
-      return super.onLoad();
-    }
+    replaceAnimation(dummyAnimations);
+    Future.delayed(Duration(milliseconds: 20), () {
+      animation?.playOnce(NPCSprites.dummyCreate);
+    });
 
-    @override
-    void onReceiveDamage(attacker, double damage, identify, damageType) {
+    return super.onLoad();
+  }
+
+  @override
+  void onReceiveDamage(attacker, double damage, identify, damageType) {
     // gameRef.camera.shake(intensity: 6);
     // handleZoom(minZoom);
-    animation?.playOnce(
-      NPCSprites.dummyHit
-    );
+    animation?.playOnce(NPCSprites.dummyHit);
 
     print(damageType);
     // if(hitCount < 4) {

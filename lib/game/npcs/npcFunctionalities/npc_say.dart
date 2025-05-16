@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class NPCDialog extends StatefulWidget {
   const NPCDialog({
-    Key? key,
+    super.key,
     required this.dialogue,
     this.selectedAnswer = -1,
     this.onFinish,
@@ -21,9 +21,9 @@ class NPCDialog extends StatefulWidget {
     this.dismissible = false,
     this.talkAlignment = Alignment.bottomCenter,
     this.style,
-    this.speed = 50, 
+    this.speed = 50,
     this.npcIndex = -1,
-  }) : super(key: key);
+  });
 
   static show(
     BuildContext context,
@@ -127,7 +127,8 @@ class NPCDialogState extends State<NPCDialog> {
               _confirmAnswerSelection();
               _nextOrFinish();
             }
-          } else if (widget.keyboardKeysToNext.contains(raw.logicalKey) && raw is KeyDownEvent) {
+          } else if (widget.keyboardKeysToNext.contains(raw.logicalKey) &&
+              raw is KeyDownEvent) {
             _nextOrFinish();
           }
         },
@@ -190,8 +191,9 @@ class NPCDialogState extends State<NPCDialog> {
                                   ),
                                 ),
                                 SizedBox(height: 8),
-                                answers(widget.dialogue[currentIndexTalk].answers, currentSelectedAnswer),
-                               
+                                answers(
+                                    widget.dialogue[currentIndexTalk].answers,
+                                    currentSelectedAnswer),
                               ],
                             ),
                           ),
@@ -219,7 +221,8 @@ class NPCDialogState extends State<NPCDialog> {
   }
 
   void _hoverAnswerBelow() {
-    if (currentSelectedAnswer < (widget.dialogue[currentIndexTalk].answers.length) -1) {
+    if (currentSelectedAnswer <
+        (widget.dialogue[currentIndexTalk].answers.length) - 1) {
       setState(() {
         currentSelectedAnswer++;
       });
@@ -227,7 +230,8 @@ class NPCDialogState extends State<NPCDialog> {
   }
 
   void _confirmAnswerSelection() {
-    if (currentSelectedAnswer == widget.dialogue[currentIndexTalk].correctAnswer) {
+    if (currentSelectedAnswer ==
+        widget.dialogue[currentIndexTalk].correctAnswer) {
       print('Correct Answer');
       context.read<NPCController>().addAfinity(widget.npcIndex);
     }
@@ -290,24 +294,35 @@ class NPCDialogState extends State<NPCDialog> {
 
   Widget answers(List<String> dialogAnswers, int selectedAnswer) {
     return SizedBox(
-      height: dialogAnswers.length *56, width: MediaQuery.of(context).size.width,
-      child: ListView.builder(itemCount: dialogAnswers.length, itemBuilder: (BuildContext buildContext, int index) =>  SizedBox(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DecoratedBox(
-            decoration: BoxDecoration(border: Border.all(color: selectedAnswer == index ? Colors.white : Colors.transparent)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                  children: [Text(dialogAnswers[index], style: widget.style ??
-                    const TextStyle(
-                      color: Colors.white,
-                    ),),]
-                ),
+      height: dialogAnswers.length * 56,
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+        itemCount: dialogAnswers.length,
+        itemBuilder: (BuildContext buildContext, int index) => SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: selectedAnswer == index
+                          ? Colors.white
+                          : Colors.transparent)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(children: [
+                  Text(
+                    dialogAnswers[index],
+                    style: widget.style ??
+                        const TextStyle(
+                          color: Colors.white,
+                        ),
+                  ),
+                ]),
+              ),
             ),
           ),
         ),
-      ),),
+      ),
     );
   }
 }
