@@ -50,16 +50,14 @@ class BlacksmithClass extends LitPlayer with BlockMovementCollision, Hammer {
   @override
   Future<void> onLoad() {
     setupColisions();
-    // add(RectangleHitbox(
-    //     size: PlayerConsts.characterHitbox,
-    //     position: PlayerConsts.characterHitboxPosition));
-    // // gameRef?.camera.animateZoom(zoom: Vector2(0.8, 0.8));
     return super.onLoad();
   }
 
   @override
   void onReceiveDamage(attacker, double damage, identify, damageType) {
-    onHit();
+    print("damage received");
+    // onHit();
+    localGameController.hit(damage);
     super.onReceiveDamage(attacker, damage, identify, damageType);
   }
 

@@ -26,16 +26,12 @@ class Wheat extends GameDecoration with Attackable, Flamable {
 
   @override
   void onReceiveDamage(attacker, damage, identify, damageType) {
-    if (damageType == DamageType.FIRE && spreadCount > 0) {
+    if(damageType == DamageType.FIRE && spreadCount > 0) {
       int chance = rand.nextInt(10);
       if (chance > 4) {
         setFire();
       }
-    } else {
-      if (isBurnt) {
-        removeFromParent();
-      }
-    }
+    } 
     super.onReceiveDamage(attacker, damage, identify, damageType);
   }
 
@@ -49,6 +45,7 @@ class Wheat extends GameDecoration with Attackable, Flamable {
     }
     super.setFire();
   }
+  
 
   @override
   Future<void> onBurn() async {

@@ -68,9 +68,7 @@ class BonfireUtil {
         return 135 / PI_180;
       case Direction.downRight:
         return 45 / PI_180;
-      default:
-        return 0;
-    }
+      }
   }
 
   static double angleBetweenPoints(Vector2 p1, Vector2 p2) {

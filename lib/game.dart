@@ -1,8 +1,6 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire/player/lit_player.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_gbb_demo/maps/tavern/tavern.dart';
-import 'package:projeto_gbb_demo/players/player_one/blacksmith/blacksmith.dart';
 import 'game/game_sprite_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -47,18 +45,8 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     LocalGameController gameController = context.read<LocalGameController>();
-    LitPlayer player = BlacksmithClass(
-      localGameController: gameController,
-      id: id,
-      playerLife: context.watch<LocalGameController>().playerLife.toDouble(),
-      onHit: () {
-        gameController.hit(2);
-      },
-      faction: playerFaction,
-      position: Vector2(tileSize * 3, tileSize * 8.75),
-    );
 
     return TavernMap(
-        exitFunction: () {}, player: player, controller: gameController);
+        exitFunction: () {}, controller: gameController);
   }
 }
